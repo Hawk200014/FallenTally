@@ -14,9 +14,9 @@ namespace DeathCounterHotkey.Forms
     public class AddLocation : Form
     {
         private Action _action;
-        private AddLocationController _controller;
+        private LocationController _controller;
 
-        public AddLocation(AddLocationController controller, Action updateListAction)
+        public AddLocation(LocationController controller, Action updateListAction)
         {
             InitializeComponent();
             this._action = updateListAction;
