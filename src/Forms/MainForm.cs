@@ -1,4 +1,4 @@
-using DeathCounterHotkey.Models;
+using DeathCounterHotkey.Database.Models;
 
 namespace DeathCounterHotkey;
 
@@ -145,9 +145,12 @@ public partial class MainForm : Form
     private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
     {
         increaseHook.KeyPressed -= this.keyEvent;
-        if(this._activeGameStats != null)
+        if (this._activeGameStats != null)
             _settings.SaveGameStats(this._activeGameStats);
     }
 
+    private void button1_Click(object sender, EventArgs e)
+    {
 
+    }
 }

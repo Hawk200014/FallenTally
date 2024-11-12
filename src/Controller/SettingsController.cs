@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeathCounterHotkey.Controller
 {
-    internal class SettingsController
+    public class SettingsController
     {
     }
 }

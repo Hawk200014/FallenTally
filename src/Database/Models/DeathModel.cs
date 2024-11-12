@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeathCounterHotkey.Models
+namespace DeathCounterHotkey.Database.Models
 {
     public class DeathModel
     {
-        public int Id;
+        [Key]
+        public int DeathId;
         public int GameId;
         public int LocationId;
         public int StreamTime;

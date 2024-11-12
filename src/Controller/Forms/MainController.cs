@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeathCounterHotkey.Controller
+namespace DeathCounterHotkey.Controller.Forms
 {
-    internal class LocationController
+    internal class MainController
     {
     }
 }

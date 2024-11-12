@@ -34,6 +34,12 @@
             decreaseCombo = new ComboBox();
             languageCombo = new ComboBox();
             languageLbl = new Label();
+            comboBox1 = new ComboBox();
+            label1 = new Label();
+            comboBox2 = new ComboBox();
+            label2 = new Label();
+            saveBtn = new Button();
+            cancleBtn = new Button();
             SuspendLayout();
             // 
             // increaseHotkeyLbl
@@ -89,11 +95,69 @@
             languageLbl.TabIndex = 5;
             languageLbl.Text = "Language";
             // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(142, 115);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(229, 28);
+            comboBox1.TabIndex = 8;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 118);
+            label1.Name = "label1";
+            label1.Size = new Size(113, 20);
+            label1.TabIndex = 7;
+            label1.Text = "Switch Location";
+            // 
+            // comboBox2
+            // 
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Location = new Point(142, 149);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(229, 28);
+            comboBox2.TabIndex = 10;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(12, 152);
+            label2.Name = "label2";
+            label2.Size = new Size(108, 20);
+            label2.TabIndex = 9;
+            label2.Text = "Quick Add Loc.";
+            // 
+            // saveBtn
+            // 
+            saveBtn.Location = new Point(177, 185);
+            saveBtn.Name = "saveBtn";
+            saveBtn.Size = new Size(94, 29);
+            saveBtn.TabIndex = 11;
+            saveBtn.Text = "Save";
+            saveBtn.UseVisualStyleBackColor = true;
+            // 
+            // cancleBtn
+            // 
+            cancleBtn.Location = new Point(277, 185);
+            cancleBtn.Name = "cancleBtn";
+            cancleBtn.Size = new Size(94, 29);
+            cancleBtn.TabIndex = 12;
+            cancleBtn.Text = "Cancel";
+            cancleBtn.UseVisualStyleBackColor = true;
+            // 
             // OptionsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(383, 121);
+            ClientSize = new Size(383, 226);
+            Controls.Add(cancleBtn);
+            Controls.Add(saveBtn);
+            Controls.Add(comboBox2);
+            Controls.Add(label2);
+            Controls.Add(comboBox1);
+            Controls.Add(label1);
             Controls.Add(languageCombo);
             Controls.Add(languageLbl);
             Controls.Add(decreaseCombo);
@@ -114,5 +178,11 @@
         private ComboBox decreaseCombo;
         private ComboBox languageCombo;
         private Label languageLbl;
+        private ComboBox comboBox1;
+        private Label label1;
+        private ComboBox comboBox2;
+        private Label label2;
+        private Button saveBtn;
+        private Button cancleBtn;
     }
 }

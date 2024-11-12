@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeathCounterHotkey.Models
+namespace DeathCounterHotkey.Controller.Forms
 {
-    internal class BossModel
+    internal class OptionsController
     {
     }
 }

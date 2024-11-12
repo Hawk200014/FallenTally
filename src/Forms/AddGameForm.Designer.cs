@@ -54,7 +54,7 @@
             // 
             // saveBtn
             // 
-            saveBtn.Location = new Point(242, 84);
+            saveBtn.Location = new Point(142, 82);
             saveBtn.Name = "saveBtn";
             saveBtn.Size = new Size(94, 29);
             saveBtn.TabIndex = 2;
@@ -80,7 +80,7 @@
             // 
             // cancelBtn
             // 
-            cancelBtn.Location = new Point(142, 84);
+            cancelBtn.Location = new Point(242, 82);
             cancelBtn.Name = "cancelBtn";
             cancelBtn.Size = new Size(94, 29);
             cancelBtn.TabIndex = 5;

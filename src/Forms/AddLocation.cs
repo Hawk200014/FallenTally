@@ -1,5 +1,4 @@
 ﻿using DeathCounterHotkey.Controller.Forms;
-using DeathCounterHotkey.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,14 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DeathCounterHotkey
+namespace DeathCounterHotkey.Forms
 {
-    public partial class AddGameForm : Form
+    public class AddLocation : Form
     {
-        private Action? _action;
-        private AddGameController _controller;
+        private Action _action;
+        private AddLocationController _controller;
 
-        public AddGameForm(AddGameController controller, Action? updateListAction)
+        public AddLocation(AddLocationController controller, Action updateListAction)
         {
             InitializeComponent();
             this._action = updateListAction;
@@ -26,9 +25,8 @@ namespace DeathCounterHotkey
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
-            string gamename = gameNameTxtb.Text.Trim();
-            string prefix = prefixTxtb.Text.Trim();
-            if (this._controller.AddGame(gamename, prefix))
+            string locationName = locationNameTxtb.Text.Trim();
+            if (this._controller.AddLocation(locationName))
             {
                 _action?.Invoke();
                 this.Close();
@@ -37,7 +35,6 @@ namespace DeathCounterHotkey
             {
                 //Todo Message of double Entry
             }
-
         }
 
         private void cancelBtn_Click(object sender, EventArgs e)

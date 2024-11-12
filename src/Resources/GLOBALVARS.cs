@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DeathCounterHotkey.Resources
 {
-    internal class GLOBALVARS
+    public class GLOBALVARS
     {
-        private static readonly string PATHTOEXE = System.Reflection.Assembly.GetEntryAssembly().Location;
-        private static readonly string PATHTODATA = Path.Combine(PATHTOEXE, "\\Data");
-        private static readonly string PATHTODB = Path.Combine(PATHTODATA, "\\data.db");
+        public static readonly string PATHTOEXE = System.Reflection.Assembly.GetEntryAssembly().Location;
+        public static readonly string PATHTODATA = Path.Combine(PATHTOEXE, "\\Data");
+        public static readonly string PATHTODB = Path.Combine(PATHTODATA, "\\data.db");
     }
 }
