@@ -11,18 +11,20 @@ using System.Windows.Forms;
 
 namespace DeathCounterHotkey.Forms
 {
-    public class EditForm : Form
+    public partial class EditForm : Form
     {
         private EditController _controller;
         private Action _action;
-        private string _editCat;
+        private EditController.EDITCATEGORIE _editCat;
+        private string oldValue;
 
-        public EditForm(EditController controller, string editCategorie, Action action)
+        public EditForm(string oldValue, EditController controller, EditController.EDITCATEGORIE editCategorie, Action action)
         {
             InitializeComponent();
             this._controller = controller;
             this._action = action;
             this._editCat = editCategorie;
+            this.editTextBox.Text = oldValue;
         }
 
         private void saveBtn_Click(object sender, EventArgs e)

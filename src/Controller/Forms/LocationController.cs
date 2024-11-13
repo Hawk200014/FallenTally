@@ -1,5 +1,6 @@
 ﻿using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
+using DeathCounterHotkey.Resources;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,11 @@ namespace DeathCounterHotkey.Controller.Forms
             GameStatsModel? gameStatsModel = _gameController.GetActiveGame();
             if (gameStatsModel == null) return false;
             if (IsDupeName(locationName)) return false;
-            _context.Locations.Add(new DeathLocationModel(locationName));
+            _context.Locations.Add(new DeathLocationModel()
+            {
+                Name = locationName,
+                GameID = gameStatsModel.GameId
+            }) ;
             _context.SaveChanges();
             return true;
         }
@@ -45,7 +50,10 @@ namespace DeathCounterHotkey.Controller.Forms
 
         public List<DeathLocationModel> GetListOfLocations()
         {
-            return _context.GameStats.Where(x => x.GameId == _gameController.GetActiveGame().GameId).FirstOrDefault().deathLocations;
+            if(_gameController.GetActiveGame() == null) return new List<DeathLocationModel>();
+            GameStatsModel? model = _gameController.GetActiveGame();
+            if (model == null) return new List<DeathLocationModel>();
+            return _context.Locations.Where(x => x.GameID == model.GameId).ToList();
         }
 
         public DeathLocationModel? GetActiveLocation()
@@ -53,12 +61,34 @@ namespace DeathCounterHotkey.Controller.Forms
             return _activeDeathLocation;
         }
 
+        public void SetActiveLocation(string name)
+        {
+            GameStatsModel? activeGame = _gameController.GetActiveGame();
+            if (activeGame == null) return;
+            this._activeDeathLocation = _context.Locations.Where(x => x.Name.Equals(name) && x.GameID == activeGame.GameId).FirstOrDefault();
+        }
 
         internal bool IsDupeName(string editText)
         {
             GameStatsModel? activeGame = _gameController.GetActiveGame();
-            if(activeGame == null) return true;
-            return activeGame.deathLocations.Where(x => x.Name.Equals(editText)).Any();
+            if (activeGame == null) return true;
+            return _context.Locations.Where(x => x.Name.Equals(editText) && x.GameID == activeGame.GameId).Any();
+        }
+
+        internal void RemoveLocation()
+        {
+            if (_activeDeathLocation == null) return;
+            if (_activeDeathLocation.Name.Equals(GLOBALVARS.DEFAULT_LOCATION)) return;
+            _context.Locations.Remove(_activeDeathLocation);
+            _activeDeathLocation = null;
+            _context.SaveChanges();
+
+        }
+
+        internal int GetDeathsAtLocation()
+        {
+            if(_activeDeathLocation == null) return 0;
+            return _context.Deaths.Where(x => x.LocationId == _activeDeathLocation.LocationId).Count();
         }
     }
 }

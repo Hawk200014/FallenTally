@@ -12,6 +12,11 @@ namespace DeathCounterHotkey.Database
 {
     public class SQLiteDBContext : DbContext
     {
+        public SQLiteDBContext() 
+        {
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
+        }
         public DbSet<SettingsModel> Settings { get; set; }
         public DbSet<GameStatsModel> GameStats { get; set; }
         public DbSet<DeathModel> Deaths { get; set; }
@@ -20,8 +25,24 @@ namespace DeathCounterHotkey.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!File.Exists(GLOBALVARS.PATHTODB)) File.Create(GLOBALVARS.PATHTODB);
-            optionsBuilder.UseSqlite("Data Source=" + GLOBALVARS.PATHTODB);
+            string pathToDb = GLOBALVARS.PATHTOEXE;
+            pathToDb = Path.Join(pathToDb, "Data");
+            Directory.CreateDirectory(pathToDb);
+            pathToDb = Path.Join(pathToDb, "data.db");
+            if (!File.Exists(pathToDb)) File.Create(pathToDb);
+            optionsBuilder.UseSqlite("Data Source=" + pathToDb);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SettingsModel>()
+                .HasKey(x => x.SettingsId);
+            modelBuilder.Entity<GameStatsModel>()
+                .HasKey(x => x.GameId);
+            modelBuilder.Entity<DeathModel>()
+                .HasKey(x => x.DeathId);
+            modelBuilder.Entity<DeathLocationModel>()
+                .HasKey(x => x.LocationId);
         }
 
     }

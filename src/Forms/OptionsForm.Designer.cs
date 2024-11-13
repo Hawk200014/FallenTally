@@ -34,12 +34,13 @@
             decreaseCombo = new ComboBox();
             languageCombo = new ComboBox();
             languageLbl = new Label();
-            comboBox1 = new ComboBox();
+            switchLocationCombo = new ComboBox();
             label1 = new Label();
-            comboBox2 = new ComboBox();
+            quickAddLocationCombo = new ComboBox();
             label2 = new Label();
             saveBtn = new Button();
             cancleBtn = new Button();
+            errLbl = new Label();
             SuspendLayout();
             // 
             // increaseHotkeyLbl
@@ -67,7 +68,6 @@
             increaseCombo.Name = "increaseCombo";
             increaseCombo.Size = new Size(229, 28);
             increaseCombo.TabIndex = 3;
-            increaseCombo.SelectedIndexChanged += increaseCombo_SelectedIndexChanged;
             // 
             // decreaseCombo
             // 
@@ -76,7 +76,6 @@
             decreaseCombo.Name = "decreaseCombo";
             decreaseCombo.Size = new Size(229, 28);
             decreaseCombo.TabIndex = 4;
-            decreaseCombo.SelectedIndexChanged += decreaseCombo_SelectedIndexChanged;
             // 
             // languageCombo
             // 
@@ -95,13 +94,13 @@
             languageLbl.TabIndex = 5;
             languageLbl.Text = "Language";
             // 
-            // comboBox1
+            // switchLocationCombo
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(142, 115);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(229, 28);
-            comboBox1.TabIndex = 8;
+            switchLocationCombo.FormattingEnabled = true;
+            switchLocationCombo.Location = new Point(142, 115);
+            switchLocationCombo.Name = "switchLocationCombo";
+            switchLocationCombo.Size = new Size(229, 28);
+            switchLocationCombo.TabIndex = 8;
             // 
             // label1
             // 
@@ -112,13 +111,13 @@
             label1.TabIndex = 7;
             label1.Text = "Switch Location";
             // 
-            // comboBox2
+            // quickAddLocationCombo
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(142, 149);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(229, 28);
-            comboBox2.TabIndex = 10;
+            quickAddLocationCombo.FormattingEnabled = true;
+            quickAddLocationCombo.Location = new Point(142, 149);
+            quickAddLocationCombo.Name = "quickAddLocationCombo";
+            quickAddLocationCombo.Size = new Size(229, 28);
+            quickAddLocationCombo.TabIndex = 10;
             // 
             // label2
             // 
@@ -137,6 +136,7 @@
             saveBtn.TabIndex = 11;
             saveBtn.Text = "Save";
             saveBtn.UseVisualStyleBackColor = true;
+            saveBtn.Click += saveBtn_Click;
             // 
             // cancleBtn
             // 
@@ -146,17 +146,30 @@
             cancleBtn.TabIndex = 12;
             cancleBtn.Text = "Cancel";
             cancleBtn.UseVisualStyleBackColor = true;
+            cancleBtn.Click += cancleBtn_Click;
+            // 
+            // errLbl
+            // 
+            errLbl.AutoSize = true;
+            errLbl.ForeColor = Color.Red;
+            errLbl.Location = new Point(12, 189);
+            errLbl.Name = "errLbl";
+            errLbl.Size = new Size(47, 20);
+            errLbl.TabIndex = 13;
+            errLbl.Text = "ErrLbl";
+            errLbl.Visible = false;
             // 
             // OptionsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(383, 226);
+            Controls.Add(errLbl);
             Controls.Add(cancleBtn);
             Controls.Add(saveBtn);
-            Controls.Add(comboBox2);
+            Controls.Add(quickAddLocationCombo);
             Controls.Add(label2);
-            Controls.Add(comboBox1);
+            Controls.Add(switchLocationCombo);
             Controls.Add(label1);
             Controls.Add(languageCombo);
             Controls.Add(languageLbl);
@@ -178,11 +191,12 @@
         private ComboBox decreaseCombo;
         private ComboBox languageCombo;
         private Label languageLbl;
-        private ComboBox comboBox1;
+        private ComboBox switchLocationCombo;
         private Label label1;
-        private ComboBox comboBox2;
+        private ComboBox quickAddLocationCombo;
         private Label label2;
         private Button saveBtn;
         private Button cancleBtn;
+        private Label errLbl;
     }
 }

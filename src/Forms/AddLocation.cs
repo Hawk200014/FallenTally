@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace DeathCounterHotkey.Forms
 {
-    public class AddLocation : Form
+    public partial class AddLocation : Form
     {
         private Action _action;
         private LocationController _controller;

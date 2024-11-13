@@ -14,13 +14,15 @@ namespace DeathCounterHotkey
 {
     public partial class AddGameForm : Form
     {
-        private Action? _action;
-        private AddGameController _controller;
+        private Action<GameStatsModel?> _action;
+        private Action _addDefaultLocationAction;
+        private GameController _controller;
 
-        public AddGameForm(AddGameController controller, Action? updateListAction)
+        public AddGameForm(GameController controller, Action<GameStatsModel?> updateListAction, Action addDefaultLocationAction)
         {
             InitializeComponent();
             this._action = updateListAction;
+            this._addDefaultLocationAction = addDefaultLocationAction;
             this._controller = controller;
         }
 
@@ -29,8 +31,9 @@ namespace DeathCounterHotkey
             string gamename = gameNameTxtb.Text.Trim();
             string prefix = prefixTxtb.Text.Trim();
             if (this._controller.AddGame(gamename, prefix))
-            {
-                _action?.Invoke();
+            {                
+                _action.Invoke(_controller.GetGame(gamename));
+                _addDefaultLocationAction.Invoke();
                 this.Close();
             }
             else

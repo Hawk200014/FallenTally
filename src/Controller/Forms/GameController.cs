@@ -23,7 +23,10 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             if (string.IsNullOrEmpty(gamename) || string.IsNullOrEmpty(prefix)) return false;
             if (IsDupeName(gamename)) return false;
-            _context.GameStats.Add(new GameStatsModel(gamename, prefix));
+            _context.GameStats.Add(new GameStatsModel() {
+                GameName = gamename,
+                Prefix = prefix
+            }); 
             _context.SaveChanges();
             return true;
             
@@ -51,12 +54,48 @@ namespace DeathCounterHotkey.Controller.Forms
 
         public GameStatsModel? GetActiveGame()
         {
-            return this._activeGame
+            return this._activeGame;
+        }
+
+        public GameStatsModel? GetGame(string gameName)
+        {
+            return _context.GameStats.Where(x => x.GameName.Equals(gameName)).FirstOrDefault();
         }
 
         public bool IsDupeName(string editText)
         {
             return _context.GameStats.Where(x=>x.GameName == editText).Any();
+        }
+
+        internal string GetPrefix()
+        {
+            if (_activeGame == null) return "";
+            return _activeGame.Prefix;
+        }
+
+        internal int GetAllDeaths()
+        {
+            if(_activeGame == null) return 0;
+            int deaths = 0;
+            List<DeathLocationModel> list = _context.Locations.Where(x => x.GameID == _activeGame.GameId).ToList();
+            foreach(var location in list)
+            {
+                deaths += _context.Deaths.Where(x => x.LocationId == location.LocationId).Count();
+            }
+            return deaths;
+        }
+
+        internal List<string> GetAllGameNames()
+        {
+            return _context.GameStats.Select(x => x.GameName).ToList();
+        }
+
+        internal void RemoveGame()
+        {
+            if(_activeGame == null) return;
+            _context.GameStats.Remove(_activeGame);
+            _activeGame = null;
+            _context.SaveChanges();
         }
     }
 }

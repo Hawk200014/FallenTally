@@ -8,8 +8,7 @@ namespace DeathCounterHotkey.Resources
 {
     public class GLOBALVARS
     {
-        public static readonly string PATHTOEXE = System.Reflection.Assembly.GetEntryAssembly().Location;
-        public static readonly string PATHTODATA = Path.Combine(PATHTOEXE, "\\Data");
-        public static readonly string PATHTODB = Path.Combine(PATHTODATA, "\\data.db");
+        public static readonly string PATHTOEXE = Environment.CurrentDirectory;
+        public static readonly string DEFAULT_LOCATION = "World";
     }
 }

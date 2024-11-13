@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeathCounterHotkey.Controller.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,12 +15,28 @@ namespace DeathCounterHotkey
     public partial class OptionsForm : Form
     {
         private Action _optionsChangedAction;
-        private Settings _settings;
-        public OptionsForm(Settings settings, Action optionsChangedAction)
+        private OptionsController _controller;
+
+        public OptionsForm(OptionsController controller, Action optionsChangedAction)
         {
             InitializeComponent();
             this._optionsChangedAction = optionsChangedAction;
-            this._settings = settings;
+            this._controller = controller;
+            
+        }
+
+        private void LoadOptions()
+        {
+            int index = languageCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.LANGUAGE)));
+            languageCombo.SelectedIndex = index;
+            index = increaseCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.INCREASE_HOTKEY)));
+            increaseCombo.SelectedIndex = index;
+            index = decreaseCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.DECREASE_HOTKEY)));
+            decreaseCombo.SelectedIndex = index;
+            index = switchLocationCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.SWITCH_LOCATION_HOTKEY)));
+            switchLocationCombo.SelectedIndex = index;
+            index = quickAddLocationCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.QUICKADD_LOCATION_HOTKEY)));
+            quickAddLocationCombo.SelectedIndex = index;
         }
 
         private void OptionsForm_Load(object sender, EventArgs e)
@@ -31,13 +48,19 @@ namespace DeathCounterHotkey
             this.decreaseCombo.Items.AddRange(GetKeys());
             this.languageCombo.Items.Clear();
             this.languageCombo.Items.AddRange(GetLanguages());
+            this.switchLocationCombo.Items.Clear();
+            this.switchLocationCombo.Items.AddRange(GetKeys());
+            this.quickAddLocationCombo.Items.Clear();
+            this.quickAddLocationCombo.Items.AddRange(GetKeys());
             SetLanguage();
+            LoadOptions();
             this.ResumeLayout(false);
+            
         }
 
         private void SetLanguage()
         {
-            switch (this._settings.GetLanguage())
+            switch (this._controller.GetLanguage())
             {
                 case "de":
                     this.languageCombo.SelectedIndex = 0;
@@ -46,9 +69,9 @@ namespace DeathCounterHotkey
                     this.languageCombo.SelectedIndex = 1;
                     break;
             }
-            
+
         }
-        
+
         private string[] GetLanguages()
         {
             return new[]
@@ -87,6 +110,48 @@ namespace DeathCounterHotkey
         {
             int index = this.increaseCombo.SelectedIndex;
 
+        }
+
+        private void saveBtn_Click(object sender, EventArgs e)
+        {
+            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.LANGUAGE), languageCombo.Text))
+            {
+                SetErrMsg("Incrase can't be set");
+                return;
+            }
+            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.INCREASE_HOTKEY), increaseCombo.Text))
+            {
+                SetErrMsg("Incrase can't be set");
+                return;
+            }
+            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.DECREASE_HOTKEY), decreaseCombo.Text))
+            {
+                SetErrMsg("Decrease can't be set");
+                return;
+            }
+            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.SWITCH_LOCATION_HOTKEY), switchLocationCombo.Text))
+            {
+                SetErrMsg("Switch can't be set");
+                return;
+            }
+            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.QUICKADD_LOCATION_HOTKEY), quickAddLocationCombo.Text))
+            {
+                SetErrMsg("Quick add can't be set");
+                return;
+            }
+            _optionsChangedAction?.Invoke();
+            this.Close();
+        }
+
+        private void cancleBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void SetErrMsg(string msg)
+        {
+            this.errLbl.Text = msg;
+            this.errLbl.Visible = true;
         }
     }
 }
