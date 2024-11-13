@@ -1,156 +1,205 @@
+using DeathCounterHotkey.Controller;
+using DeathCounterHotkey.Controller.Forms;
 using DeathCounterHotkey.Database.Models;
+using DeathCounterHotkey.Forms;
+using DeathCounterHotkey.Resources;
+using System.Web;
 
 namespace DeathCounterHotkey;
 
 public partial class MainForm : Form
 {
-    private Settings _settings = new Settings();
-    private static Dictionary<string, GameStatsModel> GameDic = new Dictionary<string, GameStatsModel>();
-    private GameStatsModel _activeGameStats;
     private EventHandler<KeyPressedEventArgs> keyEvent;
 
-    KeyboardHook increaseHook = new KeyboardHook();
+    
+    private MainController _mainController;
 
-    public static bool GameExists(string name)
-    {
-        name = Utilities.EscapeSpecialChars(name.ToLower());
-        return GameDic.ContainsKey(name);
-    }
 
-    public MainForm(Settings settings)
+
+    public MainForm(MainController mainController)
     {
-        this._settings = settings;
         InitializeComponent();
-        AddedGameAction();
-        keyEvent = new EventHandler<KeyPressedEventArgs>(IncreaseHotKeyPressed);
-        increaseHook.KeyPressed += keyEvent;
-        increaseHook.RegisterHotKey(Keys.F13);
+        _mainController = mainController;
+        _mainController.SetForm(this);
+
+
+        UpdateGameList();
+        //keyEvent = new EventHandler<KeyPressedEventArgs>(IncreaseHotKeyPressed);
+        //increaseHook.KeyPressed += keyEvent;
+        //increaseHook.RegisterHotKey(Keys.F13);
     }
 
     public void IncreaseHotKeyPressed(object sender, KeyPressedEventArgs e)
     {
-        IncreaseCounter();
+
     }
 
-    private void AddedGameAction()
-    {
-        GameDic.Clear();
-        List<GameStatsModel> games = _settings.GetAllGameStats();
-        foreach (GameStatsModel game in games)
-        {
-            string sanitizedName = Utilities.EscapeSpecialChars(game.GameName.ToLower());
-            GameDic.Add(sanitizedName, game);
-        }
-        AddGamesToCombo();
-    }
 
-    private void AddGamesToCombo()
+
+    private void AddGamesToCombo(List<string> games)
     {
         gameSelectCombo.Items.Clear();
-        foreach (GameStatsModel game in GameDic.Values)
-        {
-            gameSelectCombo.Items.Add(game.GameName);
-        }
+        gameSelectCombo.Items.AddRange(games.ToArray());
     }
 
     private void addGameBtn_Click(object sender, EventArgs e)
     {
         string methodPrefix = "MainForm.addGameBtn_Click: ";
         DebugLogger.Debug(methodPrefix + "Add Game Button Pressed");
-        AddGameForm gameForm = new AddGameForm(this._settings, AddedGameAction);
+        AddGameForm gameForm = new AddGameForm(_mainController.GetGameController(), UpdateAndSelectGame, AddDefaultLocation);
         gameForm.Show();
     }
 
+    public void AddDefaultLocation()
+    {
+        this._mainController.GetLocationController().AddLocation(GLOBALVARS.DEFAULT_LOCATION);
+        this._mainController.GetLocationController().SetActiveLocation(GLOBALVARS.DEFAULT_LOCATION);
+        UpdateLocationList();
+        SetLocation(GLOBALVARS.DEFAULT_LOCATION);
+    }
+
+    public void SetLocation(string location)
+    {
+        this.locationCombo.SelectedIndex = this.locationCombo.Items.IndexOf(location);
+    }
+
+
+
     private void removeGameBtn_Click(object sender, EventArgs e)
     {
-        int index = gameSelectCombo.SelectedIndex;
-        string gameName = gameSelectCombo.SelectedText;
-        gameSelectCombo.Items.RemoveAt(index);
-        gameSelectCombo.SelectedIndex = 0;
-        string sanitizedName = Utilities.EscapeSpecialChars(gameName.ToLower());
-        GameStatsModel model = GameDic[sanitizedName];
-        _settings.RemoveGameStats(model);
-        GameDic.Remove(sanitizedName);
+        this._mainController.RemoveGame();
+        UpdateGameList();
+    }
+
+    private void editGameBtn_Click(object sender, EventArgs e)
+    {
+        new EditForm(_mainController.GetGameController().GetActiveGame().GameName,this._mainController.GetEditController(), EditController.EDITCATEGORIE.GAME, UpdateGameList).Show(this);
+    }
+
+    private void UpdateAndSelectGame(GameStatsModel? model)
+    {
+        List<string> games = this._mainController.GetGameNames();
+        AddGamesToCombo(games);
+        if (model != null)
+        {
+            gameSelectCombo.SelectedIndex = this.gameSelectCombo.Items.IndexOf(model.GameName);
+            _mainController.GetGameController().SetActiveGame(model.GameName);
+        }
+    }
+
+    private void UpdateGameList()
+    {
+        List<string> games = this._mainController.GetGameNames();
+        AddGamesToCombo(games);
+    }
+
+    private string GetSelectedGame()
+    {
+        int selectedIndex = gameSelectCombo.SelectedIndex;
+        return (string)gameSelectCombo.Items[selectedIndex];
     }
 
     private void gameSelectCombo_SelectedIndexChanged(object sender, EventArgs e)
     {
-        ComboBox cmb = (ComboBox)sender;
-        int selectedIndex = cmb.SelectedIndex;
-        string selectedValue = (string)cmb.Items[selectedIndex];
-        if (this._activeGameStats != null)
-        {
-            _settings.SaveGameStats(this._activeGameStats);
-        }
-        string sanitizedName = Utilities.EscapeSpecialChars(selectedValue.ToLower());
-        GameStatsModel model = GameDic[sanitizedName];
-        this._activeGameStats = model;
-        pretextTxtb.Text = model.Prefix;
-        deathCountTxtb.Text = model.Deaths.ToString();
-        this._settings.WriteTextFile(model);
+        string gameName = GetSelectedGame();
+        string prefix = _mainController.GameChanged(gameName);
+        pretextTxtb.Text = prefix;
+        UpdateLocationList();
+        UpdateDeaths();
     }
+
+
 
     public void UpdateDeaths()
     {
-        int deaths = this._activeGameStats.Deaths;
-        deathCountTxtb.Text = "" + deaths;
-        this._settings.WriteTextFile(this._activeGameStats);
+        int allDeaths = this._mainController.GetAllDeaths();
+        deathCountTxtb.Text = "" + allDeaths;
+        int locationDeaths = this._mainController.GetLocationDeaths();
+        locationDeathCountTxtb.Text = "" + locationDeaths;
     }
 
-    public void IncreaseCounter()
-    {
-        this._activeGameStats.Deaths++;
-        UpdateDeaths();
-    }
-
-    public void DecreaseCounter()
-    {
-        this._activeGameStats.Deaths--;
-        UpdateDeaths();
-    }
-
-    public void ResetCounter()
-    {
-        this._activeGameStats.Deaths = 0;
-        UpdateDeaths();
-    }
 
 
 
     private void increaseBtn_Click(object sender, EventArgs e)
     {
-        IncreaseCounter();
+        this._mainController.IncreaseDeaths();
+        UpdateDeaths();
     }
 
     private void decreaseBtn_Click(object sender, EventArgs e)
     {
-        DecreaseCounter();
+        this._mainController.DecreaseDeaths();
+        UpdateDeaths();
     }
 
     private void resetBtn_Click(object sender, EventArgs e)
     {
-        ResetCounter();
+        this._mainController.ResetDeahts();
+        UpdateDeaths();
     }
 
     private void optionsBtn_Click(object sender, EventArgs e)
     {
-        new OptionsForm(this._settings, OptionsChangedAction).Show();
-    }
 
-    private void OptionsChangedAction()
-    {
-
+        new OptionsForm(this._mainController.GetOptionController(), this._mainController.OptionsChangedAction).Show();
     }
 
     private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
     {
-        increaseHook.KeyPressed -= this.keyEvent;
-        if (this._activeGameStats != null)
-            _settings.SaveGameStats(this._activeGameStats);
+        this._mainController.UnregisterHotkeys();
     }
 
-    private void button1_Click(object sender, EventArgs e)
+    private void addLocationBtn_Click(object sender, EventArgs e)
     {
+        new AddLocation(this._mainController.GetLocationController(), UpdateLocationList).Show(this);
+    }
 
+    public void UpdateLocationList()
+    {
+        List<string> locations = this._mainController.GetLocationNames();
+        AddLocationsToCombo(locations);
+    }
+
+
+
+    private void AddLocationsToCombo(List<string> locations)
+    {
+        locationCombo.Items.Clear();
+        locationCombo.Items.AddRange(locations.ToArray());
+    }
+
+    private void editLocationBtn_Click(object sender, EventArgs e)
+    {
+        if (_mainController.GetLocationController().GetActiveLocation().Name.Equals(GLOBALVARS.DEFAULT_LOCATION)) return;
+        new EditForm(_mainController.GetLocationController().GetActiveLocation().Name, this._mainController.GetEditController(), EditController.EDITCATEGORIE.LOCATION, UpdateLocationList).Show(this);
+    }
+
+    private string GetSelectedLocation()
+    {
+        int selectedIndex = locationCombo.SelectedIndex;
+        if (selectedIndex == -1) return "";
+        return (string)locationCombo.Items[selectedIndex];
+    }
+
+
+    private void removeLocationbtn_Click(object sender, EventArgs e)
+    {
+        _mainController.RemoveLocation();
+        UpdateLocationList();
+        UpdateDeaths();
+    }
+
+    private void locationCombo_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string locationName = GetSelectedLocation();
+        if(string.IsNullOrEmpty(locationName)) return;
+        _mainController.LocationChanged(locationName);
+        UpdateDeaths();
+    }
+
+    internal int GetLocationIndex()
+    {
+        return locationCombo.SelectedIndex;
     }
 }

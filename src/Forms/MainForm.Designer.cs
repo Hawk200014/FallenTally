@@ -38,12 +38,12 @@ partial class MainForm
         gameSelectCombo = new ComboBox();
         addGameBtn = new Button();
         removeGameBtn = new Button();
-        button1 = new Button();
+        editGameBtn = new Button();
         locationCombo = new ComboBox();
-        button2 = new Button();
-        button3 = new Button();
-        button4 = new Button();
-        textBox1 = new TextBox();
+        addLocationBtn = new Button();
+        editLocationBtn = new Button();
+        removeLocationbtn = new Button();
+        locationDeathCountTxtb = new TextBox();
         SuspendLayout();
         // 
         // optionsBtn
@@ -102,7 +102,6 @@ partial class MainForm
         // 
         // gameSelectCombo
         // 
-        gameSelectCombo.Enabled = false;
         gameSelectCombo.FormattingEnabled = true;
         gameSelectCombo.Location = new Point(12, 12);
         gameSelectCombo.Name = "gameSelectCombo";
@@ -130,69 +129,73 @@ partial class MainForm
         removeGameBtn.UseVisualStyleBackColor = true;
         removeGameBtn.Click += removeGameBtn_Click;
         // 
-        // button1
+        // editGameBtn
         // 
-        button1.Location = new Point(177, 46);
-        button1.Name = "button1";
-        button1.Size = new Size(159, 28);
-        button1.TabIndex = 9;
-        button1.Text = "Edit Game";
-        button1.UseVisualStyleBackColor = true;
+        editGameBtn.Location = new Point(177, 46);
+        editGameBtn.Name = "editGameBtn";
+        editGameBtn.Size = new Size(159, 28);
+        editGameBtn.TabIndex = 9;
+        editGameBtn.Text = "Edit Game";
+        editGameBtn.UseVisualStyleBackColor = true;
+        editGameBtn.Click += editGameBtn_Click;
         // 
         // locationCombo
         // 
-        locationCombo.Enabled = false;
         locationCombo.FormattingEnabled = true;
         locationCombo.Location = new Point(12, 80);
         locationCombo.Name = "locationCombo";
         locationCombo.Size = new Size(355, 28);
         locationCombo.TabIndex = 10;
+        locationCombo.SelectedIndexChanged += locationCombo_SelectedIndexChanged;
         // 
-        // button2
+        // addLocationBtn
         // 
-        button2.Location = new Point(12, 114);
-        button2.Name = "button2";
-        button2.Size = new Size(159, 28);
-        button2.TabIndex = 11;
-        button2.Text = "Add Location";
-        button2.UseVisualStyleBackColor = true;
+        addLocationBtn.Location = new Point(12, 114);
+        addLocationBtn.Name = "addLocationBtn";
+        addLocationBtn.Size = new Size(159, 28);
+        addLocationBtn.TabIndex = 11;
+        addLocationBtn.Text = "Add Location";
+        addLocationBtn.UseVisualStyleBackColor = true;
+        addLocationBtn.Click += addLocationBtn_Click;
         // 
-        // button3
+        // editLocationBtn
         // 
-        button3.Location = new Point(177, 114);
-        button3.Name = "button3";
-        button3.Size = new Size(159, 28);
-        button3.TabIndex = 12;
-        button3.Text = "Edit Location";
-        button3.UseVisualStyleBackColor = true;
+        editLocationBtn.Location = new Point(177, 114);
+        editLocationBtn.Name = "editLocationBtn";
+        editLocationBtn.Size = new Size(159, 28);
+        editLocationBtn.TabIndex = 12;
+        editLocationBtn.Text = "Edit Location";
+        editLocationBtn.UseVisualStyleBackColor = true;
+        editLocationBtn.Click += editLocationBtn_Click;
         // 
-        // button4
+        // removeLocationbtn
         // 
-        button4.Location = new Point(342, 114);
-        button4.Name = "button4";
-        button4.Size = new Size(159, 28);
-        button4.TabIndex = 13;
-        button4.Text = "Remove Location";
-        button4.UseVisualStyleBackColor = true;
+        removeLocationbtn.Location = new Point(342, 114);
+        removeLocationbtn.Name = "removeLocationbtn";
+        removeLocationbtn.Size = new Size(159, 28);
+        removeLocationbtn.TabIndex = 13;
+        removeLocationbtn.Text = "Remove Location";
+        removeLocationbtn.UseVisualStyleBackColor = true;
+        removeLocationbtn.Click += removeLocationbtn_Click;
         // 
-        // textBox1
+        // locationDeathCountTxtb
         // 
-        textBox1.Location = new Point(373, 80);
-        textBox1.Name = "textBox1";
-        textBox1.Size = new Size(128, 27);
-        textBox1.TabIndex = 14;
+        locationDeathCountTxtb.Location = new Point(373, 80);
+        locationDeathCountTxtb.Name = "locationDeathCountTxtb";
+        locationDeathCountTxtb.Size = new Size(128, 27);
+        locationDeathCountTxtb.TabIndex = 14;
         // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(8F, 20F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(511, 217);
-        Controls.Add(textBox1);
-        Controls.Add(button4);
-        Controls.Add(button3);
-        Controls.Add(button2);
+        Controls.Add(locationDeathCountTxtb);
+        Controls.Add(removeLocationbtn);
+        Controls.Add(editLocationBtn);
+        Controls.Add(addLocationBtn);
         Controls.Add(locationCombo);
-        Controls.Add(button1);
+        Controls.Add(editGameBtn);
         Controls.Add(removeGameBtn);
         Controls.Add(addGameBtn);
         Controls.Add(gameSelectCombo);
@@ -220,10 +223,10 @@ partial class MainForm
     private ComboBox gameSelectCombo;
     private Button addGameBtn;
     private Button removeGameBtn;
-    private Button button1;
+    private Button editGameBtn;
     private ComboBox locationCombo;
-    private Button button2;
-    private Button button3;
-    private Button button4;
-    private TextBox textBox1;
+    private Button addLocationBtn;
+    private Button editLocationBtn;
+    private Button removeLocationbtn;
+    private TextBox locationDeathCountTxtb;
 }

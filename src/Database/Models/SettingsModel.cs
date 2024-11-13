@@ -5,15 +5,10 @@ namespace DeathCounterHotkey.Database.Models
     public class SettingsModel
     {
         [Key]
-        public int SettingsId;
-        public string SettingsName;
-        public string SettingsValue;
+        public int SettingsId { get; set; }
+        public string SettingsName { get; set; }
+        public string SettingsValue { get; set; }
 
-        public SettingsModel(string settingsName, string settingsValue)
-        {
-            this.SettingsName = settingsName;
-            this.SettingsValue = settingsValue;
-        }
 
     }
 }

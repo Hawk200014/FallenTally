@@ -17,22 +17,29 @@ namespace DeathCounterHotkey.Controller.Forms
             this._locationController = locationController;
         }
 
-        internal bool AddEdit(string editText, string editCat)
+        internal bool AddEdit(string editText, EDITCATEGORIE editCat)
         {
             if (string.IsNullOrEmpty(editText)) return false;
-            switch (editCat.ToUpper())
+            switch (editCat)
             {
-                case "GAME":
+                case EDITCATEGORIE.GAME:
                     if (_gameController.IsDupeName(editText)) return false;
                     return _gameController.EditName(editText);
-                case "LOCATION":
+                case EDITCATEGORIE.LOCATION:
                     if (_locationController.IsDupeName(editText)) return false;
                     return _locationController.EditName(editText);
-                case "PREFIX":
+                case EDITCATEGORIE.PREFIX:
                     break;
             }
             return false;
             
+        }
+
+        public enum EDITCATEGORIE
+        {
+            GAME,
+            LOCATION,
+            PREFIX
         }
     }
 }
