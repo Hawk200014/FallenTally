@@ -14,11 +14,11 @@ namespace DeathCounterHotkey.Forms
     public partial class EditForm : Form
     {
         private EditController _controller;
-        private Action _action;
+        private Action<string> _action;
         private EditController.EDITCATEGORIE _editCat;
         private string oldValue;
 
-        public EditForm(string oldValue, EditController controller, EditController.EDITCATEGORIE editCategorie, Action action)
+        public EditForm(string oldValue, EditController controller, EditController.EDITCATEGORIE editCategorie, Action<string> action)
         {
             InitializeComponent();
             this._controller = controller;
@@ -32,7 +32,7 @@ namespace DeathCounterHotkey.Forms
             string editText = editTextBox.Text.Trim();
             if (this._controller.AddEdit(editText, _editCat))
             {
-                _action?.Invoke();
+                _action?.Invoke("");
                 this.Close();
             }
             else

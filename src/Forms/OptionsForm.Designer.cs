@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OptionsForm));
             increaseHotkeyLbl = new Label();
             decreaseHotkeyLbl = new Label();
             increaseCombo = new ComboBox();
@@ -63,6 +64,7 @@
             // 
             // increaseCombo
             // 
+            increaseCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             increaseCombo.FormattingEnabled = true;
             increaseCombo.Location = new Point(142, 47);
             increaseCombo.Name = "increaseCombo";
@@ -71,6 +73,7 @@
             // 
             // decreaseCombo
             // 
+            decreaseCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             decreaseCombo.FormattingEnabled = true;
             decreaseCombo.Location = new Point(142, 81);
             decreaseCombo.Name = "decreaseCombo";
@@ -79,6 +82,7 @@
             // 
             // languageCombo
             // 
+            languageCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             languageCombo.FormattingEnabled = true;
             languageCombo.Location = new Point(142, 13);
             languageCombo.Name = "languageCombo";
@@ -96,6 +100,7 @@
             // 
             // switchLocationCombo
             // 
+            switchLocationCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             switchLocationCombo.FormattingEnabled = true;
             switchLocationCombo.Location = new Point(142, 115);
             switchLocationCombo.Name = "switchLocationCombo";
@@ -113,6 +118,7 @@
             // 
             // quickAddLocationCombo
             // 
+            quickAddLocationCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             quickAddLocationCombo.FormattingEnabled = true;
             quickAddLocationCombo.Location = new Point(142, 149);
             quickAddLocationCombo.Name = "quickAddLocationCombo";
@@ -177,6 +183,7 @@
             Controls.Add(increaseCombo);
             Controls.Add(decreaseHotkeyLbl);
             Controls.Add(increaseHotkeyLbl);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "OptionsForm";
             Text = "DeathHotkey - Options";
             Load += OptionsForm_Load;

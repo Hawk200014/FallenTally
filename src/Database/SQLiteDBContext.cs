@@ -14,7 +14,7 @@ namespace DeathCounterHotkey.Database
     {
         public SQLiteDBContext() 
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         public DbSet<SettingsModel> Settings { get; set; }
@@ -29,7 +29,7 @@ namespace DeathCounterHotkey.Database
             pathToDb = Path.Join(pathToDb, "Data");
             Directory.CreateDirectory(pathToDb);
             pathToDb = Path.Join(pathToDb, "data.db");
-            if (!File.Exists(pathToDb)) File.Create(pathToDb);
+            if (!File.Exists(pathToDb)) File.Create(pathToDb).Close();
             optionsBuilder.UseSqlite("Data Source=" + pathToDb);
         }
 
