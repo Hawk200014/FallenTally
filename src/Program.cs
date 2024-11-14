@@ -20,17 +20,20 @@ static class Program
             DebugLogger logger = new DebugLogger();
         }
         try {
+
+            // To customize application configuration such as set high DPI settings or default font,
+            // see https://aka.ms/applicationconfiguration.
+            ApplicationConfiguration.Initialize();
+            Application.SetCompatibleTextRenderingDefault(true);
+            TextController.CreateDirectory();
             SQLiteDBContext db = new SQLiteDBContext();
             GameController gameController = new GameController(db);
-            LocationController locationController = new LocationController(gameController,db);
+            LocationController locationController = new LocationController(gameController, db);
             StreamTimeController streamTimeController = new StreamTimeController();
             DeathController deathController = new DeathController(db, streamTimeController);
             EditController editController = new EditController(gameController, locationController);
             OptionsController optionsController = new OptionsController(db);
-            MainController mainController = new MainController(gameController,locationController,deathController,editController,optionsController,streamTimeController);
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
+            MainController mainController = new MainController(gameController, locationController, deathController, editController, optionsController, streamTimeController);
             Application.Run(new MainForm(mainController));
         }
         catch (Exception ex)

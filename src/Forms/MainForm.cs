@@ -24,14 +24,6 @@ public partial class MainForm : Form
 
 
         UpdateGameList();
-        //keyEvent = new EventHandler<KeyPressedEventArgs>(IncreaseHotKeyPressed);
-        //increaseHook.KeyPressed += keyEvent;
-        //increaseHook.RegisterHotKey(Keys.F13);
-    }
-
-    public void IncreaseHotKeyPressed(object sender, KeyPressedEventArgs e)
-    {
-
     }
 
 
@@ -69,11 +61,15 @@ public partial class MainForm : Form
     {
         this._mainController.RemoveGame();
         UpdateGameList();
+        UpdateLocationList();
+        UpdateDeaths();
     }
 
     private void editGameBtn_Click(object sender, EventArgs e)
     {
-        new EditForm(_mainController.GetGameController().GetActiveGame().GameName,this._mainController.GetEditController(), EditController.EDITCATEGORIE.GAME, UpdateGameList).Show(this);
+        string gameName = _mainController.GetGameController().GetActiveGame()?.GameName ?? "";
+        if (string.IsNullOrEmpty(gameName)) return;
+        new EditForm(gameName,this._mainController.GetEditController(), EditController.EDITCATEGORIE.GAME, UpdateGameList).Show(this);
     }
 
     private void UpdateAndSelectGame(GameStatsModel? model)
@@ -87,7 +83,7 @@ public partial class MainForm : Form
         }
     }
 
-    private void UpdateGameList()
+    private void UpdateGameList(string? game = null)
     {
         List<string> games = this._mainController.GetGameNames();
         AddGamesToCombo(games);
@@ -95,17 +91,22 @@ public partial class MainForm : Form
 
     private string GetSelectedGame()
     {
+
         int selectedIndex = gameSelectCombo.SelectedIndex;
+        if (selectedIndex == -1) return "";
         return (string)gameSelectCombo.Items[selectedIndex];
     }
 
     private void gameSelectCombo_SelectedIndexChanged(object sender, EventArgs e)
     {
         string gameName = GetSelectedGame();
+        if (string.IsNullOrEmpty(gameName)) return;
         string prefix = _mainController.GameChanged(gameName);
         pretextTxtb.Text = prefix;
         UpdateLocationList();
+        SetLocation(GLOBALVARS.DEFAULT_LOCATION);
         UpdateDeaths();
+
     }
 
 
@@ -116,6 +117,10 @@ public partial class MainForm : Form
         deathCountTxtb.Text = "" + allDeaths;
         int locationDeaths = this._mainController.GetLocationDeaths();
         locationDeathCountTxtb.Text = "" + locationDeaths;
+        GetSelectedGame();
+        string gamePrefix = _mainController.GetGameController().GetActiveGame()?.Prefix ?? "";
+        string locationName = _mainController.GetLocationController().GetActiveLocation()?.Name ?? "";
+        TextController.WriteDeaths(gamePrefix, allDeaths, locationName, locationDeaths);
     }
 
 
@@ -152,13 +157,16 @@ public partial class MainForm : Form
 
     private void addLocationBtn_Click(object sender, EventArgs e)
     {
+        if (_mainController.GetGameController().GetActiveGame() == null) return;
         new AddLocation(this._mainController.GetLocationController(), UpdateLocationList).Show(this);
     }
 
-    public void UpdateLocationList()
+    public void UpdateLocationList(string? locationName = null)
     {
         List<string> locations = this._mainController.GetLocationNames();
         AddLocationsToCombo(locations);
+        if (string.IsNullOrEmpty(locationName)) return;
+        SetLocation(locationName);        
     }
 
 
@@ -171,8 +179,10 @@ public partial class MainForm : Form
 
     private void editLocationBtn_Click(object sender, EventArgs e)
     {
-        if (_mainController.GetLocationController().GetActiveLocation().Name.Equals(GLOBALVARS.DEFAULT_LOCATION)) return;
-        new EditForm(_mainController.GetLocationController().GetActiveLocation().Name, this._mainController.GetEditController(), EditController.EDITCATEGORIE.LOCATION, UpdateLocationList).Show(this);
+        DeathLocationModel? active = _mainController.GetLocationController().GetActiveLocation();
+        if (active == null) return;
+        if (active.Name.Equals(GLOBALVARS.DEFAULT_LOCATION)) return;
+        new EditForm(active.Name, this._mainController.GetEditController(), EditController.EDITCATEGORIE.LOCATION, UpdateLocationList).Show(this);
     }
 
     private string GetSelectedLocation()
@@ -185,8 +195,9 @@ public partial class MainForm : Form
 
     private void removeLocationbtn_Click(object sender, EventArgs e)
     {
-        _mainController.RemoveLocation();
+        if (!_mainController.RemoveLocation()) return;
         UpdateLocationList();
+        SetLocation(GLOBALVARS.DEFAULT_LOCATION);
         UpdateDeaths();
     }
 

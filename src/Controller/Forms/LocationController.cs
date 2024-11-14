@@ -75,20 +75,35 @@ namespace DeathCounterHotkey.Controller.Forms
             return _context.Locations.Where(x => x.Name.Equals(editText) && x.GameID == activeGame.GameId).Any();
         }
 
-        internal void RemoveLocation()
+        internal bool RemoveLocation()
         {
-            if (_activeDeathLocation == null) return;
-            if (_activeDeathLocation.Name.Equals(GLOBALVARS.DEFAULT_LOCATION)) return;
+            if (_activeDeathLocation == null) return false;
+            if (_activeDeathLocation.Name.Equals(GLOBALVARS.DEFAULT_LOCATION)) return false;
+            _context.Deaths.Where(x => x.LocationId == _activeDeathLocation.LocationId).ExecuteDelete();
             _context.Locations.Remove(_activeDeathLocation);
             _activeDeathLocation = null;
             _context.SaveChanges();
-
+            return true;
         }
 
         internal int GetDeathsAtLocation()
         {
             if(_activeDeathLocation == null) return 0;
             return _context.Deaths.Where(x => x.LocationId == _activeDeathLocation.LocationId).Count();
+        }
+
+        internal void RemoveAllLocations(GameStatsModel? gameStatsModel)
+        {
+            if(gameStatsModel == null) return;
+            
+            List<DeathLocationModel> locations = _context.Locations.Where(x => x.GameID == gameStatsModel.GameId).ToList();
+            foreach(DeathLocationModel location in locations)
+            {
+                _context.Deaths.Where(x => x.LocationId == location.LocationId).ExecuteDelete();
+            }
+            _activeDeathLocation = null;
+            _context.Locations.Where(x => x.GameID == gameStatsModel.GameId).ExecuteDelete();
+            _context.SaveChanges();
         }
     }
 }

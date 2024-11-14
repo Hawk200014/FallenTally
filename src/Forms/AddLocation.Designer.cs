@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddLocation));
             cancelBtn = new Button();
             saveBtn = new Button();
             locationNameTxtb = new TextBox();
@@ -79,6 +80,7 @@
             Controls.Add(saveBtn);
             Controls.Add(locationNameTxtb);
             Controls.Add(locationLbl);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddLocation";
             Text = "DeathHotkey - Add Location";
             ResumeLayout(false);

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditForm));
             editTextBox = new TextBox();
             cancelBtn = new Button();
             saveBtn = new Button();
@@ -68,6 +69,7 @@
             Controls.Add(saveBtn);
             Controls.Add(cancelBtn);
             Controls.Add(editTextBox);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "EditForm";
             Text = "DeathHotkey - Edit";
             ResumeLayout(false);

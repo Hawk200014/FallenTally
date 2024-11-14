@@ -48,6 +48,7 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             List<DeathLocationModel> locations = _locationcontroller.GetListOfLocations();
             int locLength = locations.Count;
+            if (locLength == 0) return;
             int index = _mainForm.GetLocationIndex();
             if (index == locLength -1)
             {
@@ -139,12 +140,13 @@ namespace DeathCounterHotkey.Controller.Forms
 
         internal void RemoveGame( )
         {
+            _locationcontroller.RemoveAllLocations(_gameController.GetActiveGame());
             _gameController.RemoveGame();
         }
 
-        internal void RemoveLocation()
+        internal bool RemoveLocation()
         {
-            _locationcontroller.RemoveLocation();
+            return _locationcontroller.RemoveLocation();
         }
 
         internal void ResetDeahts()

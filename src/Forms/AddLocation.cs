@@ -13,10 +13,10 @@ namespace DeathCounterHotkey.Forms
 {
     public partial class AddLocation : Form
     {
-        private Action _action;
+        private Action<string> _action;
         private LocationController _controller;
 
-        public AddLocation(LocationController controller, Action updateListAction)
+        public AddLocation(LocationController controller, Action<string> updateListAction)
         {
             InitializeComponent();
             this._action = updateListAction;
@@ -28,7 +28,7 @@ namespace DeathCounterHotkey.Forms
             string locationName = locationNameTxtb.Text.Trim();
             if (this._controller.AddLocation(locationName))
             {
-                _action?.Invoke();
+                _action?.Invoke(locationName);
                 this.Close();
             }
             else

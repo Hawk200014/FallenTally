@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddGameForm));
             label1 = new Label();
             gameNameTxtb = new TextBox();
             saveBtn = new Button();
@@ -99,6 +100,7 @@
             Controls.Add(saveBtn);
             Controls.Add(gameNameTxtb);
             Controls.Add(label1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddGameForm";
             Text = "DeathHotkey- Add Game";
             ResumeLayout(false);

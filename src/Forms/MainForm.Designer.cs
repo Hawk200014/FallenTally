@@ -29,6 +29,7 @@ partial class MainForm
     /// </summary>
     private void InitializeComponent()
     {
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
         optionsBtn = new Button();
         pretextTxtb = new TextBox();
         deathCountTxtb = new TextBox();
@@ -60,6 +61,7 @@ partial class MainForm
         // 
         pretextTxtb.Location = new Point(12, 148);
         pretextTxtb.Name = "pretextTxtb";
+        pretextTxtb.ReadOnly = true;
         pretextTxtb.Size = new Size(355, 27);
         pretextTxtb.TabIndex = 1;
         // 
@@ -67,6 +69,7 @@ partial class MainForm
         // 
         deathCountTxtb.Location = new Point(373, 148);
         deathCountTxtb.Name = "deathCountTxtb";
+        deathCountTxtb.ReadOnly = true;
         deathCountTxtb.Size = new Size(128, 27);
         deathCountTxtb.TabIndex = 2;
         // 
@@ -102,6 +105,7 @@ partial class MainForm
         // 
         // gameSelectCombo
         // 
+        gameSelectCombo.DropDownStyle = ComboBoxStyle.DropDownList;
         gameSelectCombo.FormattingEnabled = true;
         gameSelectCombo.Location = new Point(12, 12);
         gameSelectCombo.Name = "gameSelectCombo";
@@ -141,6 +145,7 @@ partial class MainForm
         // 
         // locationCombo
         // 
+        locationCombo.DropDownStyle = ComboBoxStyle.DropDownList;
         locationCombo.FormattingEnabled = true;
         locationCombo.Location = new Point(12, 80);
         locationCombo.Name = "locationCombo";
@@ -182,6 +187,7 @@ partial class MainForm
         // 
         locationDeathCountTxtb.Location = new Point(373, 80);
         locationDeathCountTxtb.Name = "locationDeathCountTxtb";
+        locationDeathCountTxtb.ReadOnly = true;
         locationDeathCountTxtb.Size = new Size(128, 27);
         locationDeathCountTxtb.TabIndex = 14;
         // 
@@ -205,6 +211,7 @@ partial class MainForm
         Controls.Add(deathCountTxtb);
         Controls.Add(pretextTxtb);
         Controls.Add(optionsBtn);
+        Icon = (Icon)resources.GetObject("$this.Icon");
         Name = "MainForm";
         Text = "DeathHotkey";
         FormClosing += MainForm_FormClosing;

@@ -24,6 +24,7 @@ namespace DeathCounterHotkey
             this._action = updateListAction;
             this._addDefaultLocationAction = addDefaultLocationAction;
             this._controller = controller;
+            this.prefixTxtb.Text = "Death Counter";
         }
 
         private void saveBtn_Click(object sender, EventArgs e)
