@@ -16,7 +16,7 @@ namespace DeathCounterHotkey.Controller.Forms
         private EditController _editController;
         private OptionsController _optionsController;
         private HotkeyController _hotkeyController;
-        private MainForm _mainForm;
+        private MainForm? _mainForm;
 
         public MainController(GameController gameController, LocationController locationController,
             DeathController deathController, EditController editController, OptionsController optionsController, StreamTimeController streamTimeController) 
@@ -32,24 +32,24 @@ namespace DeathCounterHotkey.Controller.Forms
 
         }
 
-        private void IncreaseHotkeyPressed(object sender, KeyPressedEventArgs e)
+        private void IncreaseHotkeyPressed()
         {
             IncreaseDeaths();
-            _mainForm.UpdateDeaths();
+            _mainForm?.UpdateDeaths();
         }
 
-        private void DecreaseHotkeyPressed(object sender, KeyPressedEventArgs e)
+        private void DecreaseHotkeyPressed()
         {
             DecreaseDeaths();
-            _mainForm.UpdateDeaths();
+            _mainForm?.UpdateDeaths();
         }
 
-        private void SwitchHotkeyPressed(object sender, KeyPressedEventArgs e)
+        private void SwitchHotkeyPressed()
         {
             List<DeathLocationModel> locations = _locationcontroller.GetListOfLocations();
             int locLength = locations.Count;
             if (locLength == 0) return;
-            int index = _mainForm.GetLocationIndex();
+            int index = _mainForm?.GetLocationIndex() ?? -1;
             if (index == locLength -1)
             {
                 index = 0;
@@ -60,11 +60,11 @@ namespace DeathCounterHotkey.Controller.Forms
             }
             string newLocName = locations[index].Name;
             _locationcontroller.SetActiveLocation(newLocName);
-            _mainForm.SetLocation(newLocName);
-            _mainForm.UpdateDeaths();
+            _mainForm?.SetLocation(newLocName);
+            _mainForm?.UpdateDeaths();
         }
 
-        private void QuickHotkeyPressed(object sender, KeyPressedEventArgs e)
+        private void QuickHotkeyPressed()
         {
             QuickAddLocation();
         }
@@ -72,7 +72,9 @@ namespace DeathCounterHotkey.Controller.Forms
         public void DecreaseDeaths()
         {
             if (_gameController.GetActiveGame() == null) return;
-            if (_locationcontroller.GetActiveLocation() == null) return;
+            DeathLocationModel? model = _locationcontroller.GetActiveLocation();
+            if (model == null) return;
+            if (_deathController.GetDeaths(model.LocationId) == 0) return;
             _deathController.RemoveDeath();
         }
 
@@ -135,7 +137,7 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             if (_gameController.GetActiveGame() == null) return;
             if (_locationcontroller.GetActiveLocation() == null) return;
-            _deathController.AddDeath(_locationcontroller.GetActiveLocation().LocationId);
+            _deathController.AddDeath(_locationcontroller.GetActiveLocation()!.LocationId);
         }
 
         internal void RemoveGame( )
@@ -169,8 +171,8 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             string locationName = "Location" + GetTimestamp(DateTime.Now);
             _locationcontroller.AddLocation(locationName);
-            _mainForm.UpdateLocationList();
-            _mainForm.SetLocation(locationName);
+            _mainForm?.UpdateLocationList();
+            _mainForm?.SetLocation(locationName);
         }
 
         public static String GetTimestamp(DateTime value)

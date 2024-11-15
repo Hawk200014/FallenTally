@@ -39,5 +39,10 @@ namespace DeathCounterHotkey.Controller.Forms
             _context.Deaths.Remove(latest);
             _context.SaveChanges();
         }
+
+        public int GetDeaths(int locId)
+        {
+            return _context.Deaths.Where(x => x.LocationId == locId).Count();
+        }
     }
 }
