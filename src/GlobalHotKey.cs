@@ -66,7 +66,7 @@ namespace DeathCounterHotkey
         public KeyboardHook()
         {
             // register the event of the inner native window.
-            _window.KeyPressed += delegate(object sender, KeyPressedEventArgs args)
+            _window.KeyPressed += delegate(object? sender, KeyPressedEventArgs args)
             {
                 if (KeyPressed != null)
                     KeyPressed(this, args);
@@ -85,7 +85,7 @@ namespace DeathCounterHotkey
             //ModifierKeys.
 
             // register the hot key.
-            RegisterHotKey(_window.Handle, _currentId, (uint)0, (uint)key);
+            bool registered = RegisterHotKey(_window.Handle, _currentId, (uint)0, (uint)key);
             
 
         }
@@ -104,6 +104,8 @@ namespace DeathCounterHotkey
             {
                 UnregisterHotKey(_window.Handle, i);
             }
+
+            _currentId = 0;
 
             // dispose the inner native window.
             _window.Dispose();

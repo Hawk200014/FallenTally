@@ -9,7 +9,6 @@ namespace DeathCounterHotkey;
 
 public partial class MainForm : Form
 {
-    private EventHandler<KeyPressedEventArgs> keyEvent;
 
     
     private MainController _mainController;
