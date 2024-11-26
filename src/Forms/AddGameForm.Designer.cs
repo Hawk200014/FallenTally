@@ -48,6 +48,8 @@
             // 
             // gameNameTxtb
             // 
+            gameNameTxtb.BackColor = SystemColors.ControlDark;
+            gameNameTxtb.BorderStyle = BorderStyle.FixedSingle;
             gameNameTxtb.Location = new Point(106, 12);
             gameNameTxtb.Name = "gameNameTxtb";
             gameNameTxtb.Size = new Size(230, 27);
@@ -55,12 +57,15 @@
             // 
             // saveBtn
             // 
+            saveBtn.BackColor = SystemColors.ControlDark;
+            saveBtn.FlatAppearance.BorderSize = 0;
+            saveBtn.FlatStyle = FlatStyle.Flat;
             saveBtn.Location = new Point(142, 82);
             saveBtn.Name = "saveBtn";
             saveBtn.Size = new Size(94, 29);
             saveBtn.TabIndex = 2;
             saveBtn.Text = "Save";
-            saveBtn.UseVisualStyleBackColor = true;
+            saveBtn.UseVisualStyleBackColor = false;
             saveBtn.Click += saveBtn_Click;
             // 
             // label2
@@ -74,6 +79,8 @@
             // 
             // prefixTxtb
             // 
+            prefixTxtb.BackColor = SystemColors.ControlDark;
+            prefixTxtb.BorderStyle = BorderStyle.FixedSingle;
             prefixTxtb.Location = new Point(106, 51);
             prefixTxtb.Name = "prefixTxtb";
             prefixTxtb.Size = new Size(230, 27);
@@ -81,18 +88,22 @@
             // 
             // cancelBtn
             // 
+            cancelBtn.BackColor = SystemColors.ControlDark;
+            cancelBtn.FlatAppearance.BorderSize = 0;
+            cancelBtn.FlatStyle = FlatStyle.Flat;
             cancelBtn.Location = new Point(242, 82);
             cancelBtn.Name = "cancelBtn";
             cancelBtn.Size = new Size(94, 29);
             cancelBtn.TabIndex = 5;
             cancelBtn.Text = "Cancel";
-            cancelBtn.UseVisualStyleBackColor = true;
+            cancelBtn.UseVisualStyleBackColor = false;
             cancelBtn.Click += cancelBtn_Click;
             // 
             // AddGameForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(347, 123);
             Controls.Add(cancelBtn);
             Controls.Add(prefixTxtb);

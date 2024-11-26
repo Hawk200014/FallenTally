@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,14 +12,22 @@ namespace DeathCounterHotkey.Controller
 
         public StreamTimeController() { }
 
-        public int GetTime()
+        private double timeInSec;
+
+        public double GetTime()
         {
-            return 0;
+            return timeInSec;
         }
 
-        public string ConvertTimeToReadableTime(int time)
+        public string ConvertTimeToReadableTime(double time)
         {
-            return "" + Math.Floor((double)time / 3600) + ":" + Math.Floor((double)time / 60) + ":" + time % 60;
+            this.timeInSec = time;
+            TimeSpan t = TimeSpan.FromSeconds(time);
+            string answer = string.Format("{0:D2}:{1:D2}:{2:D2}",
+            t.Hours,
+            t.Minutes,
+            t.Seconds);
+            return answer;
         }
     }
 }

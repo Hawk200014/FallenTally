@@ -111,6 +111,8 @@ namespace DeathCounterHotkey.Controller
         {
             _hotkeysHook.KeyPressed -= keyPressedEventHandler;
             _hotkeysHook.Dispose();
+            _hotkeysHook = new KeyboardHook();
+            _hotkeysHook.KeyPressed += keyPressedEventHandler;
         }
     }
 }

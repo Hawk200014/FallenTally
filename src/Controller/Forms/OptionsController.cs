@@ -19,7 +19,7 @@ namespace DeathCounterHotkey.Controller.Forms
 
         public bool SetSetting(string key, string value)
         {
-            if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value)) return false;
+            if (string.IsNullOrEmpty(key)) return false;
             if (IsDupeEntry(key)) return false;
             _context.Settings.Add(new SettingsModel()
             {
@@ -39,7 +39,7 @@ namespace DeathCounterHotkey.Controller.Forms
 
         public bool EditSetting(string key, string value)
         {
-            if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value)) return false;
+            if (string.IsNullOrEmpty(key)) return false;
             SettingsModel? model = _context.Settings.Where(x => x.SettingsName.Equals(key)).FirstOrDefault();
             if (model == null) return false;
             model.SettingsValue = value;
@@ -59,7 +59,9 @@ namespace DeathCounterHotkey.Controller.Forms
             INCREASE_HOTKEY,
             DECREASE_HOTKEY,
             SWITCH_LOCATION_HOTKEY,
-            QUICKADD_LOCATION_HOTKEY
+            QUICKADD_LOCATION_HOTKEY,
+            TWITCH_NAME,
+            WORLD_AS_ALL
         }
 
         public string GetSetting(string key)

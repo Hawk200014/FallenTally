@@ -36,6 +36,8 @@
             // 
             // editTextBox
             // 
+            editTextBox.BackColor = SystemColors.ControlDark;
+            editTextBox.BorderStyle = BorderStyle.FixedSingle;
             editTextBox.Location = new Point(12, 12);
             editTextBox.Name = "editTextBox";
             editTextBox.Size = new Size(324, 27);
@@ -43,28 +45,35 @@
             // 
             // cancelBtn
             // 
+            cancelBtn.BackColor = SystemColors.ControlDark;
+            cancelBtn.FlatAppearance.BorderSize = 0;
+            cancelBtn.FlatStyle = FlatStyle.Flat;
             cancelBtn.Location = new Point(241, 45);
             cancelBtn.Name = "cancelBtn";
             cancelBtn.Size = new Size(94, 29);
             cancelBtn.TabIndex = 1;
             cancelBtn.Text = "Cancel";
-            cancelBtn.UseVisualStyleBackColor = true;
+            cancelBtn.UseVisualStyleBackColor = false;
             cancelBtn.Click += cancelBtn_Click;
             // 
             // saveBtn
             // 
+            saveBtn.BackColor = SystemColors.ControlDark;
+            saveBtn.FlatAppearance.BorderSize = 0;
+            saveBtn.FlatStyle = FlatStyle.Flat;
             saveBtn.Location = new Point(141, 45);
             saveBtn.Name = "saveBtn";
             saveBtn.Size = new Size(94, 29);
             saveBtn.TabIndex = 2;
             saveBtn.Text = "Save";
-            saveBtn.UseVisualStyleBackColor = true;
+            saveBtn.UseVisualStyleBackColor = false;
             saveBtn.Click += saveBtn_Click;
             // 
             // EditForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(347, 85);
             Controls.Add(saveBtn);
             Controls.Add(cancelBtn);

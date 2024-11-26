@@ -25,7 +25,7 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             DeathModel deathModel = new DeathModel();
             deathModel.TimeStamp = DateTime.Now;
-            deathModel.StreamTime = _streamTimeController.GetTime();
+            deathModel.StreamTime = (int)_streamTimeController.GetTime();
             deathModel.LocationId = locationId;
 
             _context.Deaths.Add(deathModel);

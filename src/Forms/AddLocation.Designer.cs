@@ -37,26 +37,34 @@
             // 
             // cancelBtn
             // 
+            cancelBtn.BackColor = SystemColors.ControlDark;
+            cancelBtn.FlatAppearance.BorderSize = 0;
+            cancelBtn.FlatStyle = FlatStyle.Flat;
             cancelBtn.Location = new Point(264, 45);
             cancelBtn.Name = "cancelBtn";
             cancelBtn.Size = new Size(94, 29);
             cancelBtn.TabIndex = 11;
             cancelBtn.Text = "Cancel";
-            cancelBtn.UseVisualStyleBackColor = true;
+            cancelBtn.UseVisualStyleBackColor = false;
             cancelBtn.Click += cancelBtn_Click;
             // 
             // saveBtn
             // 
+            saveBtn.BackColor = SystemColors.ControlDark;
+            saveBtn.FlatAppearance.BorderSize = 0;
+            saveBtn.FlatStyle = FlatStyle.Flat;
             saveBtn.Location = new Point(164, 45);
             saveBtn.Name = "saveBtn";
             saveBtn.Size = new Size(94, 29);
             saveBtn.TabIndex = 8;
             saveBtn.Text = "Save";
-            saveBtn.UseVisualStyleBackColor = true;
+            saveBtn.UseVisualStyleBackColor = false;
             saveBtn.Click += saveBtn_Click;
             // 
             // locationNameTxtb
             // 
+            locationNameTxtb.BackColor = SystemColors.ControlDark;
+            locationNameTxtb.BorderStyle = BorderStyle.FixedSingle;
             locationNameTxtb.Location = new Point(128, 12);
             locationNameTxtb.Name = "locationNameTxtb";
             locationNameTxtb.Size = new Size(230, 27);
@@ -75,6 +83,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(364, 82);
             Controls.Add(cancelBtn);
             Controls.Add(saveBtn);

@@ -22,7 +22,7 @@ namespace DeathCounterHotkey
             InitializeComponent();
             this._optionsChangedAction = optionsChangedAction;
             this._controller = controller;
-            
+
         }
 
         private void LoadOptions()
@@ -37,6 +37,9 @@ namespace DeathCounterHotkey
             switchLocationCombo.SelectedIndex = index;
             index = quickAddLocationCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.QUICKADD_LOCATION_HOTKEY)));
             quickAddLocationCombo.SelectedIndex = index;
+            twitchNameTb.Text = _controller.GetSetting(nameof(OptionsController.OPTIONS.TWITCH_NAME));
+            index = worldAsAllDeathsCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL)));
+            worldAsAllDeathsCombo.SelectedIndex = index;
         }
 
         private void OptionsForm_Load(object sender, EventArgs e)
@@ -52,10 +55,13 @@ namespace DeathCounterHotkey
             this.switchLocationCombo.Items.AddRange(GetKeys());
             this.quickAddLocationCombo.Items.Clear();
             this.quickAddLocationCombo.Items.AddRange(GetKeys());
+            this.worldAsAllDeathsCombo.Items.Clear();
+            this.worldAsAllDeathsCombo.Items.AddRange(GetYesNo());
+            this.worldAsAllDeathsCombo.SelectedIndex = 1;
             SetLanguage();
             LoadOptions();
             this.ResumeLayout(false);
-            
+
         }
 
         private void SetLanguage()
@@ -100,6 +106,15 @@ namespace DeathCounterHotkey
             };
         }
 
+        private string[] GetYesNo() 
+        {
+            return new[]
+            {
+                "Yes",
+                "No"
+            };
+        }
+
         private void increaseCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = this.increaseCombo.SelectedIndex;
@@ -139,6 +154,9 @@ namespace DeathCounterHotkey
                 SetErrMsg("Quick add can't be set");
                 return;
             }
+            _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.TWITCH_NAME), twitchNameTb.Text);
+            _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL), worldAsAllDeathsCombo.Text);
+            
             _optionsChangedAction?.Invoke();
             this.Close();
         }
@@ -153,5 +171,6 @@ namespace DeathCounterHotkey
             this.errLbl.Text = msg;
             this.errLbl.Visible = true;
         }
+
     }
 }
