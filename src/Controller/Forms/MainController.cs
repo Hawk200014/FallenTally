@@ -15,17 +15,23 @@ namespace DeathCounterHotkey.Controller.Forms
         private DeathController _deathController;
         private EditController _editController;
         private OptionsController _optionsController;
+        private TwitchTokenController _twitchTokenController;
         private HotkeyController _hotkeyController;
         private MainForm? _mainForm;
+        private StreamTimeController _streamTimeController;
+        private TextController _textController;
 
         public MainController(GameController gameController, LocationController locationController,
-            DeathController deathController, EditController editController, OptionsController optionsController, StreamTimeController streamTimeController) 
+            DeathController deathController, EditController editController, OptionsController optionsController, StreamTimeController streamTimeController, TwitchTokenController tokenController, TextController textController) 
         {
             this._gameController = gameController;
             this._locationcontroller = locationController;
             this._deathController = deathController;
             this._editController = editController;
             this._optionsController = optionsController;
+            this._twitchTokenController = tokenController;
+            this._streamTimeController = streamTimeController;
+            this._textController = textController;
 
             this._hotkeyController = new HotkeyController(this._optionsController, this, IncreaseHotkeyPressed, DecreaseHotkeyPressed, SwitchHotkeyPressed, QuickHotkeyPressed);
             _hotkeyController.LoadHotkeys();
@@ -103,6 +109,11 @@ namespace DeathCounterHotkey.Controller.Forms
         internal List<string> GetGameNames()
         {
             return _gameController.GetAllGameNames();
+        }
+
+        internal TwitchTokenController GetTwitchTokenController()
+        {
+            return _twitchTokenController;
         }
 
         internal LocationController GetLocationController()
@@ -183,6 +194,16 @@ namespace DeathCounterHotkey.Controller.Forms
         internal void SetForm(MainForm mainForm)
         {
             this._mainForm = mainForm;
+        }
+
+        internal StreamTimeController GetStreamTimeController()
+        {
+            return _streamTimeController;
+        }
+
+        internal TextController GetTextController()
+        {
+            return _textController;
         }
     }
 }

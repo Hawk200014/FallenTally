@@ -25,7 +25,6 @@ static class Program
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.SetCompatibleTextRenderingDefault(true);
-            TextController.CreateDirectory();
             SQLiteDBContext db = new SQLiteDBContext();
             GameController gameController = new GameController(db);
             LocationController locationController = new LocationController(gameController, db);
@@ -33,7 +32,10 @@ static class Program
             DeathController deathController = new DeathController(db, streamTimeController);
             EditController editController = new EditController(gameController, locationController);
             OptionsController optionsController = new OptionsController(db);
-            MainController mainController = new MainController(gameController, locationController, deathController, editController, optionsController, streamTimeController);
+            TextController textController = new TextController(optionsController);
+            textController.CreateDirectory();
+            TwitchTokenController tokenController = new TwitchTokenController(optionsController);
+            MainController mainController = new MainController(gameController, locationController, deathController, editController, optionsController, streamTimeController, tokenController, textController);
             Application.Run(new MainForm(mainController));
         }
         catch (Exception ex)

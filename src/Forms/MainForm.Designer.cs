@@ -30,210 +30,381 @@ partial class MainForm
     private void InitializeComponent()
     {
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-        optionsBtn = new Button();
         pretextTxtb = new TextBox();
         deathCountTxtb = new TextBox();
-        resetBtn = new Button();
-        increaseBtn = new Button();
-        decreaseBtn = new Button();
         gameSelectCombo = new ComboBox();
-        addGameBtn = new Button();
-        removeGameBtn = new Button();
-        editGameBtn = new Button();
         locationCombo = new ComboBox();
-        addLocationBtn = new Button();
-        editLocationBtn = new Button();
-        removeLocationbtn = new Button();
         locationDeathCountTxtb = new TextBox();
+        syncTimerBtn = new FontAwesome.Sharp.IconButton();
+        panel1 = new Panel();
+        panel4 = new Panel();
+        optionsBtn = new FontAwesome.Sharp.IconButton();
+        panel3 = new Panel();
+        streamTimeLbl = new Label();
+        panel2 = new Panel();
+        editGameBtn = new FontAwesome.Sharp.IconButton();
+        addGameBtn = new FontAwesome.Sharp.IconButton();
+        removeGame = new FontAwesome.Sharp.IconButton();
+        editLocationBtn = new FontAwesome.Sharp.IconButton();
+        resetBtn = new FontAwesome.Sharp.IconButton();
+        increaseBtn = new FontAwesome.Sharp.IconButton();
+        addLocationBtn = new FontAwesome.Sharp.IconButton();
+        decreaseBtn = new FontAwesome.Sharp.IconButton();
+        removeLocationbtn = new FontAwesome.Sharp.IconButton();
+        panel1.SuspendLayout();
+        panel4.SuspendLayout();
+        panel3.SuspendLayout();
+        panel2.SuspendLayout();
         SuspendLayout();
-        // 
-        // optionsBtn
-        // 
-        optionsBtn.Location = new Point(399, 12);
-        optionsBtn.Name = "optionsBtn";
-        optionsBtn.Size = new Size(102, 29);
-        optionsBtn.TabIndex = 0;
-        optionsBtn.Text = "Options";
-        optionsBtn.UseVisualStyleBackColor = true;
-        optionsBtn.Click += optionsBtn_Click;
         // 
         // pretextTxtb
         // 
-        pretextTxtb.Location = new Point(12, 148);
+        pretextTxtb.BackColor = SystemColors.ControlDark;
+        pretextTxtb.BorderStyle = BorderStyle.FixedSingle;
+        pretextTxtb.Font = new Font("Segoe UI", 10F);
+        pretextTxtb.Location = new Point(10, 150);
         pretextTxtb.Name = "pretextTxtb";
         pretextTxtb.ReadOnly = true;
-        pretextTxtb.Size = new Size(355, 27);
+        pretextTxtb.Size = new Size(312, 30);
         pretextTxtb.TabIndex = 1;
         // 
         // deathCountTxtb
         // 
-        deathCountTxtb.Location = new Point(373, 148);
+        deathCountTxtb.BackColor = SystemColors.ControlDark;
+        deathCountTxtb.BorderStyle = BorderStyle.FixedSingle;
+        deathCountTxtb.Font = new Font("Segoe UI", 10F);
+        deathCountTxtb.Location = new Point(328, 150);
         deathCountTxtb.Name = "deathCountTxtb";
         deathCountTxtb.ReadOnly = true;
-        deathCountTxtb.Size = new Size(128, 27);
+        deathCountTxtb.RightToLeft = RightToLeft.No;
+        deathCountTxtb.Size = new Size(128, 30);
         deathCountTxtb.TabIndex = 2;
+        // 
+        // gameSelectCombo
+        // 
+        gameSelectCombo.BackColor = SystemColors.ControlDark;
+        gameSelectCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+        gameSelectCombo.FlatStyle = FlatStyle.Flat;
+        gameSelectCombo.Font = new Font("Segoe UI", 10F);
+        gameSelectCombo.ForeColor = SystemColors.WindowText;
+        gameSelectCombo.FormattingEnabled = true;
+        gameSelectCombo.Location = new Point(10, 76);
+        gameSelectCombo.Name = "gameSelectCombo";
+        gameSelectCombo.Size = new Size(446, 31);
+        gameSelectCombo.TabIndex = 6;
+        gameSelectCombo.SelectedIndexChanged += gameSelectCombo_SelectedIndexChanged;
+        // 
+        // locationCombo
+        // 
+        locationCombo.BackColor = SystemColors.ControlDark;
+        locationCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+        locationCombo.FlatStyle = FlatStyle.Flat;
+        locationCombo.Font = new Font("Segoe UI", 10F);
+        locationCombo.FormattingEnabled = true;
+        locationCombo.Location = new Point(10, 113);
+        locationCombo.Name = "locationCombo";
+        locationCombo.Size = new Size(312, 31);
+        locationCombo.TabIndex = 10;
+        locationCombo.SelectedIndexChanged += locationCombo_SelectedIndexChanged;
+        // 
+        // locationDeathCountTxtb
+        // 
+        locationDeathCountTxtb.BackColor = SystemColors.ControlDark;
+        locationDeathCountTxtb.BorderStyle = BorderStyle.FixedSingle;
+        locationDeathCountTxtb.Font = new Font("Segoe UI", 10F);
+        locationDeathCountTxtb.Location = new Point(328, 113);
+        locationDeathCountTxtb.Name = "locationDeathCountTxtb";
+        locationDeathCountTxtb.ReadOnly = true;
+        locationDeathCountTxtb.Size = new Size(128, 30);
+        locationDeathCountTxtb.TabIndex = 14;
+        // 
+        // syncTimerBtn
+        // 
+        syncTimerBtn.Anchor = AnchorStyles.Top;
+        syncTimerBtn.BackColor = SystemColors.ControlDark;
+        syncTimerBtn.BackgroundImageLayout = ImageLayout.Center;
+        syncTimerBtn.FlatAppearance.BorderSize = 0;
+        syncTimerBtn.FlatStyle = FlatStyle.Flat;
+        syncTimerBtn.IconChar = FontAwesome.Sharp.IconChar.ArrowsSpin;
+        syncTimerBtn.IconColor = Color.Black;
+        syncTimerBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+        syncTimerBtn.IconSize = 30;
+        syncTimerBtn.Location = new Point(10, 10);
+        syncTimerBtn.Name = "syncTimerBtn";
+        syncTimerBtn.Size = new Size(50, 50);
+        syncTimerBtn.TabIndex = 15;
+        syncTimerBtn.UseVisualStyleBackColor = false;
+        syncTimerBtn.Click += syncTimerBtn_Click;
+        // 
+        // panel1
+        // 
+        panel1.Controls.Add(panel4);
+        panel1.Controls.Add(panel3);
+        panel1.Controls.Add(panel2);
+        panel1.Dock = DockStyle.Top;
+        panel1.Location = new Point(0, 0);
+        panel1.Name = "panel1";
+        panel1.Size = new Size(577, 70);
+        panel1.TabIndex = 16;
+        // 
+        // panel4
+        // 
+        panel4.Controls.Add(optionsBtn);
+        panel4.Dock = DockStyle.Right;
+        panel4.Location = new Point(507, 0);
+        panel4.Name = "panel4";
+        panel4.Size = new Size(70, 70);
+        panel4.TabIndex = 2;
+        // 
+        // optionsBtn
+        // 
+        optionsBtn.Anchor = AnchorStyles.Top;
+        optionsBtn.BackColor = SystemColors.ControlDark;
+        optionsBtn.BackgroundImageLayout = ImageLayout.Center;
+        optionsBtn.FlatAppearance.BorderSize = 0;
+        optionsBtn.FlatStyle = FlatStyle.Flat;
+        optionsBtn.IconChar = FontAwesome.Sharp.IconChar.Sliders;
+        optionsBtn.IconColor = Color.Black;
+        optionsBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+        optionsBtn.IconSize = 30;
+        optionsBtn.Location = new Point(10, 10);
+        optionsBtn.Name = "optionsBtn";
+        optionsBtn.Size = new Size(50, 50);
+        optionsBtn.TabIndex = 16;
+        optionsBtn.UseVisualStyleBackColor = false;
+        optionsBtn.Click += optionsBtn_Click;
+        // 
+        // panel3
+        // 
+        panel3.Controls.Add(streamTimeLbl);
+        panel3.Dock = DockStyle.Fill;
+        panel3.Location = new Point(70, 0);
+        panel3.Name = "panel3";
+        panel3.Size = new Size(507, 70);
+        panel3.TabIndex = 1;
+        // 
+        // streamTimeLbl
+        // 
+        streamTimeLbl.Anchor = AnchorStyles.Top;
+        streamTimeLbl.AutoSize = true;
+        streamTimeLbl.FlatStyle = FlatStyle.Flat;
+        streamTimeLbl.Font = new Font("Segoe UI", 20F);
+        streamTimeLbl.Location = new Point(53, 14);
+        streamTimeLbl.Name = "streamTimeLbl";
+        streamTimeLbl.Size = new Size(330, 46);
+        streamTimeLbl.TabIndex = 0;
+        streamTimeLbl.Text = "Streamtime: 00:00:00";
+        streamTimeLbl.TextAlign = ContentAlignment.MiddleLeft;
+        // 
+        // panel2
+        // 
+        panel2.Controls.Add(syncTimerBtn);
+        panel2.Dock = DockStyle.Left;
+        panel2.Location = new Point(0, 0);
+        panel2.Name = "panel2";
+        panel2.Size = new Size(70, 70);
+        panel2.TabIndex = 0;
+        // 
+        // editGameBtn
+        // 
+        editGameBtn.BackColor = SystemColors.ControlDark;
+        editGameBtn.FlatAppearance.BorderSize = 0;
+        editGameBtn.FlatStyle = FlatStyle.Flat;
+        editGameBtn.IconChar = FontAwesome.Sharp.IconChar.Pencil;
+        editGameBtn.IconColor = Color.Black;
+        editGameBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+        editGameBtn.IconSize = 30;
+        editGameBtn.Location = new Point(499, 76);
+        editGameBtn.Name = "editGameBtn";
+        editGameBtn.Size = new Size(31, 31);
+        editGameBtn.TabIndex = 17;
+        editGameBtn.UseVisualStyleBackColor = false;
+        editGameBtn.Click += editGameBtn_Click;
+        // 
+        // addGameBtn
+        // 
+        addGameBtn.BackColor = SystemColors.ControlDark;
+        addGameBtn.FlatAppearance.BorderSize = 0;
+        addGameBtn.FlatStyle = FlatStyle.Flat;
+        addGameBtn.IconChar = FontAwesome.Sharp.IconChar.PlusSquare;
+        addGameBtn.IconColor = Color.Black;
+        addGameBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+        addGameBtn.IconSize = 30;
+        addGameBtn.Location = new Point(462, 76);
+        addGameBtn.Name = "addGameBtn";
+        addGameBtn.Size = new Size(31, 31);
+        addGameBtn.TabIndex = 18;
+        addGameBtn.UseVisualStyleBackColor = false;
+        addGameBtn.Click += addGameBtn_Click;
+        // 
+        // removeGame
+        // 
+        removeGame.BackColor = SystemColors.ControlDark;
+        removeGame.FlatAppearance.BorderSize = 0;
+        removeGame.FlatStyle = FlatStyle.Flat;
+        removeGame.IconChar = FontAwesome.Sharp.IconChar.SquareMinus;
+        removeGame.IconColor = Color.Black;
+        removeGame.IconFont = FontAwesome.Sharp.IconFont.Auto;
+        removeGame.IconSize = 30;
+        removeGame.Location = new Point(536, 76);
+        removeGame.Name = "removeGame";
+        removeGame.Size = new Size(31, 31);
+        removeGame.TabIndex = 19;
+        removeGame.UseVisualStyleBackColor = false;
+        removeGame.Click += removeGameBtn_Click;
+        // 
+        // editLocationBtn
+        // 
+        editLocationBtn.BackColor = SystemColors.ControlDark;
+        editLocationBtn.FlatAppearance.BorderSize = 0;
+        editLocationBtn.FlatStyle = FlatStyle.Flat;
+        editLocationBtn.IconChar = FontAwesome.Sharp.IconChar.Pencil;
+        editLocationBtn.IconColor = Color.Black;
+        editLocationBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+        editLocationBtn.IconSize = 30;
+        editLocationBtn.Location = new Point(499, 113);
+        editLocationBtn.Name = "editLocationBtn";
+        editLocationBtn.Size = new Size(31, 31);
+        editLocationBtn.TabIndex = 22;
+        editLocationBtn.UseVisualStyleBackColor = false;
+        editLocationBtn.Click += editLocationBtn_Click;
         // 
         // resetBtn
         // 
-        resetBtn.Location = new Point(177, 181);
+        resetBtn.BackColor = SystemColors.ControlDark;
+        resetBtn.FlatAppearance.BorderSize = 0;
+        resetBtn.FlatStyle = FlatStyle.Flat;
+        resetBtn.IconChar = FontAwesome.Sharp.IconChar.ArrowRotateLeft;
+        resetBtn.IconColor = Color.Black;
+        resetBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+        resetBtn.IconSize = 30;
+        resetBtn.Location = new Point(499, 150);
         resetBtn.Name = "resetBtn";
-        resetBtn.Size = new Size(159, 29);
-        resetBtn.TabIndex = 3;
-        resetBtn.Text = "Reset";
-        resetBtn.UseVisualStyleBackColor = true;
+        resetBtn.Size = new Size(31, 31);
+        resetBtn.TabIndex = 24;
+        resetBtn.UseVisualStyleBackColor = false;
         resetBtn.Click += resetBtn_Click;
         // 
         // increaseBtn
         // 
-        increaseBtn.Location = new Point(342, 182);
+        increaseBtn.BackColor = SystemColors.ControlDark;
+        increaseBtn.FlatAppearance.BorderSize = 0;
+        increaseBtn.FlatStyle = FlatStyle.Flat;
+        increaseBtn.IconChar = FontAwesome.Sharp.IconChar.ArrowUp;
+        increaseBtn.IconColor = Color.Black;
+        increaseBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+        increaseBtn.IconSize = 30;
+        increaseBtn.Location = new Point(462, 150);
         increaseBtn.Name = "increaseBtn";
-        increaseBtn.Size = new Size(159, 28);
-        increaseBtn.TabIndex = 4;
-        increaseBtn.Text = "Increase";
-        increaseBtn.UseVisualStyleBackColor = true;
+        increaseBtn.Size = new Size(31, 31);
+        increaseBtn.TabIndex = 26;
+        increaseBtn.UseVisualStyleBackColor = false;
         increaseBtn.Click += increaseBtn_Click;
-        // 
-        // decreaseBtn
-        // 
-        decreaseBtn.Location = new Point(12, 181);
-        decreaseBtn.Name = "decreaseBtn";
-        decreaseBtn.Size = new Size(159, 29);
-        decreaseBtn.TabIndex = 5;
-        decreaseBtn.Text = "Decrease";
-        decreaseBtn.UseVisualStyleBackColor = true;
-        decreaseBtn.Click += decreaseBtn_Click;
-        // 
-        // gameSelectCombo
-        // 
-        gameSelectCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-        gameSelectCombo.FormattingEnabled = true;
-        gameSelectCombo.Location = new Point(12, 12);
-        gameSelectCombo.Name = "gameSelectCombo";
-        gameSelectCombo.Size = new Size(381, 28);
-        gameSelectCombo.TabIndex = 6;
-        gameSelectCombo.SelectedIndexChanged += gameSelectCombo_SelectedIndexChanged;
-        // 
-        // addGameBtn
-        // 
-        addGameBtn.Location = new Point(12, 46);
-        addGameBtn.Name = "addGameBtn";
-        addGameBtn.Size = new Size(159, 28);
-        addGameBtn.TabIndex = 7;
-        addGameBtn.Text = "Add Game";
-        addGameBtn.UseVisualStyleBackColor = true;
-        addGameBtn.Click += addGameBtn_Click;
-        // 
-        // removeGameBtn
-        // 
-        removeGameBtn.Location = new Point(342, 46);
-        removeGameBtn.Name = "removeGameBtn";
-        removeGameBtn.Size = new Size(159, 28);
-        removeGameBtn.TabIndex = 8;
-        removeGameBtn.Text = "Remove Game";
-        removeGameBtn.UseVisualStyleBackColor = true;
-        removeGameBtn.Click += removeGameBtn_Click;
-        // 
-        // editGameBtn
-        // 
-        editGameBtn.Location = new Point(177, 46);
-        editGameBtn.Name = "editGameBtn";
-        editGameBtn.Size = new Size(159, 28);
-        editGameBtn.TabIndex = 9;
-        editGameBtn.Text = "Edit Game";
-        editGameBtn.UseVisualStyleBackColor = true;
-        editGameBtn.Click += editGameBtn_Click;
-        // 
-        // locationCombo
-        // 
-        locationCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-        locationCombo.FormattingEnabled = true;
-        locationCombo.Location = new Point(12, 80);
-        locationCombo.Name = "locationCombo";
-        locationCombo.Size = new Size(355, 28);
-        locationCombo.TabIndex = 10;
-        locationCombo.SelectedIndexChanged += locationCombo_SelectedIndexChanged;
         // 
         // addLocationBtn
         // 
-        addLocationBtn.Location = new Point(12, 114);
+        addLocationBtn.BackColor = SystemColors.ControlDark;
+        addLocationBtn.FlatAppearance.BorderSize = 0;
+        addLocationBtn.FlatStyle = FlatStyle.Flat;
+        addLocationBtn.IconChar = FontAwesome.Sharp.IconChar.PlusSquare;
+        addLocationBtn.IconColor = Color.Black;
+        addLocationBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+        addLocationBtn.IconSize = 30;
+        addLocationBtn.Location = new Point(462, 113);
         addLocationBtn.Name = "addLocationBtn";
-        addLocationBtn.Size = new Size(159, 28);
-        addLocationBtn.TabIndex = 11;
-        addLocationBtn.Text = "Add Location";
-        addLocationBtn.UseVisualStyleBackColor = true;
+        addLocationBtn.Size = new Size(31, 31);
+        addLocationBtn.TabIndex = 27;
+        addLocationBtn.UseVisualStyleBackColor = false;
         addLocationBtn.Click += addLocationBtn_Click;
         // 
-        // editLocationBtn
+        // decreaseBtn
         // 
-        editLocationBtn.Location = new Point(177, 114);
-        editLocationBtn.Name = "editLocationBtn";
-        editLocationBtn.Size = new Size(159, 28);
-        editLocationBtn.TabIndex = 12;
-        editLocationBtn.Text = "Edit Location";
-        editLocationBtn.UseVisualStyleBackColor = true;
-        editLocationBtn.Click += editLocationBtn_Click;
+        decreaseBtn.BackColor = SystemColors.ControlDark;
+        decreaseBtn.FlatAppearance.BorderSize = 0;
+        decreaseBtn.FlatStyle = FlatStyle.Flat;
+        decreaseBtn.IconChar = FontAwesome.Sharp.IconChar.ArrowDown;
+        decreaseBtn.IconColor = Color.Black;
+        decreaseBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+        decreaseBtn.IconSize = 30;
+        decreaseBtn.Location = new Point(536, 150);
+        decreaseBtn.Name = "decreaseBtn";
+        decreaseBtn.Size = new Size(31, 31);
+        decreaseBtn.TabIndex = 28;
+        decreaseBtn.UseVisualStyleBackColor = false;
+        decreaseBtn.Click += decreaseBtn_Click;
         // 
         // removeLocationbtn
         // 
-        removeLocationbtn.Location = new Point(342, 114);
+        removeLocationbtn.BackColor = SystemColors.ControlDark;
+        removeLocationbtn.FlatAppearance.BorderSize = 0;
+        removeLocationbtn.FlatStyle = FlatStyle.Flat;
+        removeLocationbtn.IconChar = FontAwesome.Sharp.IconChar.SquareMinus;
+        removeLocationbtn.IconColor = Color.Black;
+        removeLocationbtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+        removeLocationbtn.IconSize = 30;
+        removeLocationbtn.Location = new Point(536, 113);
         removeLocationbtn.Name = "removeLocationbtn";
-        removeLocationbtn.Size = new Size(159, 28);
-        removeLocationbtn.TabIndex = 13;
-        removeLocationbtn.Text = "Remove Location";
-        removeLocationbtn.UseVisualStyleBackColor = true;
+        removeLocationbtn.Size = new Size(31, 31);
+        removeLocationbtn.TabIndex = 30;
+        removeLocationbtn.UseVisualStyleBackColor = false;
         removeLocationbtn.Click += removeLocationbtn_Click;
-        // 
-        // locationDeathCountTxtb
-        // 
-        locationDeathCountTxtb.Location = new Point(373, 80);
-        locationDeathCountTxtb.Name = "locationDeathCountTxtb";
-        locationDeathCountTxtb.ReadOnly = true;
-        locationDeathCountTxtb.Size = new Size(128, 27);
-        locationDeathCountTxtb.TabIndex = 14;
         // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(8F, 20F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(511, 217);
-        Controls.Add(locationDeathCountTxtb);
+        BackColor = SystemColors.ControlDarkDark;
+        ClientSize = new Size(577, 192);
         Controls.Add(removeLocationbtn);
-        Controls.Add(editLocationBtn);
-        Controls.Add(addLocationBtn);
-        Controls.Add(locationCombo);
-        Controls.Add(editGameBtn);
-        Controls.Add(removeGameBtn);
-        Controls.Add(addGameBtn);
-        Controls.Add(gameSelectCombo);
         Controls.Add(decreaseBtn);
+        Controls.Add(addLocationBtn);
         Controls.Add(increaseBtn);
         Controls.Add(resetBtn);
+        Controls.Add(editLocationBtn);
+        Controls.Add(removeGame);
+        Controls.Add(addGameBtn);
+        Controls.Add(editGameBtn);
+        Controls.Add(panel1);
+        Controls.Add(locationDeathCountTxtb);
+        Controls.Add(locationCombo);
+        Controls.Add(gameSelectCombo);
         Controls.Add(deathCountTxtb);
         Controls.Add(pretextTxtb);
-        Controls.Add(optionsBtn);
+        ForeColor = SystemColors.ControlText;
         Icon = (Icon)resources.GetObject("$this.Icon");
+        MaximizeBox = false;
         Name = "MainForm";
         Text = "DeathHotkey";
         FormClosing += MainForm_FormClosing;
+        panel1.ResumeLayout(false);
+        panel4.ResumeLayout(false);
+        panel3.ResumeLayout(false);
+        panel3.PerformLayout();
+        panel2.ResumeLayout(false);
         ResumeLayout(false);
         PerformLayout();
     }
 
     #endregion
-
-    private Button optionsBtn;
     private TextBox pretextTxtb;
     private TextBox deathCountTxtb;
-    private Button resetBtn;
-    private Button increaseBtn;
-    private Button decreaseBtn;
     private ComboBox gameSelectCombo;
-    private Button addGameBtn;
-    private Button removeGameBtn;
-    private Button editGameBtn;
     private ComboBox locationCombo;
-    private Button addLocationBtn;
-    private Button editLocationBtn;
-    private Button removeLocationbtn;
     private TextBox locationDeathCountTxtb;
+    private FontAwesome.Sharp.IconButton syncTimerBtn;
+    private Panel panel1;
+    private Panel panel4;
+    private Panel panel3;
+    private Panel panel2;
+    private Label streamTimeLbl;
+    private FontAwesome.Sharp.IconButton optionsBtn;
+    private FontAwesome.Sharp.IconButton editGameBtn;
+    private FontAwesome.Sharp.IconButton addGameBtn;
+    private FontAwesome.Sharp.IconButton removeGame;
+    private FontAwesome.Sharp.IconButton editLocationBtn;
+    private FontAwesome.Sharp.IconButton resetBtn;
+    private FontAwesome.Sharp.IconButton increaseBtn;
+    private FontAwesome.Sharp.IconButton addLocationBtn;
+    private FontAwesome.Sharp.IconButton decreaseBtn;
+    private FontAwesome.Sharp.IconButton removeLocationbtn;
 }

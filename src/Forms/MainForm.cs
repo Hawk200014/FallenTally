@@ -3,6 +3,7 @@ using DeathCounterHotkey.Controller.Forms;
 using DeathCounterHotkey.Database.Models;
 using DeathCounterHotkey.Forms;
 using DeathCounterHotkey.Resources;
+using System;
 using System.Web;
 
 namespace DeathCounterHotkey;
@@ -10,9 +11,9 @@ namespace DeathCounterHotkey;
 public partial class MainForm : Form
 {
 
-    
-    private MainController _mainController;
 
+    private MainController _mainController;
+    private PeriodicTimer? _periodicTimer;
 
 
     public MainForm(MainController mainController)
@@ -68,7 +69,7 @@ public partial class MainForm : Form
     {
         string gameName = _mainController.GetGameController().GetActiveGame()?.GameName ?? "";
         if (string.IsNullOrEmpty(gameName)) return;
-        new EditForm(gameName,this._mainController.GetEditController(), EditController.EDITCATEGORIE.GAME, UpdateGameList).Show(this);
+        new EditForm(gameName, this._mainController.GetEditController(), EditController.EDITCATEGORIE.GAME, UpdateGameList).Show(this);
     }
 
     private void UpdateAndSelectGame(GameStatsModel? model)
@@ -119,7 +120,7 @@ public partial class MainForm : Form
         GetSelectedGame();
         string gamePrefix = _mainController.GetGameController().GetActiveGame()?.Prefix ?? "";
         string locationName = _mainController.GetLocationController().GetActiveLocation()?.Name ?? "";
-        TextController.WriteDeaths(gamePrefix, allDeaths, locationName, locationDeaths);
+        _mainController.GetTextController().WriteDeaths(gamePrefix, allDeaths, locationName, locationDeaths);
     }
 
 
@@ -165,7 +166,7 @@ public partial class MainForm : Form
         List<string> locations = this._mainController.GetLocationNames();
         AddLocationsToCombo(locations);
         if (string.IsNullOrEmpty(locationName)) return;
-        SetLocation(locationName);        
+        SetLocation(locationName);
     }
 
 
@@ -203,7 +204,7 @@ public partial class MainForm : Form
     private void locationCombo_SelectedIndexChanged(object sender, EventArgs e)
     {
         string locationName = GetSelectedLocation();
-        if(string.IsNullOrEmpty(locationName)) return;
+        if (string.IsNullOrEmpty(locationName)) return;
         _mainController.LocationChanged(locationName);
         UpdateDeaths();
     }
@@ -211,5 +212,91 @@ public partial class MainForm : Form
     internal int GetLocationIndex()
     {
         return locationCombo.SelectedIndex;
+    }
+
+    public void UpdateStreamTime(string time)
+    {
+        if (streamTimeLbl.InvokeRequired)
+        {
+            streamTimeLbl.Invoke(UpdateStreamTime, time);
+        }
+        else
+        {
+            this.streamTimeLbl.Text = "Streamtime: " + time;
+        }
+    }
+
+    private double _streamtime = 0;
+    private CancellationTokenSource? _cts;
+
+    private async Task BackgroundTimerRunner()
+    {
+        var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+        while (await periodicTimer.WaitForNextTickAsync())
+        {
+            UpdateStreamTime(_mainController.GetStreamTimeController().ConvertTimeToReadableTime(_streamtime));
+            _streamtime++;
+            if (_cts.IsCancellationRequested)
+            {
+                // another thread decided to cancel
+                Console.WriteLine("task canceled");
+                break;
+            }
+        }
+    }
+
+    private void syncTimerBtn_Click(object sender, EventArgs e)
+    {
+        if (_periodicTimer != null)
+        {
+            _periodicTimer.Dispose();
+            _periodicTimer = null;
+        }
+
+
+
+        TwitchTokenController tokenController = _mainController.GetTwitchTokenController();
+        double time = tokenController.GetStreamTime();
+        if (time > 0)
+        {
+            _streamtime = time;
+
+            if (_cts != null)
+            {
+                _cts.Cancel();
+            }
+            _cts = new CancellationTokenSource();
+            Task.Run(() =>
+            {
+                BackgroundTimerRunner();
+            }, _cts.Token);
+
+
+        }
+
+        if (time == -1)
+        {
+            if (_cts != null)
+            {
+                _cts.Cancel();
+            }
+            
+            MessageBox.Show("No Twitch name set!\nCan't retrieve streamtime", "DeathCounterHotkey", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            this.streamTimeLbl.Text = "Streamtime: 00:00:00";
+        }
+        else if (time == -2)
+        {
+            if (_cts != null)
+            {
+                _cts.Cancel();
+            }
+            
+            MessageBox.Show("No Twitch stream found!\nCan't retrieve streamtime", "DeathCounterHotkey", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            this.streamTimeLbl.Text = "Streamtime: 00:00:00";
+        }
+
+
+
+
     }
 }

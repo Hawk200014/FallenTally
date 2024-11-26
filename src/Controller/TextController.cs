@@ -1,4 +1,5 @@
-﻿using DeathCounterHotkey.Resources;
+﻿using DeathCounterHotkey.Controller.Forms;
+using DeathCounterHotkey.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,20 @@ namespace DeathCounterHotkey.Controller
 {
     public class TextController
     {
+        private OptionsController _optionsController;
 
-        public static void CreateDirectory()
+        public TextController(OptionsController optionsController)
+        { 
+            this._optionsController = optionsController;
+        }
+
+        public void CreateDirectory()
         {
             string path = Path.Combine(GLOBALVARS.PATHTOEXE, "OBSOverlay");
             Directory.CreateDirectory(path);
         }
 
-        public static void WriteDeaths(string prefix, int allDeaths, string location, int locDeaths)
+        public void WriteDeaths(string prefix, int allDeaths, string location, int locDeaths)
         {
             string path = Path.Combine(GLOBALVARS.PATHTOEXE, "OBSOverlay");
             path = Path.Combine(path, "Overlay.txt");
@@ -33,26 +40,44 @@ namespace DeathCounterHotkey.Controller
                 overlayText += content + "\n";
             }
 
+            string setting = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL));
+            if(string.IsNullOrEmpty(setting))
+            {
+                setting = "No";
+            }
+            bool worldAllDeaths = setting == "Yes";
+
             overlayText = overlayText.Replace("[GAMEPREFIX]", prefix)
-                .Replace("[GAMEDEATHS]", "" + allDeaths)
-                .Replace("[LOCATIONNAME]", location)
-                .Replace("[LOCATIONDEATHS]", "" + locDeaths);
+                .Replace("[GAMEDEATHS]", "" + allDeaths);
+
+            if (worldAllDeaths && location.Equals(GLOBALVARS.DEFAULT_LOCATION))
+            {
+                overlayText = overlayText
+                    .Replace("[LOCATIONDEATHS]", "" + allDeaths)
+                    .Replace("[LOCATIONNAME]", prefix);
+            }
+            else
+            {
+                overlayText = overlayText
+                    .Replace("[LOCATIONDEATHS]", "" + locDeaths)
+                    .Replace("[LOCATIONNAME]", location);
+            }
 
             File.WriteAllText(path, overlayText);
         }
 
-        private static string GetTemplatePath()
+        private string GetTemplatePath()
         {
             string path = Path.Combine(GLOBALVARS.PATHTOEXE, "OBSOverlay");
             return Path.Combine(path, "OverlayTemplate.txt");
         }
 
-        public static bool TemplaceExists()
+        public bool TemplaceExists()
         {
             return File.Exists(GetTemplatePath());
         }
 
-        public static void CreateTemplate()
+        public void CreateTemplate()
         {
             string path = GetTemplatePath();
 
