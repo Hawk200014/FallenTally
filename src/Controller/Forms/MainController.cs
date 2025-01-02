@@ -1,4 +1,5 @@
 ﻿using DeathCounterHotkey.Database.Models;
+using DeathCounterHotkey.Resources;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices.ActiveDirectory;
@@ -33,10 +34,18 @@ namespace DeathCounterHotkey.Controller.Forms
             this._streamTimeController = streamTimeController;
             this._textController = textController;
 
-            this._hotkeyController = new HotkeyController(this._optionsController, this, IncreaseHotkeyPressed, DecreaseHotkeyPressed, SwitchHotkeyPressed, QuickHotkeyPressed);
+            this._hotkeyController = new HotkeyController(this._optionsController, this, IncreaseHotkeyPressed, DecreaseHotkeyPressed, SwitchHotkeyPressed, QuickHotkeyPressed, FinishHotkeyPressed);
             _hotkeyController.LoadHotkeys();
 
         }
+
+        private void FinishHotkeyPressed()
+        {
+            if (_locationcontroller.GetActiveLocation() == null) return;
+            if (_locationcontroller.GetActiveLocation()?.Name == GLOBALVARS.DEFAULT_LOCATION) return;
+            _locationcontroller.SetFinish(true);
+        }
+
 
         private void IncreaseHotkeyPressed()
         {
@@ -50,12 +59,27 @@ namespace DeathCounterHotkey.Controller.Forms
             _mainForm?.UpdateDeaths();
         }
 
+        private int GetIndexOfListWithItemName(List<DeathLocationModel> locations, string? name)
+        {
+            if(name == null) return -1;
+            for (int i = 0; i < locations.Count; i++)
+            {
+                if (locations[i].Name == name)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
         private void SwitchHotkeyPressed()
         {
             List<DeathLocationModel> locations = _locationcontroller.GetListOfLocations();
+            locations = locations.Where(x => x.Finish == false).ToList();
             int locLength = locations.Count;
             if (locLength == 0) return;
-            int index = _mainForm?.GetLocationIndex() ?? -1;
+            int index = GetIndexOfListWithItemName(locations, _locationcontroller.GetActiveLocation()?.Name);
+            if (index == -1) return;
             if (index == locLength -1)
             {
                 index = 0;
@@ -142,6 +166,7 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             _hotkeyController.UnregisterHotkeys();
             _hotkeyController.LoadHotkeys();
+            _mainForm?.UpdateDeaths();
         }
 
         internal void IncreaseDeaths()
@@ -180,7 +205,8 @@ namespace DeathCounterHotkey.Controller.Forms
 
         public void QuickAddLocation()
         {
-            string locationName = "Location" + GetTimestamp(DateTime.Now);
+            string timestamp = GetTimestamp(DateTime.Now);
+            string locationName = "Loc" + timestamp.Substring(timestamp.Length / 2);
             _locationcontroller.AddLocation(locationName);
             _mainForm?.UpdateLocationList();
             _mainForm?.SetLocation(locationName);

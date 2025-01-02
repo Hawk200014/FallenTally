@@ -61,7 +61,17 @@ namespace DeathCounterHotkey.Controller.Forms
             SWITCH_LOCATION_HOTKEY,
             QUICKADD_LOCATION_HOTKEY,
             TWITCH_NAME,
-            WORLD_AS_ALL
+            WORLD_AS_ALL,
+            FONTFAMILY,
+            FONTSIZE,
+            FONTSTYLE,
+            FONTWEIGHT,
+            BORDERSIZE,
+            SHADOWSIZE,
+            TEXTCOLOR,
+            SHADOWCOLOR,
+            BORDERCOLOR,
+            FINISH_LOCATION_HOTKEY
         }
 
         public string GetSetting(string key)

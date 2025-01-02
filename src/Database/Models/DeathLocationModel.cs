@@ -14,6 +14,7 @@ namespace DeathCounterHotkey.Database.Models
         public int LocationId { get; set; }
         public int GameID { get; set; }
         public string Name { get; set; }
+        public bool Finish { get; set; }
 
 
 

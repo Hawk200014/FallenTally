@@ -15,7 +15,8 @@ namespace DeathCounterHotkey.Database
         public SQLiteDBContext() 
         {
             //Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
+            Database.Migrate();
         }
         public DbSet<SettingsModel> Settings { get; set; }
         public DbSet<GameStatsModel> GameStats { get; set; }
@@ -45,5 +46,9 @@ namespace DeathCounterHotkey.Database
                 .HasKey(x => x.LocationId);
         }
 
+        public void TryMigrate()
+        {
+            //Database.Migrate();
+        }
     }
 }

@@ -3,6 +3,7 @@ using DeathCounterHotkey.Controller.Forms;
 using DeathCounterHotkey.Database.Models;
 using DeathCounterHotkey.Forms;
 using DeathCounterHotkey.Resources;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Web;
 
@@ -22,10 +23,12 @@ public partial class MainForm : Form
         _mainController = mainController;
         _mainController.SetForm(this);
 
+        locationCombo.DrawItem += LocationCombo_DrawItem;
+        locationCombo.DrawMode =
+          System.Windows.Forms.DrawMode.OwnerDrawVariable;
 
         UpdateGameList();
     }
-
 
 
     private void AddGamesToCombo(List<string> games)
@@ -165,6 +168,7 @@ public partial class MainForm : Form
     {
         List<string> locations = this._mainController.GetLocationNames();
         AddLocationsToCombo(locations);
+        locationCombo.Refresh();
         if (string.IsNullOrEmpty(locationName)) return;
         SetLocation(locationName);
     }
@@ -298,5 +302,51 @@ public partial class MainForm : Form
 
 
 
+
+
+
     }
+
+    private void LocationCombo_DrawItem(object sender, DrawItemEventArgs e)
+    {
+        // Draw the background 
+        
+
+        e.DrawBackground();
+
+        if(e.Index < 0) return;
+        // Get the item text    
+        string text = ((ComboBox)sender).Items[e.Index].ToString();
+
+        bool finished = this._mainController.GetLocationController().GetFinishState(text);
+        // Determine the forecolor based on whether or not the item is selected    
+        Brush brush;
+        if (finished)// compare  date with your list.  
+        {
+            brush = Brushes.Green;
+        }
+        else
+        {
+            brush = SystemBrushes.ControlDark;
+        }
+
+        // Draw the text
+        //e.DrawBackground(brush);
+        
+        //e.DrawFocusRectangle();
+
+
+        // change background color
+        e.Graphics.FillRectangle(brush, e.Bounds);
+
+
+        e.Graphics.DrawString(text, ((Control)sender).Font, Brushes.Black, e.Bounds.X, e.Bounds.Y);
+        e.DrawFocusRectangle();
+
+        //e.Graphics.DrawString(comboBox1.Items[index].ToString(), e.Font, brush, e.Bounds, StringFormat.GenericDefault);
+
+
+
+    }
+
 }

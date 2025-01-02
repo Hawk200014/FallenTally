@@ -3,8 +3,11 @@ using DeathCounterHotkey.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace DeathCounterHotkey.Controller
 {
@@ -25,8 +28,7 @@ namespace DeathCounterHotkey.Controller
 
         public void WriteDeaths(string prefix, int allDeaths, string location, int locDeaths)
         {
-            string path = Path.Combine(GLOBALVARS.PATHTOEXE, "OBSOverlay");
-            path = Path.Combine(path, "Overlay.txt");
+            
 
             if (!TemplaceExists()) CreateTemplate();
 
@@ -62,19 +64,156 @@ namespace DeathCounterHotkey.Controller
                     .Replace("[LOCATIONDEATHS]", "" + locDeaths)
                     .Replace("[LOCATIONNAME]", location);
             }
+            overlayText = overlayText.Replace("\n", "<br>");
 
-            File.WriteAllText(path, overlayText);
+
+
+            CreateHtml(overlayText);
+
         }
 
         private string GetTemplatePath()
         {
             string path = Path.Combine(GLOBALVARS.PATHTOEXE, "OBSOverlay");
             return Path.Combine(path, "OverlayTemplate.txt");
+
+
         }
 
         public bool TemplaceExists()
         {
             return File.Exists(GetTemplatePath());
+        }
+
+        public void CreateHtml(string paragraph)
+        {
+            string path = Path.Combine(GLOBALVARS.PATHTOEXE, "OBSOverlay");
+            path = Path.Combine(path, "Overlay.html");
+
+            
+
+
+            string html = "";
+            html += "<!DOCTYPE html>";
+            html += "<html lang = \"en\">";
+            html += "<head>";
+            html += "<meta charset = \"UTF -8\">";
+            html += "<meta http-equiv=\"refresh\" content=\"1\" >";
+            html += "<title>DeathCounterOverlay</title>";
+            html += "<style>";
+            html += "body {";
+            html += "width: fit-content;";
+            html += "height: fit-content;";
+            html += "text-align: left;";
+            html += "font-family: " + GetFont() + ";";
+            html += "color: " + GetFontColor() + ";";
+            html += "font-size: " + GetFontSize() + "px;";
+            html += "font-weight: " + GetFontWeight() + ";";
+            html += "font-style: " + GetFontStyle() + ";";
+            html += "-webkit-text-stroke: " + GetBorderSize() + "px " + GetBorderColor() + ";";
+            html += "text-shadow: " + GetShadowSize() + "px " + GetShadowSize() + "px " + GetShadowColor() + ";";
+            html += "}";
+            html += "</style>";
+            html += "</head>";
+            html += "<body>";
+            html += "<p>";
+            html += paragraph;
+            html += "</p>";
+            html += "</body>";
+            html += "</html>";
+
+            File.WriteAllText(path, html);
+        }
+
+        private string GetShadowColor()
+        {
+            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.SHADOWCOLOR));
+            if (tmp == "")
+            {
+                tmp = "#000000";
+            }
+            return tmp;
+        }
+
+        private string GetShadowSize()
+        {
+            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.SHADOWSIZE));
+            if (tmp == "")
+            {
+                tmp = "1";
+            }
+            return tmp;
+        }
+
+        private string GetBorderColor()
+        {
+            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.BORDERCOLOR));
+            if (tmp == "")
+            {
+                tmp = "#000000";
+            }
+            return tmp;
+        }
+
+        private string GetBorderSize()
+        {
+            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.BORDERSIZE));
+            tmp = tmp.Replace(",", ".");
+            if (tmp == "")
+            {
+                tmp = "1";
+            }
+            return tmp;
+        }
+
+        private string GetFontStyle()
+        {
+            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FONTSTYLE));
+            if (tmp == "")
+            {
+                tmp = "normal";
+            }
+            return tmp;
+        }
+
+        private string GetFontWeight()
+        {
+            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FONTWEIGHT));
+            if (tmp == "")
+            {
+                tmp = "normal";
+            }
+            return tmp;
+        }
+
+        private string GetFontSize()
+        {
+            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FONTSIZE));
+            if (tmp == "")
+            {
+                tmp = "1";
+            }
+            return tmp;
+        }
+
+        private string GetFontColor()
+        {
+            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.TEXTCOLOR));
+            if (tmp == "")
+            {
+                tmp = "#000000";
+            }
+            return tmp;
+        }
+
+        private string GetFont()
+        {
+            string fontname = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FONTFAMILY));
+            if (fontname == "")
+            {
+                fontname = "Arial";
+            }
+            return fontname;
         }
 
         public void CreateTemplate()
