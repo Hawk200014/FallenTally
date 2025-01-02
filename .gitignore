@@ -389,3 +389,5 @@ InteropTests/NativeTests/out
 **/ScratchProject/
 **/ScratchProjectWithInternals/
 /src/appsettings.json
+/src/appsettings.json
+/src/appsettings.json

@@ -26,6 +26,7 @@ static class Program
             ApplicationConfiguration.Initialize();
             Application.SetCompatibleTextRenderingDefault(true);
             SQLiteDBContext db = new SQLiteDBContext();
+            db.TryMigrate();
             GameController gameController = new GameController(db);
             LocationController locationController = new LocationController(gameController, db);
             StreamTimeController streamTimeController = new StreamTimeController();

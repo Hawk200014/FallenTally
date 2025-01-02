@@ -17,7 +17,7 @@ namespace DeathCounterHotkey.Controller.Forms
             this._locationController = locationController;
         }
 
-        internal bool AddEdit(string editText, EDITCATEGORIE editCat)
+        internal bool AddEdit(string editText, EDITCATEGORIE editCat, bool? finished = null)
         {
             if (string.IsNullOrEmpty(editText)) return false;
             switch (editCat)
@@ -26,13 +26,20 @@ namespace DeathCounterHotkey.Controller.Forms
                     if (_gameController.IsDupeName(editText)) return false;
                     return _gameController.EditName(editText);
                 case EDITCATEGORIE.LOCATION:
-                    if (_locationController.IsDupeName(editText)) return false;
-                    return _locationController.EditName(editText);
+                    //if (_locationController.IsDupeName(editText)) return false;
+                    _locationController.SetFinish(finished);
+                    _locationController.EditName(editText);
+                    return true;
                 case EDITCATEGORIE.PREFIX:
                     break;
             }
             return false;
             
+        }
+
+        internal bool GetCheckedState(string oldValue)
+        {
+            return _locationController.GetFinishState(oldValue);
         }
 
         public enum EDITCATEGORIE

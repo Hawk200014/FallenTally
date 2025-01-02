@@ -105,5 +105,23 @@ namespace DeathCounterHotkey.Controller.Forms
             _context.Locations.Where(x => x.GameID == gameStatsModel.GameId).ExecuteDelete();
             _context.SaveChanges();
         }
+
+        internal bool GetFinishState(string oldValue)
+        {
+            GameStatsModel? activeGame = _gameController.GetActiveGame();
+            if (activeGame == null) return false;
+            DeathLocationModel? location = _context.Locations.Where(x => x.Name.Equals(oldValue) && x.GameID == activeGame.GameId).FirstOrDefault();
+            if (location == null) return false;
+            return location.Finish;
+        }
+
+        internal void SetFinish(bool? finished)
+        {
+            DeathLocationModel? locationModel = GetActiveLocation();
+            if (locationModel == null) return;
+            if (finished == null) return;
+            locationModel.Finish = (bool)finished;
+            _context.SaveChanges();
+        }
     }
 }

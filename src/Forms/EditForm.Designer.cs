@@ -32,6 +32,7 @@
             editTextBox = new TextBox();
             cancelBtn = new Button();
             saveBtn = new Button();
+            finishedCB = new CheckBox();
             SuspendLayout();
             // 
             // editTextBox
@@ -69,12 +70,24 @@
             saveBtn.UseVisualStyleBackColor = false;
             saveBtn.Click += saveBtn_Click;
             // 
+            // finishedCB
+            // 
+            finishedCB.AutoSize = true;
+            finishedCB.FlatStyle = FlatStyle.Flat;
+            finishedCB.Location = new Point(12, 48);
+            finishedCB.Name = "finishedCB";
+            finishedCB.Size = new Size(81, 24);
+            finishedCB.TabIndex = 3;
+            finishedCB.Text = "Finished";
+            finishedCB.UseVisualStyleBackColor = true;
+            // 
             // EditForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(347, 85);
+            Controls.Add(finishedCB);
             Controls.Add(saveBtn);
             Controls.Add(cancelBtn);
             Controls.Add(editTextBox);
@@ -90,5 +103,6 @@
         private TextBox editTextBox;
         private Button cancelBtn;
         private Button saveBtn;
+        private CheckBox finishedCB;
     }
 }

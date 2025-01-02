@@ -16,18 +16,21 @@ namespace DeathCounterHotkey.Controller
         private Action _decreaseAction;
         private Action _switchAction;
         private Action _quickAction;
+        private Action _finishAction;
         private KeyboardHook _hotkeysHook;
         EventHandler<KeyPressedEventArgs> keyPressedEventHandler;
         private string _increaseHKStr = "";
         private string _decreaseHKStr = "";
         private string _switchHKStr = "";
         private string _quickAddHKStr = "";
+        private string _finishHKStr = "";
 
         public HotkeyController(OptionsController optionsController, MainController mainController,
             Action increaseAction,
             Action decreaseAction,
             Action switchAction,
-            Action quickAction)
+            Action quickAction,
+            Action finishAction)
         {
             this._optionsController = optionsController;
             this._mainController = mainController;
@@ -35,6 +38,7 @@ namespace DeathCounterHotkey.Controller
             this._decreaseAction = decreaseAction;
             this._switchAction = switchAction;
             this._quickAction = quickAction;
+            this._finishAction = finishAction;
 
             keyPressedEventHandler = new EventHandler<KeyPressedEventArgs>(HotkeyPressedEvent);
             _hotkeysHook = new KeyboardHook();
@@ -50,13 +54,11 @@ namespace DeathCounterHotkey.Controller
             _decreaseHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.DECREASE_HOTKEY));
             _switchHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.SWITCH_LOCATION_HOTKEY));
             _quickAddHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.QUICKADD_LOCATION_HOTKEY));
+            _finishHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FINISH_LOCATION_HOTKEY));
         }
 
         public void LoadHotkeys()
         {
-
-            
-
             if (!string.IsNullOrEmpty(_increaseHKStr))
             {
                 Enum.TryParse(_increaseHKStr, out Keys hotkey);
@@ -81,6 +83,11 @@ namespace DeathCounterHotkey.Controller
                 _hotkeysHook.RegisterHotKey(hotkey);
             }
 
+            if (!string.IsNullOrEmpty(_quickAddHKStr))
+            {
+                Enum.TryParse(_finishHKStr, out Keys hotkey);
+                _hotkeysHook.RegisterHotKey(hotkey);
+            }
         }
 
         private void HotkeyPressedEvent(object? sender, KeyPressedEventArgs e)
@@ -102,6 +109,10 @@ namespace DeathCounterHotkey.Controller
             else if (_quickAddHKStr.Equals(keyname))
             {
                 _quickAction.Invoke();
+            }
+            else if (_finishHKStr.Equals(keyname))
+            {
+                _finishAction.Invoke();
             }
         }
 

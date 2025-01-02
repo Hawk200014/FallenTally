@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static DeathCounterHotkey.Controller.Forms.EditController;
 
 namespace DeathCounterHotkey.Forms
 {
@@ -24,12 +25,33 @@ namespace DeathCounterHotkey.Forms
             this._action = action;
             this._editCat = editCategorie;
             this.editTextBox.Text = oldValue;
+            if(editCategorie == EditController.EDITCATEGORIE.LOCATION)
+            {
+                this.finishedCB.Visible = true;
+                finishedCB.Checked =  _controller.GetCheckedState(oldValue);
+            }
+            else
+            {
+                this.finishedCB.Visible = false;
+            }
+
         }
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
             string editText = editTextBox.Text.Trim();
-            if (this._controller.AddEdit(editText, _editCat))
+            bool closeForm;
+            if (_editCat == EditController.EDITCATEGORIE.LOCATION)
+            {
+                closeForm = this._controller.AddEdit(editText, _editCat, finishedCB.Checked);
+            }
+            else
+            {
+                closeForm = this._controller.AddEdit(editText, _editCat);
+            }
+
+
+            if (closeForm)
             {
                 _action?.Invoke(editText);
                 this.Close();
