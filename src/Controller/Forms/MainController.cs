@@ -21,9 +21,11 @@ namespace DeathCounterHotkey.Controller.Forms
         private MainForm? _mainForm;
         private StreamTimeController _streamTimeController;
         private TextController _textController;
+        private ExportController _exportController;
 
         public MainController(GameController gameController, LocationController locationController,
-            DeathController deathController, EditController editController, OptionsController optionsController, StreamTimeController streamTimeController, TwitchTokenController tokenController, TextController textController) 
+            DeathController deathController, EditController editController, OptionsController optionsController, 
+            StreamTimeController streamTimeController, TwitchTokenController tokenController, TextController textController, ExportController exportController) 
         {
             this._gameController = gameController;
             this._locationcontroller = locationController;
@@ -33,10 +35,16 @@ namespace DeathCounterHotkey.Controller.Forms
             this._twitchTokenController = tokenController;
             this._streamTimeController = streamTimeController;
             this._textController = textController;
+            this._exportController = exportController;
 
             this._hotkeyController = new HotkeyController(this._optionsController, this, IncreaseHotkeyPressed, DecreaseHotkeyPressed, SwitchHotkeyPressed, QuickHotkeyPressed, FinishHotkeyPressed);
             _hotkeyController.LoadHotkeys();
 
+        }
+
+        public ExportController GetExportController()
+        {
+            return _exportController;
         }
 
         private void FinishHotkeyPressed()

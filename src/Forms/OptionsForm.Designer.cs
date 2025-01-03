@@ -69,6 +69,7 @@
             groupBox3 = new GroupBox();
             finishLocationCombo = new ComboBox();
             label14 = new Label();
+            exportBtn = new Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fontSizeNumeric).BeginInit();
             ((System.ComponentModel.ISupportInitialize)borderSizeNumeric).BeginInit();
@@ -508,12 +509,26 @@
             label14.TabIndex = 11;
             label14.Text = "Finish Location";
             // 
+            // exportBtn
+            // 
+            exportBtn.BackColor = SystemColors.ControlDark;
+            exportBtn.FlatAppearance.BorderSize = 0;
+            exportBtn.FlatStyle = FlatStyle.Flat;
+            exportBtn.Location = new Point(12, 390);
+            exportBtn.Name = "exportBtn";
+            exportBtn.Size = new Size(127, 29);
+            exportBtn.TabIndex = 23;
+            exportBtn.Text = "Export Data";
+            exportBtn.UseVisualStyleBackColor = false;
+            exportBtn.Click += exportBtn_Click;
+            // 
             // OptionsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(980, 430);
+            Controls.Add(exportBtn);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -578,5 +593,6 @@
         private Label label5;
         private ComboBox finishLocationCombo;
         private Label label14;
+        private Button exportBtn;
     }
 }

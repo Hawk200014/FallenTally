@@ -1,4 +1,5 @@
 ﻿using DeathCounterHotkey.Controller.Forms;
+using DeathCounterHotkey.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,13 +19,14 @@ namespace DeathCounterHotkey
     {
         private Action _optionsChangedAction;
         private OptionsController _controller;
+        private ExportController _exportController;
 
-        public OptionsForm(OptionsController controller, Action optionsChangedAction)
+        public OptionsForm(OptionsController controller, Action optionsChangedAction, ExportController exportController)
         {
             InitializeComponent();
             this._optionsChangedAction = optionsChangedAction;
             this._controller = controller;
-
+            this._exportController = exportController;
         }
 
         private void LoadOptions()
@@ -313,6 +315,11 @@ namespace DeathCounterHotkey
         private void shadowColorTB_Click(object sender, EventArgs e)
         {
             shadowColorTB.Text = GetColorWithPicker(shadowColorTB.Text);
+        }
+
+        private void exportBtn_Click(object sender, EventArgs e)
+        {
+            new ExportForm(this._exportController).Show(this);
         }
     }
 }
