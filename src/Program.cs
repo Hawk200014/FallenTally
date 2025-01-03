@@ -36,7 +36,8 @@ static class Program
             TextController textController = new TextController(optionsController);
             textController.CreateDirectory();
             TwitchTokenController tokenController = new TwitchTokenController(optionsController);
-            MainController mainController = new MainController(gameController, locationController, deathController, editController, optionsController, streamTimeController, tokenController, textController);
+            ExportController exportController = new ExportController(db);
+            MainController mainController = new MainController(gameController, locationController, deathController, editController, optionsController, streamTimeController, tokenController, textController, exportController);
             Application.Run(new MainForm(mainController));
         }
         catch (Exception ex)
