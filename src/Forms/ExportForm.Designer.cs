@@ -47,12 +47,12 @@
             MarkerEntriesTB = new TextBox();
             label7 = new Label();
             groupBox4 = new GroupBox();
+            label9 = new Label();
+            filterMarkerSessionCombo = new ComboBox();
             label4 = new Label();
             label5 = new Label();
             filterMarkerGameCombo = new ComboBox();
             filterMarkerDateCombo = new ComboBox();
-            label9 = new Label();
-            filterMarkerSessionCombo = new ComboBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -62,12 +62,14 @@
             // filterDeathGameCombo
             // 
             filterDeathGameCombo.BackColor = SystemColors.ControlDark;
+            filterDeathGameCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             filterDeathGameCombo.FlatStyle = FlatStyle.Flat;
             filterDeathGameCombo.FormattingEnabled = true;
             filterDeathGameCombo.Location = new Point(204, 20);
             filterDeathGameCombo.Name = "filterDeathGameCombo";
             filterDeathGameCombo.Size = new Size(244, 28);
             filterDeathGameCombo.TabIndex = 0;
+            filterDeathGameCombo.SelectedIndexChanged += filterDeathGameCombo_SelectedIndexChanged;
             // 
             // groupBox1
             // 
@@ -103,10 +105,12 @@
             DeathsExportBtn.TabIndex = 10;
             DeathsExportBtn.Text = "Export";
             DeathsExportBtn.UseVisualStyleBackColor = false;
+            DeathsExportBtn.Click += DeathsExportBtn_Click;
             // 
             // deathExportFormatCombo
             // 
             deathExportFormatCombo.BackColor = SystemColors.ControlDark;
+            deathExportFormatCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             deathExportFormatCombo.FlatStyle = FlatStyle.Flat;
             deathExportFormatCombo.FormattingEnabled = true;
             deathExportFormatCombo.Location = new Point(210, 193);
@@ -169,22 +173,26 @@
             // filterDeathDateCombo
             // 
             filterDeathDateCombo.BackColor = SystemColors.ControlDark;
+            filterDeathDateCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             filterDeathDateCombo.FlatStyle = FlatStyle.Flat;
             filterDeathDateCombo.FormattingEnabled = true;
             filterDeathDateCombo.Location = new Point(204, 88);
             filterDeathDateCombo.Name = "filterDeathDateCombo";
             filterDeathDateCombo.Size = new Size(244, 28);
             filterDeathDateCombo.TabIndex = 4;
+            filterDeathDateCombo.SelectedIndexChanged += filterDeathDateCombo_SelectedIndexChanged;
             // 
             // filterDeathLocationCombo
             // 
             filterDeathLocationCombo.BackColor = SystemColors.ControlDark;
+            filterDeathLocationCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             filterDeathLocationCombo.FlatStyle = FlatStyle.Flat;
             filterDeathLocationCombo.FormattingEnabled = true;
             filterDeathLocationCombo.Location = new Point(204, 54);
             filterDeathLocationCombo.Name = "filterDeathLocationCombo";
             filterDeathLocationCombo.Size = new Size(244, 28);
             filterDeathLocationCombo.TabIndex = 2;
+            filterDeathLocationCombo.SelectedIndexChanged += filterDeathLocationCombo_SelectedIndexChanged;
             // 
             // label2
             // 
@@ -253,6 +261,26 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "Filter";
             // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(6, 91);
+            label9.Name = "label9";
+            label9.Size = new Size(130, 20);
+            label9.TabIndex = 7;
+            label9.Text = "Recording Session";
+            // 
+            // filterMarkerSessionCombo
+            // 
+            filterMarkerSessionCombo.BackColor = SystemColors.ControlDark;
+            filterMarkerSessionCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            filterMarkerSessionCombo.FlatStyle = FlatStyle.Flat;
+            filterMarkerSessionCombo.FormattingEnabled = true;
+            filterMarkerSessionCombo.Location = new Point(204, 88);
+            filterMarkerSessionCombo.Name = "filterMarkerSessionCombo";
+            filterMarkerSessionCombo.Size = new Size(244, 28);
+            filterMarkerSessionCombo.TabIndex = 6;
+            // 
             // label4
             // 
             label4.AutoSize = true;
@@ -274,6 +302,7 @@
             // filterMarkerGameCombo
             // 
             filterMarkerGameCombo.BackColor = SystemColors.ControlDark;
+            filterMarkerGameCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             filterMarkerGameCombo.FlatStyle = FlatStyle.Flat;
             filterMarkerGameCombo.FormattingEnabled = true;
             filterMarkerGameCombo.Location = new Point(204, 20);
@@ -284,31 +313,13 @@
             // filterMarkerDateCombo
             // 
             filterMarkerDateCombo.BackColor = SystemColors.ControlDark;
+            filterMarkerDateCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             filterMarkerDateCombo.FlatStyle = FlatStyle.Flat;
             filterMarkerDateCombo.FormattingEnabled = true;
             filterMarkerDateCombo.Location = new Point(204, 54);
             filterMarkerDateCombo.Name = "filterMarkerDateCombo";
             filterMarkerDateCombo.Size = new Size(244, 28);
             filterMarkerDateCombo.TabIndex = 4;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(6, 91);
-            label9.Name = "label9";
-            label9.Size = new Size(130, 20);
-            label9.TabIndex = 7;
-            label9.Text = "Recording Session";
-            // 
-            // filterMarkerSessionCombo
-            // 
-            filterMarkerSessionCombo.BackColor = SystemColors.ControlDark;
-            filterMarkerSessionCombo.FlatStyle = FlatStyle.Flat;
-            filterMarkerSessionCombo.FormattingEnabled = true;
-            filterMarkerSessionCombo.Location = new Point(204, 88);
-            filterMarkerSessionCombo.Name = "filterMarkerSessionCombo";
-            filterMarkerSessionCombo.Size = new Size(244, 28);
-            filterMarkerSessionCombo.TabIndex = 6;
             // 
             // ExportForm
             // 

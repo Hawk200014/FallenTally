@@ -150,7 +150,7 @@ public partial class MainForm : Form
     private void optionsBtn_Click(object sender, EventArgs e)
     {
 
-        new OptionsForm(this._mainController.GetOptionController(), this._mainController.OptionsChangedAction).Show();
+        new OptionsForm(this._mainController.GetOptionController(), this._mainController.OptionsChangedAction, this._mainController.GetExportController()).Show();
     }
 
     private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
