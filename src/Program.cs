@@ -29,15 +29,18 @@ static class Program
             db.TryMigrate();
             GameController gameController = new GameController(db);
             LocationController locationController = new LocationController(gameController, db);
-            StreamTimeController streamTimeController = new StreamTimeController();
-            DeathController deathController = new DeathController(db, streamTimeController);
+            TimerController streamTimeController = new TimerController();
+            TimerController recordController = new TimerController();
+            DeathController deathController = new DeathController(db);
             EditController editController = new EditController(gameController, locationController);
             OptionsController optionsController = new OptionsController(db);
             TextController textController = new TextController(optionsController);
             textController.CreateDirectory();
             TwitchTokenController tokenController = new TwitchTokenController(optionsController);
             ExportController exportController = new ExportController(db);
-            MainController mainController = new MainController(gameController, locationController, deathController, editController, optionsController, streamTimeController, tokenController, textController, exportController);
+            RecordingController recordingController = new RecordingController(db);
+            MarkerController markerController = new MarkerController(db, recordingController);
+            MainController mainController = new MainController(gameController, locationController, deathController, editController, optionsController, streamTimeController, tokenController, textController, exportController, markerController, recordController, recordingController);
             Application.Run(new MainForm(mainController));
         }
         catch (Exception ex)
