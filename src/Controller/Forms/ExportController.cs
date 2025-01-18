@@ -236,23 +236,13 @@ namespace DeathCounterHotkey.Controller.Forms
                     {
                         deathInGame++;
                         deathAtLocation++;
-                        dataTable.Rows.Add(gameStats.GameName, deathInGame, deathLocation.Name, deathLocation.Finish, deathAtLocation, death.TimeStamp.ToString(), ConvertTimeToReadableTime(death.StreamTime));
+                        dataTable.Rows.Add(gameStats.GameName, deathInGame, deathLocation.Name, deathLocation.Finish, deathAtLocation, death.TimeStamp.ToString(), TimerController.ConvertTimeToReadableTime(death.StreamTime));
                     }
                 }
             }
             return dataTable;
         }
 
-        /// <summary>
-        /// Converts time in seconds to a readable format.
-        /// </summary>
-        /// <param name="time">Time in seconds.</param>
-        /// <returns>A string representing the time in HH:mm:ss format.</returns>
-        private string ConvertTimeToReadableTime(double time)
-        {
-            TimeSpan t = TimeSpan.FromSeconds(time);
-            return string.Format("{0:D2}:{1:D2}:{2:D2}", t.Hours, t.Minutes, t.Seconds);
-        }
 
         /// <summary>
         /// Gets the available export formats.
@@ -261,6 +251,59 @@ namespace DeathCounterHotkey.Controller.Forms
         internal string[] GetExportFormats()
         {
             return Enum.GetNames(typeof(ExportType));
+        }
+
+        internal int GetMarkerCount(string? game, int? session, string? date)
+        {
+            var query = _context.Markers.AsQueryable();
+
+            if (!string.IsNullOrEmpty(game))
+            {
+                query = query.Where(m => m.GameName == game);
+            }
+
+            if (session.HasValue)
+            {
+                query = query.Where(m => m.SessionId == session.Value);
+            }
+
+            if (!string.IsNullOrEmpty(date))
+            {
+                query = query.Where(m => m.Date.ToLongDateString() == date);
+            }
+
+            return query.Count();
+        }
+
+        internal string[] GetGameMarkerList()
+        {
+            return _context.GameStats.Select(x => x.GameName).Distinct().ToArray();
+        }
+
+        internal string[] GetDistinctMarkerDates(string text = "")
+        {
+            var query = _context.Markers.AsQueryable();
+
+            if (!string.IsNullOrEmpty(text))
+            {
+                query = query.Where(m => m.Description.Contains(text));
+            }
+
+            return query.Select(m => m.Date.ToLongDateString()).Distinct().ToArray();
+        }
+
+        internal string[] GetDistinctMarkerSessions()
+        {
+            return _context.Markers.Select(m => m.SessionId.ToString()).Distinct().ToArray();
+        }
+
+        internal string[] GetSessionMarkerList(string text1, string text2)
+        {
+            return _context.Markers
+                .Where(m => m.SessionId.ToString() == text1 || m.SessionId.ToString() == text2)
+                .Select(m => m.Description)
+                .Distinct()
+                .ToArray();
         }
     }
 }

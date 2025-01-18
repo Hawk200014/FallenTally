@@ -11,21 +11,19 @@ namespace DeathCounterHotkey.Controller.Forms
     public class DeathController
     {
         private SQLiteDBContext _context;
-        private StreamTimeController _streamTimeController;
-
-        public DeathController(SQLiteDBContext context, StreamTimeController streamTimeController) 
+        public DeathController(SQLiteDBContext context) 
         {
             this._context = context;
-            this._streamTimeController = streamTimeController;
         }
 
 
 
-        public void AddDeath(int locationId)
+        public void AddDeath(int locationId, TimerController streamcontroller, TimerController recordingController)
         {
             DeathModel deathModel = new DeathModel();
             deathModel.TimeStamp = DateTime.Now;
-            deathModel.StreamTime = (int)_streamTimeController.GetTime();
+            deathModel.StreamTime = (int)streamcontroller.GetTime();
+            deathModel.RecordingTime = (int)recordingController.GetTime();
             deathModel.LocationId = locationId;
 
             _context.Deaths.Add(deathModel);

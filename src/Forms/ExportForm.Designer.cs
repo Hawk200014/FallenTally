@@ -280,6 +280,7 @@
             filterMarkerSessionCombo.Name = "filterMarkerSessionCombo";
             filterMarkerSessionCombo.Size = new Size(244, 28);
             filterMarkerSessionCombo.TabIndex = 6;
+            filterMarkerSessionCombo.SelectedIndexChanged += filterMarkerSessionCombo_SelectedIndexChanged;
             // 
             // label4
             // 
@@ -309,6 +310,7 @@
             filterMarkerGameCombo.Name = "filterMarkerGameCombo";
             filterMarkerGameCombo.Size = new Size(244, 28);
             filterMarkerGameCombo.TabIndex = 0;
+            filterMarkerGameCombo.SelectedIndexChanged += filterMarkerGameCombo_SelectedIndexChanged;
             // 
             // filterMarkerDateCombo
             // 
@@ -320,6 +322,7 @@
             filterMarkerDateCombo.Name = "filterMarkerDateCombo";
             filterMarkerDateCombo.Size = new Size(244, 28);
             filterMarkerDateCombo.TabIndex = 4;
+            filterMarkerDateCombo.SelectedIndexChanged += filterMarkerDateCombo_SelectedIndexChanged;
             // 
             // ExportForm
             // 
