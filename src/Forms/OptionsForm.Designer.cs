@@ -67,13 +67,13 @@
             label6 = new Label();
             groupBox2 = new GroupBox();
             groupBox3 = new GroupBox();
+            markerNormalCombo = new ComboBox();
+            label16 = new Label();
+            recordingStartCombo = new ComboBox();
+            label15 = new Label();
             finishLocationCombo = new ComboBox();
             label14 = new Label();
             exportBtn = new Button();
-            recordingStartCombo = new ComboBox();
-            label15 = new Label();
-            markerNormalCombo = new ComboBox();
-            label16 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fontSizeNumeric).BeginInit();
             ((System.ComponentModel.ISupportInitialize)borderSizeNumeric).BeginInit();
@@ -497,6 +497,46 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Hotkeys";
             // 
+            // markerNormalCombo
+            // 
+            markerNormalCombo.BackColor = SystemColors.ControlDark;
+            markerNormalCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            markerNormalCombo.FlatStyle = FlatStyle.Flat;
+            markerNormalCombo.FormattingEnabled = true;
+            markerNormalCombo.Location = new Point(241, 221);
+            markerNormalCombo.Name = "markerNormalCombo";
+            markerNormalCombo.Size = new Size(229, 28);
+            markerNormalCombo.TabIndex = 16;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(6, 224);
+            label16.Name = "label16";
+            label16.Size = new Size(141, 20);
+            label16.TabIndex = 15;
+            label16.Text = "Add Normal Marker";
+            // 
+            // recordingStartCombo
+            // 
+            recordingStartCombo.BackColor = SystemColors.ControlDark;
+            recordingStartCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            recordingStartCombo.FlatStyle = FlatStyle.Flat;
+            recordingStartCombo.FormattingEnabled = true;
+            recordingStartCombo.Location = new Point(241, 187);
+            recordingStartCombo.Name = "recordingStartCombo";
+            recordingStartCombo.Size = new Size(229, 28);
+            recordingStartCombo.TabIndex = 14;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(6, 190);
+            label15.Name = "label15";
+            label15.Size = new Size(191, 20);
+            label15.TabIndex = 13;
+            label15.Text = "Start/Stop Recording Timer";
+            // 
             // finishLocationCombo
             // 
             finishLocationCombo.BackColor = SystemColors.ControlDark;
@@ -530,46 +570,6 @@
             exportBtn.UseVisualStyleBackColor = false;
             exportBtn.Click += exportBtn_Click;
             // 
-            // recordingStartCombo
-            // 
-            recordingStartCombo.BackColor = SystemColors.ControlDark;
-            recordingStartCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-            recordingStartCombo.FlatStyle = FlatStyle.Flat;
-            recordingStartCombo.FormattingEnabled = true;
-            recordingStartCombo.Location = new Point(241, 187);
-            recordingStartCombo.Name = "recordingStartCombo";
-            recordingStartCombo.Size = new Size(229, 28);
-            recordingStartCombo.TabIndex = 14;
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.Location = new Point(6, 190);
-            label15.Name = "label15";
-            label15.Size = new Size(191, 20);
-            label15.TabIndex = 13;
-            label15.Text = "Start/Stop Recording Timer";
-            // 
-            // markerNormalCombo
-            // 
-            markerNormalCombo.BackColor = SystemColors.ControlDark;
-            markerNormalCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-            markerNormalCombo.FlatStyle = FlatStyle.Flat;
-            markerNormalCombo.FormattingEnabled = true;
-            markerNormalCombo.Location = new Point(241, 221);
-            markerNormalCombo.Name = "markerNormalCombo";
-            markerNormalCombo.Size = new Size(229, 28);
-            markerNormalCombo.TabIndex = 16;
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.Location = new Point(6, 224);
-            label16.Name = "label16";
-            label16.Size = new Size(141, 20);
-            label16.TabIndex = 15;
-            label16.Text = "Add Normal Marker";
-            // 
             // OptionsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -585,7 +585,7 @@
             Controls.Add(saveBtn);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "OptionsForm";
-            Text = "DeathHotkey - Options";
+            Text = "FallenTally - Options";
             Load += OptionsForm_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();

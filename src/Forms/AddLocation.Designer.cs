@@ -91,7 +91,7 @@
             Controls.Add(locationLbl);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddLocation";
-            Text = "DeathHotkey - Add Location";
+            Text = "FallenTally - Add Location";
             ResumeLayout(false);
             PerformLayout();
         }
