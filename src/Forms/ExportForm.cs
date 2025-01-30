@@ -22,6 +22,7 @@ namespace DeathCounterHotkey.Forms
 
             LoadValues();
             CalcEntries();
+            CalcEntriesMarker();
         }
 
         private void CalcEntries()
@@ -50,6 +51,8 @@ namespace DeathCounterHotkey.Forms
             filterDeathDateCombo.Items.AddRange(_exportController.GetDistinctDeathDates());
             deathExportFormatCombo.Items.Clear();
             deathExportFormatCombo.Items.AddRange(_exportController.GetExportFormats());
+            markerExportFormatCombo.Items.Clear();
+            markerExportFormatCombo.Items.AddRange(_exportController.GetExportFormats());
             filterMarkerGameCombo.Items.Clear();
             filterMarkerGameCombo.Items.Add("");
             filterMarkerGameCombo.Items.AddRange(_exportController.GetGameMarkerList());
@@ -140,7 +143,7 @@ namespace DeathCounterHotkey.Forms
 
         private void UpdateMarkerSessionList()
         {
-            string[] sessions = _exportController.GetSessionMarkerList(filterDeathGameCombo.Text, filterMarkerDateCombo.Text);
+            string[] sessions = _exportController.GetDistinctMarkerSessions(filterMarkerGameCombo.Text, filterMarkerDateCombo.Text);
             filterMarkerSessionCombo.Items.Clear();
             filterMarkerSessionCombo.Items.Add("");
             filterMarkerSessionCombo.Items.AddRange(sessions);
@@ -149,17 +152,50 @@ namespace DeathCounterHotkey.Forms
 
         private void filterMarkerGameCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            UpdateMarkerDateList();
+            CalcEntriesMarker();
         }
 
         private void filterMarkerDateCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            UpdateMarkerSessionList();
+            CalcEntriesMarker();
         }
 
         private void filterMarkerSessionCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
+            CalcEntriesMarker();
+        }
 
+        private void markerExportBtn_Click(object sender, EventArgs e)
+        {
+            FileDialog fileDialog = new SaveFileDialog();
+            if (markerExportFormatCombo.Text == "")
+            {
+                MessageBox.Show("Please select a format to export", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (MarkerEntriesTB.Text == "0")
+            {
+                MessageBox.Show("No entries to export", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            ExportController.ExportType exportType = (ExportController.ExportType)Enum.Parse(typeof(ExportController.ExportType), markerExportFormatCombo.Text);
+            switch (exportType)
+            {
+                case ExportController.ExportType.CSV:
+                    fileDialog.Filter = "CSV files (*.csv)|*.csv";
+                    break;
+                case ExportController.ExportType.EXCEL:
+                    fileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+                    break;
+                default:
+                    break;
+            }
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                _exportController.ExportMarker(exportType, filterMarkerGameCombo.Text, filterMarkerDateCombo.Text, filterMarkerSessionCombo.Text, fileDialog.FileName);
+            }
         }
     }
 }
