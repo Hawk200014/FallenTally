@@ -53,5 +53,30 @@ namespace DeathCounterHotkey.Controller
                 .Select(marker => marker.ToString())
                 .ToArray();
         }
+
+        internal List<MarkerModel> GetMarkerModels(string? gamename = null, DateOnly? date = null, int? recordingSession = null)
+        {
+            var query = _context.Markers.AsQueryable();
+
+            if (!string.IsNullOrEmpty(gamename))
+            {
+                query = query.Where(marker => marker.GameId == _context.GameStats
+                    .Where(game => game.GameName == gamename)
+                    .Select(game => game.GameId)
+                    .FirstOrDefault());
+            }
+
+            if (date.HasValue)
+            {
+                query = query.Where(marker => DateOnly.FromDateTime(marker.TimeStamp) == date.Value);
+            }
+
+            if (recordingSession.HasValue)
+            {
+                query = query.Where(marker => marker.RecordingSession == recordingSession.Value);
+            }
+
+            return query.ToList();
+        }
     }
 }

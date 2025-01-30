@@ -104,8 +104,10 @@ namespace DeathCounterHotkey
             this.quickAddLocationCombo.Items.Clear();
             this.quickAddLocationCombo.Items.AddRange(GetKeys());
             this.recordingStartCombo.Items.Clear();
+            this.recordingStartCombo.Items.Add("F11");
             this.recordingStartCombo.Items.AddRange(GetKeys());
             this.markerNormalCombo.Items.Clear();
+            this.markerNormalCombo.Items.Add("F10");
             this.markerNormalCombo.Items.AddRange(GetKeys());
 
             this.worldAsAllDeathsCombo.Items.Clear();

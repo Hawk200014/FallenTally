@@ -1,10 +1,12 @@
 ﻿using ClosedXML.Excel;
 using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
+using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.DirectoryServices.ActiveDirectory;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -20,10 +22,13 @@ namespace DeathCounterHotkey.Controller.Forms
             EXCEL
         }
 
+        private readonly MarkerController _markercontroller;
         private readonly SQLiteDBContext _context;
+        private CultureInfo _culture = new CultureInfo("de-DE");
 
-        public ExportController(SQLiteDBContext context)
+        public ExportController(SQLiteDBContext context, MarkerController markerController)
         {
+            _markercontroller = markerController;
             _context = context;
         }
 
@@ -81,7 +86,7 @@ namespace DeathCounterHotkey.Controller.Forms
         /// <returns>An array of distinct death dates.</returns>
         internal string[] GetDistinctDeathDates(string? gameName = null, string? locationName = null, string? timeStamp = null)
         {
-            var query = GetDeathModels(gameName, locationName, timeStamp).Select(x => x.TimeStamp.ToLongDateString());
+            var query = GetDeathModels(gameName, locationName, timeStamp).Select(x => DateOnly.FromDateTime( x.TimeStamp).ToString("d", _culture));
             return query.Distinct().ToArray();
         }
 
@@ -215,6 +220,7 @@ namespace DeathCounterHotkey.Controller.Forms
             dataTable.Columns.Add("Death number at location", typeof(int));
             dataTable.Columns.Add("Death date and time", typeof(string));
             dataTable.Columns.Add("Death stream time", typeof(string));
+            dataTable.Columns.Add("Death recording time", typeof(string));
 
             foreach (var gameStats in gameStatsModels)
             {
@@ -236,7 +242,7 @@ namespace DeathCounterHotkey.Controller.Forms
                     {
                         deathInGame++;
                         deathAtLocation++;
-                        dataTable.Rows.Add(gameStats.GameName, deathInGame, deathLocation.Name, deathLocation.Finish, deathAtLocation, death.TimeStamp.ToString(), TimerController.ConvertTimeToReadableTime(death.StreamTime));
+                        dataTable.Rows.Add(gameStats.GameName, deathInGame, deathLocation.Name, deathLocation.Finish, deathAtLocation, death.TimeStamp.ToString(), TimerController.ConvertTimeToReadableTime(death.StreamTime), TimerController.ConvertTimeToReadableTime(death.RecordingTime));
                     }
                 }
             }
@@ -255,55 +261,107 @@ namespace DeathCounterHotkey.Controller.Forms
 
         internal int GetMarkerCount(string? game, int? session, string? date)
         {
-            var query = _context.Markers.AsQueryable();
-
-            if (!string.IsNullOrEmpty(game))
-            {
-                query = query.Where(m => m.GameName == game);
-            }
-
-            if (session.HasValue)
-            {
-                query = query.Where(m => m.SessionId == session.Value);
-            }
-
-            if (!string.IsNullOrEmpty(date))
-            {
-                query = query.Where(m => m.Date.ToLongDateString() == date);
-            }
-
-            return query.Count();
+            DateOnly? dateOnly = string.IsNullOrEmpty(date) ? null : DateOnly.Parse(date);
+            return _markercontroller.GetMarkerModels(game, dateOnly, session).Count;
         }
 
         internal string[] GetGameMarkerList()
         {
-            return _context.GameStats.Select(x => x.GameName).Distinct().ToArray();
+
+            return _context.GameStats
+                .Where(x => _context.Markers
+                                   .Select(m => m.GameId)
+                                                      .Contains(x.GameId))
+                .Select(x => x.GameName).Distinct().ToArray();
         }
 
-        internal string[] GetDistinctMarkerDates(string text = "")
+        internal string[] GetDistinctMarkerDates(string gamename = "")
         {
             var query = _context.Markers.AsQueryable();
 
-            if (!string.IsNullOrEmpty(text))
+            if (!string.IsNullOrEmpty(gamename))
             {
-                query = query.Where(m => m.Description.Contains(text));
+                query = query.Where(m => m.GameId == _context.GameStats
+                    .Where(x => x.GameName == gamename)
+                    .Select(x => x.GameId)
+                    .FirstOrDefault()
+                );
+            }
+            
+            return query.Select(m =>DateOnly.FromDateTime( m.TimeStamp).ToString("d",
+                  _culture)).Distinct().ToArray();
+        }
+
+        internal string[] GetDistinctMarkerSessions(string? gamename = null , string? date = null )
+        {
+            var query = _context.Markers.AsQueryable();
+
+            if (!string.IsNullOrEmpty(gamename))
+            {
+                query = query.Where(m => m.GameId == _context.GameStats
+                    .Where(x => x.GameName == gamename)
+                    .Select(x => x.GameId)
+                    .FirstOrDefault()
+                );
             }
 
-            return query.Select(m => m.Date.ToLongDateString()).Distinct().ToArray();
+            if (!string.IsNullOrEmpty(date))
+            {
+                query = query.Where(m => DateOnly.FromDateTime( m.TimeStamp) == DateOnly.Parse( date));
+            }
+            return query.Select(m => m.RecordingSession.ToString()).Distinct().ToArray();
         }
 
-        internal string[] GetDistinctMarkerSessions()
+        internal string ExportMarker(ExportType exportType, string gameName, string date, string session, string fileName)
         {
-            return _context.Markers.Select(m => m.SessionId.ToString()).Distinct().ToArray();
+            DataTable dt = CreateDataTableFromFilterMarker(gameName, date, session);
+            int result = exportType switch
+            {
+                ExportType.CSV => ExportCSV(dt, fileName),
+                ExportType.EXCEL => ExportToExcel(dt, fileName),
+                _ => 0
+            };
+
+            string message = result switch
+            {
+                1 => "Export successful",
+                _ => "Export failed"
+            };
+
+            MessageBox.Show(message, "Export", MessageBoxButtons.OK);
+            return message;
         }
 
-        internal string[] GetSessionMarkerList(string text1, string text2)
+        private DataTable CreateDataTableFromFilterMarker(string gameName, string date, string session)
         {
-            return _context.Markers
-                .Where(m => m.SessionId.ToString() == text1 || m.SessionId.ToString() == text2)
-                .Select(m => m.Description)
-                .Distinct()
-                .ToArray();
+            var gameStatsModels = _context.GameStats
+               .Where(x => string.IsNullOrEmpty(gameName) || x.GameName == gameName)
+               .OrderBy(x => x.GameId)
+               .ToList();
+
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Game", typeof(string));
+            dataTable.Columns.Add("MarkerType", typeof(string));
+            dataTable.Columns.Add("Date", typeof(string));
+            dataTable.Columns.Add("Recording Session", typeof(int));
+            dataTable.Columns.Add("Recording Time", typeof(string));
+            dataTable.Columns.Add("Streaming Session", typeof(int));
+            dataTable.Columns.Add("Stream Time", typeof(string));
+
+            foreach (var gameStats in gameStatsModels)
+            {
+                var markers = _context.Markers
+                    .Where(x => x.GameId == gameStats.GameId)
+                    .Where(x => string.IsNullOrEmpty(date) || DateOnly.FromDateTime(x.TimeStamp).ToString("d", _culture) == date)
+                    .Where(x => string.IsNullOrEmpty(session) || x.RecordingSession.ToString() == session)
+                    .ToList();
+                foreach (var marker in markers)
+                {
+                    dataTable.Rows.Add(gameStats.GameName, marker.categorie, marker.TimeStamp.ToString(), marker.RecordingSession, TimerController.ConvertTimeToReadableTime(marker.RecordingTime), marker.StreamSession, TimerController.ConvertTimeToReadableTime(marker.StreamTime));
+                }
+
+            }
+            return dataTable;
         }
     }
 }
