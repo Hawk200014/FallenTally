@@ -43,6 +43,8 @@
             filterDeathLocationCombo = new ComboBox();
             label2 = new Label();
             groupBox3 = new GroupBox();
+            label10 = new Label();
+            markerExportFormatCombo = new ComboBox();
             markerExportBtn = new Button();
             MarkerEntriesTB = new TextBox();
             label7 = new Label();
@@ -53,8 +55,6 @@
             label5 = new Label();
             filterMarkerGameCombo = new ComboBox();
             filterMarkerDateCombo = new ComboBox();
-            label10 = new Label();
-            markerExportFormatCombo = new ComboBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -67,10 +67,9 @@
             filterDeathGameCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             filterDeathGameCombo.FlatStyle = FlatStyle.Flat;
             filterDeathGameCombo.FormattingEnabled = true;
-            filterDeathGameCombo.Location = new Point(178, 15);
-            filterDeathGameCombo.Margin = new Padding(3, 2, 3, 2);
+            filterDeathGameCombo.Location = new Point(203, 20);
             filterDeathGameCombo.Name = "filterDeathGameCombo";
-            filterDeathGameCombo.Size = new Size(214, 23);
+            filterDeathGameCombo.Size = new Size(244, 28);
             filterDeathGameCombo.TabIndex = 0;
             filterDeathGameCombo.SelectedIndexChanged += filterDeathGameCombo_SelectedIndexChanged;
             // 
@@ -82,11 +81,9 @@
             groupBox1.Controls.Add(deathEntriesTB);
             groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(groupBox2);
-            groupBox1.Location = new Point(10, 9);
-            groupBox1.Margin = new Padding(3, 2, 3, 2);
+            groupBox1.Location = new Point(11, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Padding = new Padding(3, 2, 3, 2);
-            groupBox1.Size = new Size(410, 202);
+            groupBox1.Size = new Size(469, 269);
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
             groupBox1.Text = "Export Deaths";
@@ -94,9 +91,9 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(10, 147);
+            label8.Location = new Point(11, 196);
             label8.Name = "label8";
-            label8.Size = new Size(82, 15);
+            label8.Size = new Size(103, 20);
             label8.TabIndex = 11;
             label8.Text = "Export Format";
             // 
@@ -104,10 +101,9 @@
             // 
             DeathsExportBtn.BackColor = SystemColors.ControlDark;
             DeathsExportBtn.FlatStyle = FlatStyle.Flat;
-            DeathsExportBtn.Location = new Point(315, 170);
-            DeathsExportBtn.Margin = new Padding(3, 2, 3, 2);
+            DeathsExportBtn.Location = new Point(360, 227);
             DeathsExportBtn.Name = "DeathsExportBtn";
-            DeathsExportBtn.Size = new Size(82, 22);
+            DeathsExportBtn.Size = new Size(94, 29);
             DeathsExportBtn.TabIndex = 10;
             DeathsExportBtn.Text = "Export";
             DeathsExportBtn.UseVisualStyleBackColor = false;
@@ -119,29 +115,27 @@
             deathExportFormatCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             deathExportFormatCombo.FlatStyle = FlatStyle.Flat;
             deathExportFormatCombo.FormattingEnabled = true;
-            deathExportFormatCombo.Location = new Point(184, 145);
-            deathExportFormatCombo.Margin = new Padding(3, 2, 3, 2);
+            deathExportFormatCombo.Location = new Point(210, 193);
             deathExportFormatCombo.Name = "deathExportFormatCombo";
-            deathExportFormatCombo.Size = new Size(214, 23);
+            deathExportFormatCombo.Size = new Size(244, 28);
             deathExportFormatCombo.TabIndex = 6;
             // 
             // deathEntriesTB
             // 
             deathEntriesTB.BackColor = SystemColors.ControlDark;
-            deathEntriesTB.Location = new Point(184, 120);
-            deathEntriesTB.Margin = new Padding(3, 2, 3, 2);
+            deathEntriesTB.Location = new Point(210, 160);
             deathEntriesTB.Name = "deathEntriesTB";
             deathEntriesTB.ReadOnly = true;
-            deathEntriesTB.Size = new Size(214, 23);
+            deathEntriesTB.Size = new Size(244, 27);
             deathEntriesTB.TabIndex = 9;
             deathEntriesTB.TextAlign = HorizontalAlignment.Right;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(10, 122);
+            label6.Location = new Point(11, 163);
             label6.Name = "label6";
-            label6.Size = new Size(82, 15);
+            label6.Size = new Size(101, 20);
             label6.TabIndex = 7;
             label6.Text = "Found Entries:";
             // 
@@ -153,11 +147,9 @@
             groupBox2.Controls.Add(filterDeathDateCombo);
             groupBox2.Controls.Add(filterDeathLocationCombo);
             groupBox2.Controls.Add(label2);
-            groupBox2.Location = new Point(5, 20);
-            groupBox2.Margin = new Padding(3, 2, 3, 2);
+            groupBox2.Location = new Point(6, 27);
             groupBox2.Name = "groupBox2";
-            groupBox2.Padding = new Padding(3, 2, 3, 2);
-            groupBox2.Size = new Size(399, 96);
+            groupBox2.Size = new Size(456, 128);
             groupBox2.TabIndex = 6;
             groupBox2.TabStop = false;
             groupBox2.Text = "Filter";
@@ -165,18 +157,18 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(5, 17);
+            label1.Location = new Point(6, 23);
             label1.Name = "label1";
-            label1.Size = new Size(38, 15);
+            label1.Size = new Size(48, 20);
             label1.TabIndex = 1;
             label1.Text = "Game";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(5, 68);
+            label3.Location = new Point(6, 91);
             label3.Name = "label3";
-            label3.Size = new Size(31, 15);
+            label3.Size = new Size(41, 20);
             label3.TabIndex = 5;
             label3.Text = "Date";
             // 
@@ -186,10 +178,9 @@
             filterDeathDateCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             filterDeathDateCombo.FlatStyle = FlatStyle.Flat;
             filterDeathDateCombo.FormattingEnabled = true;
-            filterDeathDateCombo.Location = new Point(178, 66);
-            filterDeathDateCombo.Margin = new Padding(3, 2, 3, 2);
+            filterDeathDateCombo.Location = new Point(203, 88);
             filterDeathDateCombo.Name = "filterDeathDateCombo";
-            filterDeathDateCombo.Size = new Size(214, 23);
+            filterDeathDateCombo.Size = new Size(244, 28);
             filterDeathDateCombo.TabIndex = 4;
             filterDeathDateCombo.SelectedIndexChanged += filterDeathDateCombo_SelectedIndexChanged;
             // 
@@ -199,19 +190,18 @@
             filterDeathLocationCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             filterDeathLocationCombo.FlatStyle = FlatStyle.Flat;
             filterDeathLocationCombo.FormattingEnabled = true;
-            filterDeathLocationCombo.Location = new Point(178, 40);
-            filterDeathLocationCombo.Margin = new Padding(3, 2, 3, 2);
+            filterDeathLocationCombo.Location = new Point(203, 53);
             filterDeathLocationCombo.Name = "filterDeathLocationCombo";
-            filterDeathLocationCombo.Size = new Size(214, 23);
+            filterDeathLocationCombo.Size = new Size(244, 28);
             filterDeathLocationCombo.TabIndex = 2;
             filterDeathLocationCombo.SelectedIndexChanged += filterDeathLocationCombo_SelectedIndexChanged;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(5, 43);
+            label2.Location = new Point(6, 57);
             label2.Name = "label2";
-            label2.Size = new Size(53, 15);
+            label2.Size = new Size(66, 20);
             label2.TabIndex = 3;
             label2.Text = "Location";
             // 
@@ -223,23 +213,40 @@
             groupBox3.Controls.Add(MarkerEntriesTB);
             groupBox3.Controls.Add(label7);
             groupBox3.Controls.Add(groupBox4);
-            groupBox3.Location = new Point(426, 9);
-            groupBox3.Margin = new Padding(3, 2, 3, 2);
+            groupBox3.Location = new Point(487, 12);
             groupBox3.Name = "groupBox3";
-            groupBox3.Padding = new Padding(3, 2, 3, 2);
-            groupBox3.Size = new Size(410, 202);
+            groupBox3.Size = new Size(469, 269);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "Export Marker";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(11, 197);
+            label10.Name = "label10";
+            label10.Size = new Size(103, 20);
+            label10.TabIndex = 14;
+            label10.Text = "Export Format";
+            // 
+            // markerExportFormatCombo
+            // 
+            markerExportFormatCombo.BackColor = SystemColors.ControlDark;
+            markerExportFormatCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            markerExportFormatCombo.FlatStyle = FlatStyle.Flat;
+            markerExportFormatCombo.FormattingEnabled = true;
+            markerExportFormatCombo.Location = new Point(209, 193);
+            markerExportFormatCombo.Name = "markerExportFormatCombo";
+            markerExportFormatCombo.Size = new Size(244, 28);
+            markerExportFormatCombo.TabIndex = 13;
             // 
             // markerExportBtn
             // 
             markerExportBtn.BackColor = SystemColors.ControlDark;
             markerExportBtn.FlatStyle = FlatStyle.Flat;
-            markerExportBtn.Location = new Point(315, 170);
-            markerExportBtn.Margin = new Padding(3, 2, 3, 2);
+            markerExportBtn.Location = new Point(360, 227);
             markerExportBtn.Name = "markerExportBtn";
-            markerExportBtn.Size = new Size(82, 22);
+            markerExportBtn.Size = new Size(94, 29);
             markerExportBtn.TabIndex = 12;
             markerExportBtn.Text = "Export";
             markerExportBtn.UseVisualStyleBackColor = false;
@@ -248,20 +255,19 @@
             // MarkerEntriesTB
             // 
             MarkerEntriesTB.BackColor = SystemColors.ControlDark;
-            MarkerEntriesTB.Location = new Point(184, 120);
-            MarkerEntriesTB.Margin = new Padding(3, 2, 3, 2);
+            MarkerEntriesTB.Location = new Point(210, 160);
             MarkerEntriesTB.Name = "MarkerEntriesTB";
             MarkerEntriesTB.ReadOnly = true;
-            MarkerEntriesTB.Size = new Size(214, 23);
+            MarkerEntriesTB.Size = new Size(244, 27);
             MarkerEntriesTB.TabIndex = 10;
             MarkerEntriesTB.TextAlign = HorizontalAlignment.Right;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(10, 122);
+            label7.Location = new Point(11, 163);
             label7.Name = "label7";
-            label7.Size = new Size(82, 15);
+            label7.Size = new Size(101, 20);
             label7.TabIndex = 8;
             label7.Text = "Found Entries:";
             // 
@@ -273,11 +279,9 @@
             groupBox4.Controls.Add(label5);
             groupBox4.Controls.Add(filterMarkerGameCombo);
             groupBox4.Controls.Add(filterMarkerDateCombo);
-            groupBox4.Location = new Point(5, 20);
-            groupBox4.Margin = new Padding(3, 2, 3, 2);
+            groupBox4.Location = new Point(6, 27);
             groupBox4.Name = "groupBox4";
-            groupBox4.Padding = new Padding(3, 2, 3, 2);
-            groupBox4.Size = new Size(399, 96);
+            groupBox4.Size = new Size(456, 128);
             groupBox4.TabIndex = 6;
             groupBox4.TabStop = false;
             groupBox4.Text = "Filter";
@@ -285,9 +289,9 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(5, 68);
+            label9.Location = new Point(6, 91);
             label9.Name = "label9";
-            label9.Size = new Size(103, 15);
+            label9.Size = new Size(130, 20);
             label9.TabIndex = 7;
             label9.Text = "Recording Session";
             // 
@@ -297,28 +301,27 @@
             filterMarkerSessionCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             filterMarkerSessionCombo.FlatStyle = FlatStyle.Flat;
             filterMarkerSessionCombo.FormattingEnabled = true;
-            filterMarkerSessionCombo.Location = new Point(178, 66);
-            filterMarkerSessionCombo.Margin = new Padding(3, 2, 3, 2);
+            filterMarkerSessionCombo.Location = new Point(203, 88);
             filterMarkerSessionCombo.Name = "filterMarkerSessionCombo";
-            filterMarkerSessionCombo.Size = new Size(214, 23);
+            filterMarkerSessionCombo.Size = new Size(244, 28);
             filterMarkerSessionCombo.TabIndex = 6;
             filterMarkerSessionCombo.SelectedIndexChanged += filterMarkerSessionCombo_SelectedIndexChanged;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(5, 17);
+            label4.Location = new Point(6, 23);
             label4.Name = "label4";
-            label4.Size = new Size(38, 15);
+            label4.Size = new Size(48, 20);
             label4.TabIndex = 1;
             label4.Text = "Game";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(5, 43);
+            label5.Location = new Point(6, 57);
             label5.Name = "label5";
-            label5.Size = new Size(31, 15);
+            label5.Size = new Size(41, 20);
             label5.TabIndex = 5;
             label5.Text = "Date";
             // 
@@ -328,10 +331,9 @@
             filterMarkerGameCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             filterMarkerGameCombo.FlatStyle = FlatStyle.Flat;
             filterMarkerGameCombo.FormattingEnabled = true;
-            filterMarkerGameCombo.Location = new Point(178, 15);
-            filterMarkerGameCombo.Margin = new Padding(3, 2, 3, 2);
+            filterMarkerGameCombo.Location = new Point(203, 20);
             filterMarkerGameCombo.Name = "filterMarkerGameCombo";
-            filterMarkerGameCombo.Size = new Size(214, 23);
+            filterMarkerGameCombo.Size = new Size(244, 28);
             filterMarkerGameCombo.TabIndex = 0;
             filterMarkerGameCombo.SelectedIndexChanged += filterMarkerGameCombo_SelectedIndexChanged;
             // 
@@ -341,46 +343,23 @@
             filterMarkerDateCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             filterMarkerDateCombo.FlatStyle = FlatStyle.Flat;
             filterMarkerDateCombo.FormattingEnabled = true;
-            filterMarkerDateCombo.Location = new Point(178, 40);
-            filterMarkerDateCombo.Margin = new Padding(3, 2, 3, 2);
+            filterMarkerDateCombo.Location = new Point(203, 53);
             filterMarkerDateCombo.Name = "filterMarkerDateCombo";
-            filterMarkerDateCombo.Size = new Size(214, 23);
+            filterMarkerDateCombo.Size = new Size(244, 28);
             filterMarkerDateCombo.TabIndex = 4;
             filterMarkerDateCombo.SelectedIndexChanged += filterMarkerDateCombo_SelectedIndexChanged;
             // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new Point(10, 148);
-            label10.Name = "label10";
-            label10.Size = new Size(82, 15);
-            label10.TabIndex = 14;
-            label10.Text = "Export Format";
-            // 
-            // markerExportFormatCombo
-            // 
-            markerExportFormatCombo.BackColor = SystemColors.ControlDark;
-            markerExportFormatCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-            markerExportFormatCombo.FlatStyle = FlatStyle.Flat;
-            markerExportFormatCombo.FormattingEnabled = true;
-            markerExportFormatCombo.Location = new Point(183, 145);
-            markerExportFormatCombo.Margin = new Padding(3, 2, 3, 2);
-            markerExportFormatCombo.Name = "markerExportFormatCombo";
-            markerExportFormatCombo.Size = new Size(214, 23);
-            markerExportFormatCombo.TabIndex = 13;
-            // 
             // ExportForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
-            ClientSize = new Size(848, 217);
+            ClientSize = new Size(969, 289);
             Controls.Add(groupBox3);
             Controls.Add(groupBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(3, 2, 3, 2);
             Name = "ExportForm";
-            Text = "Export - DeathHotkey";
+            Text = "FallenTally - Export";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);

@@ -113,7 +113,7 @@
             Controls.Add(label1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddGameForm";
-            Text = "DeathHotkey- Add Game";
+            Text = "FallenTally - Add Game";
             ResumeLayout(false);
             PerformLayout();
         }
