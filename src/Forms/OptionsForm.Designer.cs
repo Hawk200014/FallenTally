@@ -70,6 +70,10 @@
             finishLocationCombo = new ComboBox();
             label14 = new Label();
             exportBtn = new Button();
+            recordingStartCombo = new ComboBox();
+            label15 = new Label();
+            markerNormalCombo = new ComboBox();
+            label16 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fontSizeNumeric).BeginInit();
             ((System.ComponentModel.ISupportInitialize)borderSizeNumeric).BeginInit();
@@ -81,7 +85,7 @@
             // increaseHotkeyLbl
             // 
             increaseHotkeyLbl.AutoSize = true;
-            increaseHotkeyLbl.Location = new Point(6, 34);
+            increaseHotkeyLbl.Location = new Point(6, 20);
             increaseHotkeyLbl.Name = "increaseHotkeyLbl";
             increaseHotkeyLbl.Size = new Size(114, 20);
             increaseHotkeyLbl.TabIndex = 1;
@@ -90,7 +94,7 @@
             // decreaseHotkeyLbl
             // 
             decreaseHotkeyLbl.AutoSize = true;
-            decreaseHotkeyLbl.Location = new Point(6, 68);
+            decreaseHotkeyLbl.Location = new Point(6, 54);
             decreaseHotkeyLbl.Name = "decreaseHotkeyLbl";
             decreaseHotkeyLbl.Size = new Size(121, 20);
             decreaseHotkeyLbl.TabIndex = 2;
@@ -102,7 +106,7 @@
             increaseCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             increaseCombo.FlatStyle = FlatStyle.Flat;
             increaseCombo.FormattingEnabled = true;
-            increaseCombo.Location = new Point(241, 31);
+            increaseCombo.Location = new Point(241, 17);
             increaseCombo.Name = "increaseCombo";
             increaseCombo.Size = new Size(229, 28);
             increaseCombo.TabIndex = 3;
@@ -113,7 +117,7 @@
             decreaseCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             decreaseCombo.FlatStyle = FlatStyle.Flat;
             decreaseCombo.FormattingEnabled = true;
-            decreaseCombo.Location = new Point(241, 65);
+            decreaseCombo.Location = new Point(241, 51);
             decreaseCombo.Name = "decreaseCombo";
             decreaseCombo.Size = new Size(229, 28);
             decreaseCombo.TabIndex = 4;
@@ -144,7 +148,7 @@
             switchLocationCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             switchLocationCombo.FlatStyle = FlatStyle.Flat;
             switchLocationCombo.FormattingEnabled = true;
-            switchLocationCombo.Location = new Point(241, 99);
+            switchLocationCombo.Location = new Point(241, 85);
             switchLocationCombo.Name = "switchLocationCombo";
             switchLocationCombo.Size = new Size(229, 28);
             switchLocationCombo.TabIndex = 8;
@@ -152,7 +156,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(6, 102);
+            label1.Location = new Point(6, 88);
             label1.Name = "label1";
             label1.Size = new Size(113, 20);
             label1.TabIndex = 7;
@@ -164,7 +168,7 @@
             quickAddLocationCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             quickAddLocationCombo.FlatStyle = FlatStyle.Flat;
             quickAddLocationCombo.FormattingEnabled = true;
-            quickAddLocationCombo.Location = new Point(241, 133);
+            quickAddLocationCombo.Location = new Point(241, 119);
             quickAddLocationCombo.Name = "quickAddLocationCombo";
             quickAddLocationCombo.Size = new Size(229, 28);
             quickAddLocationCombo.TabIndex = 10;
@@ -172,7 +176,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(6, 136);
+            label2.Location = new Point(6, 122);
             label2.Name = "label2";
             label2.Size = new Size(108, 20);
             label2.TabIndex = 9;
@@ -472,6 +476,10 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(markerNormalCombo);
+            groupBox3.Controls.Add(label16);
+            groupBox3.Controls.Add(recordingStartCombo);
+            groupBox3.Controls.Add(label15);
             groupBox3.Controls.Add(finishLocationCombo);
             groupBox3.Controls.Add(label14);
             groupBox3.Controls.Add(increaseHotkeyLbl);
@@ -495,7 +503,7 @@
             finishLocationCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             finishLocationCombo.FlatStyle = FlatStyle.Flat;
             finishLocationCombo.FormattingEnabled = true;
-            finishLocationCombo.Location = new Point(241, 167);
+            finishLocationCombo.Location = new Point(241, 153);
             finishLocationCombo.Name = "finishLocationCombo";
             finishLocationCombo.Size = new Size(229, 28);
             finishLocationCombo.TabIndex = 12;
@@ -503,7 +511,7 @@
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(6, 170);
+            label14.Location = new Point(6, 156);
             label14.Name = "label14";
             label14.Size = new Size(107, 20);
             label14.TabIndex = 11;
@@ -521,6 +529,46 @@
             exportBtn.Text = "Export Data";
             exportBtn.UseVisualStyleBackColor = false;
             exportBtn.Click += exportBtn_Click;
+            // 
+            // recordingStartCombo
+            // 
+            recordingStartCombo.BackColor = SystemColors.ControlDark;
+            recordingStartCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            recordingStartCombo.FlatStyle = FlatStyle.Flat;
+            recordingStartCombo.FormattingEnabled = true;
+            recordingStartCombo.Location = new Point(241, 187);
+            recordingStartCombo.Name = "recordingStartCombo";
+            recordingStartCombo.Size = new Size(229, 28);
+            recordingStartCombo.TabIndex = 14;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(6, 190);
+            label15.Name = "label15";
+            label15.Size = new Size(191, 20);
+            label15.TabIndex = 13;
+            label15.Text = "Start/Stop Recording Timer";
+            // 
+            // markerNormalCombo
+            // 
+            markerNormalCombo.BackColor = SystemColors.ControlDark;
+            markerNormalCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            markerNormalCombo.FlatStyle = FlatStyle.Flat;
+            markerNormalCombo.FormattingEnabled = true;
+            markerNormalCombo.Location = new Point(241, 221);
+            markerNormalCombo.Name = "markerNormalCombo";
+            markerNormalCombo.Size = new Size(229, 28);
+            markerNormalCombo.TabIndex = 16;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(6, 224);
+            label16.Name = "label16";
+            label16.Size = new Size(141, 20);
+            label16.TabIndex = 15;
+            label16.Text = "Add Normal Marker";
             // 
             // OptionsForm
             // 
@@ -594,5 +642,9 @@
         private ComboBox finishLocationCombo;
         private Label label14;
         private Button exportBtn;
+        private ComboBox recordingStartCombo;
+        private Label label15;
+        private ComboBox markerNormalCombo;
+        private Label label16;
     }
 }

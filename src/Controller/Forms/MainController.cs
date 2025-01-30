@@ -11,6 +11,8 @@ namespace DeathCounterHotkey.Controller.Forms
 {
     public class MainController
     {
+
+        private bool _isRecording = false;
         private GameController _gameController;
         private LocationController _locationcontroller;
         private DeathController _deathController;
@@ -19,13 +21,18 @@ namespace DeathCounterHotkey.Controller.Forms
         private TwitchTokenController _twitchTokenController;
         private HotkeyController _hotkeyController;
         private MainForm? _mainForm;
-        private StreamTimeController _streamTimeController;
+        private TimerController _streamTimeController;
+        private TimerController _recordTimeController;
         private TextController _textController;
         private ExportController _exportController;
+        private MarkerController _markerController;
+        private RecordingController _recordingController;
+        private bool _isStreaming;
 
         public MainController(GameController gameController, LocationController locationController,
             DeathController deathController, EditController editController, OptionsController optionsController, 
-            StreamTimeController streamTimeController, TwitchTokenController tokenController, TextController textController, ExportController exportController) 
+            TimerController streamTimerController, TwitchTokenController tokenController, TextController textController, 
+            ExportController exportController, MarkerController markerController, TimerController recordTimerController, RecordingController recordingController) 
         {
             this._gameController = gameController;
             this._locationcontroller = locationController;
@@ -33,13 +40,46 @@ namespace DeathCounterHotkey.Controller.Forms
             this._editController = editController;
             this._optionsController = optionsController;
             this._twitchTokenController = tokenController;
-            this._streamTimeController = streamTimeController;
+            this._streamTimeController = streamTimerController;
             this._textController = textController;
             this._exportController = exportController;
+            this._markerController = markerController;
+            this._recordTimeController = recordTimerController;
+            this._recordingController = recordingController;
 
-            this._hotkeyController = new HotkeyController(this._optionsController, this, IncreaseHotkeyPressed, DecreaseHotkeyPressed, SwitchHotkeyPressed, QuickHotkeyPressed, FinishHotkeyPressed);
+            this._hotkeyController = new HotkeyController(this._optionsController, this, 
+                IncreaseHotkeyPressed, DecreaseHotkeyPressed, SwitchHotkeyPressed, 
+                QuickHotkeyPressed, FinishHotkeyPressed, StartRecordingHotkeyPressed, MarkerNormalHotkeyPressed);
             _hotkeyController.LoadHotkeys();
 
+        }
+
+        public void SetStreaming(bool isStreaming)
+        {
+            _isStreaming = isStreaming;
+        }
+
+
+        private void StartRecordingHotkeyPressed()
+        {
+            if (_isRecording)
+            {
+                _mainForm?.StopRecordTimer();
+                _isRecording = false;
+                return;
+            }
+            _isRecording = true;
+            _recordingController.AddRecording(RecordingController.RecordingType.recording);
+            _mainForm?.StartRecordingTimer();
+        }
+
+        private void MarkerNormalHotkeyPressed()
+        {
+            if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
+            {
+                _markerController.SetMark(MarkerController.MARKER.NORMAL, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
+                _mainForm?.UpdateMarkers();
+            }
         }
 
         public ExportController GetExportController()
@@ -181,7 +221,7 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             if (_gameController.GetActiveGame() == null) return;
             if (_locationcontroller.GetActiveLocation() == null) return;
-            _deathController.AddDeath(_locationcontroller.GetActiveLocation()!.LocationId);
+            _deathController.AddDeath(_locationcontroller.GetActiveLocation()!.LocationId, _streamTimeController, _recordTimeController);
         }
 
         internal void RemoveGame( )
@@ -230,14 +270,39 @@ namespace DeathCounterHotkey.Controller.Forms
             this._mainForm = mainForm;
         }
 
-        internal StreamTimeController GetStreamTimeController()
+        internal TimerController GetStreamTimeController()
         {
             return _streamTimeController;
+        }
+
+        internal TimerController GetRecordTimeController()
+        {
+            return _recordTimeController;
         }
 
         internal TextController GetTextController()
         {
             return _textController;
+        }
+
+        internal void SetRecordTimeController(TimerController recordTimerController)
+        {
+            this._recordTimeController = recordTimerController;
+        }
+
+        internal void SetStreamTimeController(TimerController controller)
+        {
+            this._streamTimeController = controller;
+        }
+
+        internal MarkerController GetMarkerController()
+        {
+            return _markerController;
+        }
+
+        internal RecordingController GetRecordingController()
+        {
+            return _recordingController;
         }
     }
 }
