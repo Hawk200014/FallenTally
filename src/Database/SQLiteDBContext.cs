@@ -14,7 +14,6 @@ namespace DeathCounterHotkey.Database
     {
         public SQLiteDBContext() 
         {
-            //Database.EnsureDeleted();
             //Database.EnsureCreated();
             Database.Migrate();
         }
@@ -22,6 +21,8 @@ namespace DeathCounterHotkey.Database
         public DbSet<GameStatsModel> GameStats { get; set; }
         public DbSet<DeathModel> Deaths { get; set; }
         public DbSet<DeathLocationModel> Locations { get; set; }
+        public DbSet<MarkerModel> Markers { get; set; }
+        public DbSet<RecordingModel> Recordings { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -44,6 +45,10 @@ namespace DeathCounterHotkey.Database
                 .HasKey(x => x.DeathId);
             modelBuilder.Entity<DeathLocationModel>()
                 .HasKey(x => x.LocationId);
+            modelBuilder.Entity<MarkerModel>()
+                .HasKey(x => x.MarkerId);
+            modelBuilder.Entity<RecordingModel>()
+                .HasKey(x => x.RecordingId);
         }
 
         public void TryMigrate()

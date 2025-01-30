@@ -43,6 +43,10 @@ namespace DeathCounterHotkey
             quickAddLocationCombo.SelectedIndex = index;
             index = finishLocationCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.FINISH_LOCATION_HOTKEY)));
             finishLocationCombo.SelectedIndex = index;
+            index = recordingStartCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.START_RECORDING_TIMER)));
+            recordingStartCombo.SelectedIndex = index;
+            index = markerNormalCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.MARKER_NORMAL_HOTKEY)));
+            markerNormalCombo.SelectedIndex = index;
             twitchNameTb.Text = _controller.GetSetting(nameof(OptionsController.OPTIONS.TWITCH_NAME));
             index = worldAsAllDeathsCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL))) == -1 ? 0 : worldAsAllDeathsCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL)));
             worldAsAllDeathsCombo.SelectedIndex = index;
@@ -99,6 +103,13 @@ namespace DeathCounterHotkey
             this.switchLocationCombo.Items.AddRange(GetKeys());
             this.quickAddLocationCombo.Items.Clear();
             this.quickAddLocationCombo.Items.AddRange(GetKeys());
+            this.recordingStartCombo.Items.Clear();
+            this.recordingStartCombo.Items.Add("F11");
+            this.recordingStartCombo.Items.AddRange(GetKeys());
+            this.markerNormalCombo.Items.Clear();
+            this.markerNormalCombo.Items.Add("F10");
+            this.markerNormalCombo.Items.AddRange(GetKeys());
+
             this.worldAsAllDeathsCombo.Items.Clear();
             this.worldAsAllDeathsCombo.Items.AddRange(GetYesNo());
             this.worldAsAllDeathsCombo.SelectedIndex = 1;
@@ -237,6 +248,16 @@ namespace DeathCounterHotkey
             if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.FINISH_LOCATION_HOTKEY), finishLocationCombo.Text))
             {
                 SetErrMsg("Finish location can't be set");
+                return;
+            }
+            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.START_RECORDING_TIMER), recordingStartCombo.Text))
+            {
+                SetErrMsg("Recording can't be set");
+                return;
+            }
+            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.MARKER_NORMAL_HOTKEY), markerNormalCombo.Text))
+            {
+                SetErrMsg("Marker normal can't be set");
                 return;
             }
             _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.TWITCH_NAME), twitchNameTb.Text);

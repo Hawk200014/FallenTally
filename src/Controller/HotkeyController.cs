@@ -17,6 +17,8 @@ namespace DeathCounterHotkey.Controller
         private Action _switchAction;
         private Action _quickAction;
         private Action _finishAction;
+        private Action _recordingStartAction;
+        private Action _markerNormalAction;
         private KeyboardHook _hotkeysHook;
         EventHandler<KeyPressedEventArgs> keyPressedEventHandler;
         private string _increaseHKStr = "";
@@ -24,13 +26,17 @@ namespace DeathCounterHotkey.Controller
         private string _switchHKStr = "";
         private string _quickAddHKStr = "";
         private string _finishHKStr = "";
+        private string _recordingStartHKStr = "";
+        private string _markerNormalHKStr = "";
 
         public HotkeyController(OptionsController optionsController, MainController mainController,
             Action increaseAction,
             Action decreaseAction,
             Action switchAction,
             Action quickAction,
-            Action finishAction)
+            Action finishAction, 
+            Action recordingAction, 
+            Action markerNormal)
         {
             this._optionsController = optionsController;
             this._mainController = mainController;
@@ -39,6 +45,9 @@ namespace DeathCounterHotkey.Controller
             this._switchAction = switchAction;
             this._quickAction = quickAction;
             this._finishAction = finishAction;
+            this._recordingStartAction = recordingAction;
+            this._markerNormalAction = markerNormal;
+
 
             keyPressedEventHandler = new EventHandler<KeyPressedEventArgs>(HotkeyPressedEvent);
             _hotkeysHook = new KeyboardHook();
@@ -55,6 +64,8 @@ namespace DeathCounterHotkey.Controller
             _switchHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.SWITCH_LOCATION_HOTKEY));
             _quickAddHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.QUICKADD_LOCATION_HOTKEY));
             _finishHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FINISH_LOCATION_HOTKEY));
+            _recordingStartHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.START_RECORDING_TIMER));
+            _markerNormalHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.MARKER_NORMAL_HOTKEY));
         }
 
         public void LoadHotkeys()
@@ -88,6 +99,18 @@ namespace DeathCounterHotkey.Controller
                 Enum.TryParse(_finishHKStr, out Keys hotkey);
                 _hotkeysHook.RegisterHotKey(hotkey);
             }
+
+            if (!string.IsNullOrEmpty(_recordingStartHKStr))
+            {
+                Enum.TryParse(_recordingStartHKStr, out Keys hotkey);
+                _hotkeysHook.RegisterHotKey(hotkey);
+            }
+
+            if (!string.IsNullOrEmpty(_markerNormalHKStr))
+            {
+                Enum.TryParse(_markerNormalHKStr, out Keys hotkey);
+                _hotkeysHook.RegisterHotKey(hotkey);
+            }
         }
 
         private void HotkeyPressedEvent(object? sender, KeyPressedEventArgs e)
@@ -113,6 +136,14 @@ namespace DeathCounterHotkey.Controller
             else if (_finishHKStr.Equals(keyname))
             {
                 _finishAction.Invoke();
+            }
+            else if (_recordingStartHKStr.Equals(keyname))
+            {
+                _recordingStartAction.Invoke();
+            }
+            else if (_markerNormalHKStr.Equals(keyname))
+            {
+                _markerNormalAction.Invoke();
             }
         }
 

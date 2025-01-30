@@ -3,6 +3,7 @@ using System;
 using DeathCounterHotkey.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeathCounterHotkey.Migrations
 {
     [DbContext(typeof(SQLiteDBContext))]
-    partial class SQLiteDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250103134228_AddMarkersAndRecording")]
+    partial class AddMarkersAndRecording
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -89,13 +92,7 @@ namespace DeathCounterHotkey.Migrations
                     b.Property<int>("GameId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("RecordingSession")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("RecordingTime")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("StreamSession")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("StreamTime")
@@ -111,27 +108,6 @@ namespace DeathCounterHotkey.Migrations
                     b.HasKey("MarkerId");
 
                     b.ToTable("Markers");
-                });
-
-            modelBuilder.Entity("DeathCounterHotkey.Database.Models.RecordingModel", b =>
-                {
-                    b.Property<int>("RecordingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SessionCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateOnly>("SessionDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("RecordingId");
-
-                    b.ToTable("Recordings");
                 });
 
             modelBuilder.Entity("DeathCounterHotkey.Database.Models.SettingsModel", b =>

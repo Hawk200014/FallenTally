@@ -6,6 +6,7 @@ using DeathCounterHotkey.Resources;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Web;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace DeathCounterHotkey;
 
@@ -62,10 +63,18 @@ public partial class MainForm : Form
 
     private void removeGameBtn_Click(object sender, EventArgs e)
     {
-        this._mainController.RemoveGame();
-        UpdateGameList();
-        UpdateLocationList();
-        UpdateDeaths();
+        string message = "Are you sure you want to delete the game?";
+        string caption = "Delete Game";
+        MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+        DialogResult result = MessageBox.Show(message, caption, buttons, MessageBoxIcon.Warning);
+
+        if (result == DialogResult.Yes)
+        {
+            this._mainController.RemoveGame();
+            UpdateGameList();
+            UpdateLocationList();
+            UpdateDeaths();
+        }
     }
 
     private void editGameBtn_Click(object sender, EventArgs e)
@@ -143,13 +152,20 @@ public partial class MainForm : Form
 
     private void resetBtn_Click(object sender, EventArgs e)
     {
-        this._mainController.ResetDeahts();
-        UpdateDeaths();
+        string message = "Are you sure you want to reset / delete all deaths?";
+        string caption = "Delete Deaths";
+        MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+        DialogResult result = MessageBox.Show(message, caption, buttons, MessageBoxIcon.Warning);
+
+        if (result == DialogResult.Yes)
+        {
+            this._mainController.ResetDeahts();
+            UpdateDeaths();
+        }
     }
 
     private void optionsBtn_Click(object sender, EventArgs e)
     {
-
         new OptionsForm(this._mainController.GetOptionController(), this._mainController.OptionsChangedAction, this._mainController.GetExportController()).Show();
     }
 
@@ -199,10 +215,18 @@ public partial class MainForm : Form
 
     private void removeLocationbtn_Click(object sender, EventArgs e)
     {
-        if (!_mainController.RemoveLocation()) return;
-        UpdateLocationList();
-        SetLocation(GLOBALVARS.DEFAULT_LOCATION);
-        UpdateDeaths();
+        string message = "Are you sure you want to delete the location?";
+        string caption = "Delete Location";
+        MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+        DialogResult result = MessageBox.Show(message, caption, buttons, MessageBoxIcon.Warning);
+
+        if (result == DialogResult.Yes)
+        {
+            if (!_mainController.RemoveLocation()) return;
+            UpdateLocationList();
+            SetLocation(GLOBALVARS.DEFAULT_LOCATION);
+            UpdateDeaths();
+        }
     }
 
     private void locationCombo_SelectedIndexChanged(object sender, EventArgs e)
@@ -226,22 +250,28 @@ public partial class MainForm : Form
         }
         else
         {
-            this.streamTimeLbl.Text = "Streamtime: " + time;
+            this.streamTimeLbl.Text = "Stream Time: " + time;
+            
         }
     }
 
-    private double _streamtime = 0;
+
     private CancellationTokenSource? _cts;
 
-    private async Task BackgroundTimerRunner()
+    private async Task BackgroundTimerRunner(Action<string> updateAction, TimerController controller, CancellationTokenSource token)
     {
         var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
         while (await periodicTimer.WaitForNextTickAsync())
         {
-            UpdateStreamTime(_mainController.GetStreamTimeController().ConvertTimeToReadableTime(_streamtime));
-            _streamtime++;
-            if (_cts.IsCancellationRequested)
+
+            updateAction(TimerController.ConvertTimeToReadableTime(controller.GetTime()));
+            controller.AddTime(1);
+            //UpdateStreamTime(_mainController.GetStreamTimeController().ConvertTimeToReadableTime(_streamtime));
+
+            if (token.IsCancellationRequested)
             {
+                controller.SetTime(0);
+                updateAction(TimerController.ConvertTimeToReadableTime(controller.GetTime()));
                 // another thread decided to cancel
                 Console.WriteLine("task canceled");
                 break;
@@ -257,22 +287,23 @@ public partial class MainForm : Form
             _periodicTimer = null;
         }
 
-
-
         TwitchTokenController tokenController = _mainController.GetTwitchTokenController();
         double time = tokenController.GetStreamTime();
+        TimerController controller = new TimerController();
+        controller.SetTime((int)time);
+        
         if (time > 0)
         {
-            _streamtime = time;
-
+            _mainController.SetStreamTimeController(controller);
             if (_cts != null)
             {
                 _cts.Cancel();
             }
             _cts = new CancellationTokenSource();
+            _mainController.SetStreaming(true);
             Task.Run(() =>
             {
-                BackgroundTimerRunner();
+                BackgroundTimerRunner(UpdateStreamTime, _mainController.GetStreamTimeController(), _cts);
             }, _cts.Token);
 
 
@@ -284,7 +315,7 @@ public partial class MainForm : Form
             {
                 _cts.Cancel();
             }
-            
+
             MessageBox.Show("No Twitch name set!\nCan't retrieve streamtime", "DeathCounterHotkey", MessageBoxButtons.OK, MessageBoxIcon.Error);
             this.streamTimeLbl.Text = "Streamtime: 00:00:00";
         }
@@ -294,27 +325,63 @@ public partial class MainForm : Form
             {
                 _cts.Cancel();
             }
-            
+
             MessageBox.Show("No Twitch stream found!\nCan't retrieve streamtime", "DeathCounterHotkey", MessageBoxButtons.OK, MessageBoxIcon.Error);
             this.streamTimeLbl.Text = "Streamtime: 00:00:00";
         }
 
 
-
-
-
-
-
     }
+
+    public void UpdateRecordingTime(string time)
+    {
+        if (recordingTimeLbl.InvokeRequired)
+        {
+            recordingTimeLbl.Invoke(UpdateRecordingTime, time);
+        }
+        else
+        {
+            this.recordingTimeLbl.Text = "Recording Time: " + time;
+        }
+    }
+
+
+    private CancellationTokenSource? _ctsRecording;
+
+    public void StartRecordingTimer()
+    {
+
+        if (_ctsRecording != null)
+        {
+            _ctsRecording.Cancel();
+        }
+        _ctsRecording = new CancellationTokenSource();
+        Task.Run(() =>
+        {
+            BackgroundTimerRunner(UpdateRecordingTime, _mainController.GetRecordTimeController(), _ctsRecording);
+        }, _ctsRecording.Token);
+
+    
+    }
+
+    public void StopRecordTimer()
+    {
+        _ctsRecording?.Cancel();
+        TimerController recordTimerController = new TimerController();
+        recordingTimeLbl.Text = "Recording Time: " + TimerController.ConvertTimeToReadableTime(0);
+
+        _mainController.SetRecordTimeController(recordTimerController);
+    }
+
 
     private void LocationCombo_DrawItem(object sender, DrawItemEventArgs e)
     {
         // Draw the background 
-        
+
 
         e.DrawBackground();
 
-        if(e.Index < 0) return;
+        if (e.Index < 0) return;
         // Get the item text    
         string text = ((ComboBox)sender).Items[e.Index].ToString();
 
@@ -332,7 +399,7 @@ public partial class MainForm : Form
 
         // Draw the text
         //e.DrawBackground(brush);
-        
+
         //e.DrawFocusRectangle();
 
 
@@ -349,4 +416,9 @@ public partial class MainForm : Form
 
     }
 
+    internal void UpdateMarkers()
+    {
+        string[] markers = _mainController.GetMarkerController().GetLatestMarkers();
+        markerRTB.Lines = markers;
+    }
 }
