@@ -93,7 +93,7 @@
             Controls.Add(editTextBox);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "EditForm";
-            Text = "DeathHotkey - Edit";
+            Text = "FallenTally - Edit";
             ResumeLayout(false);
             PerformLayout();
         }

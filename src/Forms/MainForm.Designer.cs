@@ -405,7 +405,7 @@ partial class MainForm
         Icon = (Icon)resources.GetObject("$this.Icon");
         MaximizeBox = false;
         Name = "MainForm";
-        Text = "DeathHotkey";
+        Text = "FallenTally";
         FormClosing += MainForm_FormClosing;
         panel1.ResumeLayout(false);
         panel4.ResumeLayout(false);
