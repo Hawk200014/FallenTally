@@ -18,7 +18,8 @@ namespace DeathCounterHotkey.Controller
         {
             NORMAL,
             FUNNY,
-            GAME
+            GAME,
+            TALK
         }
 
         public MarkerController(SQLiteDBContext context , RecordingController recordingController) 

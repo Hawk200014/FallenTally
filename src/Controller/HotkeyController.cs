@@ -19,6 +19,9 @@ namespace DeathCounterHotkey.Controller
         private Action _finishAction;
         private Action _recordingStartAction;
         private Action _markerNormalAction;
+        private Action _markerFunnyAction;
+        private Action _markerGameAction;
+        private Action _markerTalkAction;
         private KeyboardHook _hotkeysHook;
         EventHandler<KeyPressedEventArgs> keyPressedEventHandler;
         private string _increaseHKStr = "";
@@ -28,6 +31,9 @@ namespace DeathCounterHotkey.Controller
         private string _finishHKStr = "";
         private string _recordingStartHKStr = "";
         private string _markerNormalHKStr = "";
+        private string _markerFunnyHKStr = "";
+        private string _markerGameHKStr = "";
+        private string _markerTalkHKStr = "";
 
         public HotkeyController(OptionsController optionsController, MainController mainController,
             Action increaseAction,
@@ -36,7 +42,11 @@ namespace DeathCounterHotkey.Controller
             Action quickAction,
             Action finishAction, 
             Action recordingAction, 
-            Action markerNormal)
+            Action markerNormal,
+            Action markerfunny,
+            Action markerGame,
+            Action markerTalk
+            )
         {
             this._optionsController = optionsController;
             this._mainController = mainController;
@@ -47,6 +57,9 @@ namespace DeathCounterHotkey.Controller
             this._finishAction = finishAction;
             this._recordingStartAction = recordingAction;
             this._markerNormalAction = markerNormal;
+            this._markerFunnyAction = markerfunny;
+            this._markerGameAction = markerGame;
+            this._markerTalkAction = markerTalk;
 
 
             keyPressedEventHandler = new EventHandler<KeyPressedEventArgs>(HotkeyPressedEvent);
@@ -66,6 +79,9 @@ namespace DeathCounterHotkey.Controller
             _finishHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FINISH_LOCATION_HOTKEY));
             _recordingStartHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.START_RECORDING_TIMER));
             _markerNormalHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.MARKER_NORMAL_HOTKEY));
+            _markerFunnyHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.MARKER_FUNNY_HOTKEY));
+            _markerGameHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.MARKER_GAMING_HOTKEY));
+            _markerTalkHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.MARKER_TALK_HOTKEY));
         }
 
         public void LoadHotkeys()
@@ -111,6 +127,24 @@ namespace DeathCounterHotkey.Controller
                 Enum.TryParse(_markerNormalHKStr, out Keys hotkey);
                 _hotkeysHook.RegisterHotKey(hotkey);
             }
+
+            if (!string.IsNullOrEmpty(_markerFunnyHKStr))
+            {
+                Enum.TryParse(_markerFunnyHKStr, out Keys hotkey);
+                _hotkeysHook.RegisterHotKey(hotkey);
+            }
+
+            if (!string.IsNullOrEmpty(_markerGameHKStr))
+            {
+                Enum.TryParse(_markerGameHKStr, out Keys hotkey);
+                _hotkeysHook.RegisterHotKey(hotkey);
+            }
+
+            if (!string.IsNullOrEmpty(_markerTalkHKStr))
+            {
+                Enum.TryParse(_markerTalkHKStr, out Keys hotkey);
+                _hotkeysHook.RegisterHotKey(hotkey);
+            }
         }
 
         private void HotkeyPressedEvent(object? sender, KeyPressedEventArgs e)
@@ -144,6 +178,18 @@ namespace DeathCounterHotkey.Controller
             else if (_markerNormalHKStr.Equals(keyname))
             {
                 _markerNormalAction.Invoke();
+            }
+            else if (_markerFunnyHKStr.Equals(keyname))
+            {
+                _markerFunnyAction.Invoke();
+            }
+            else if (_markerGameHKStr.Equals(keyname))
+            {
+                _markerGameAction.Invoke();
+            }
+            else if (_markerTalkHKStr.Equals(keyname))
+            {
+                _markerTalkAction.Invoke();
             }
         }
 

@@ -49,7 +49,8 @@ namespace DeathCounterHotkey.Controller.Forms
 
             this._hotkeyController = new HotkeyController(this._optionsController, this, 
                 IncreaseHotkeyPressed, DecreaseHotkeyPressed, SwitchHotkeyPressed, 
-                QuickHotkeyPressed, FinishHotkeyPressed, StartRecordingHotkeyPressed, MarkerNormalHotkeyPressed);
+                QuickHotkeyPressed, FinishHotkeyPressed, StartRecordingHotkeyPressed, MarkerNormalHotkeyPressed,
+                MarkerFunnyHotkeyPressed, MarkerGamingHotkeyPressed, MarkerTalkHotkeyPressed);
             _hotkeyController.LoadHotkeys();
 
         }
@@ -78,6 +79,33 @@ namespace DeathCounterHotkey.Controller.Forms
             if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
             {
                 _markerController.SetMark(MarkerController.MARKER.NORMAL, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
+                _mainForm?.UpdateMarkers();
+            }
+        }
+
+        private void MarkerFunnyHotkeyPressed()
+        {
+            if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
+            {
+                _markerController.SetMark(MarkerController.MARKER.FUNNY, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
+                _mainForm?.UpdateMarkers();
+            }
+        }
+
+        private void MarkerGamingHotkeyPressed()
+        {
+            if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
+            {
+                _markerController.SetMark(MarkerController.MARKER.GAME, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
+                _mainForm?.UpdateMarkers();
+            }
+        }
+
+        private void MarkerTalkHotkeyPressed()
+        {
+            if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
+            {
+                _markerController.SetMark(MarkerController.MARKER.TALK, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
                 _mainForm?.UpdateMarkers();
             }
         }

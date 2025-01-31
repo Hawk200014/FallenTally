@@ -47,6 +47,12 @@ namespace DeathCounterHotkey
             recordingStartCombo.SelectedIndex = index;
             index = markerNormalCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.MARKER_NORMAL_HOTKEY)));
             markerNormalCombo.SelectedIndex = index;
+            index = markerFunnyCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.MARKER_FUNNY_HOTKEY)));
+            markerFunnyCombo.SelectedIndex = index;
+            index = markerGamingCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.MARKER_GAMING_HOTKEY)));
+            markerGamingCombo.SelectedIndex = index;
+            index = markerTalkCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.MARKER_TALK_HOTKEY)));
+            markerTalkCombo.SelectedIndex = index;
             twitchNameTb.Text = _controller.GetSetting(nameof(OptionsController.OPTIONS.TWITCH_NAME));
             index = worldAsAllDeathsCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL))) == -1 ? 0 : worldAsAllDeathsCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL)));
             worldAsAllDeathsCombo.SelectedIndex = index;
@@ -104,11 +110,15 @@ namespace DeathCounterHotkey
             this.quickAddLocationCombo.Items.Clear();
             this.quickAddLocationCombo.Items.AddRange(GetKeys());
             this.recordingStartCombo.Items.Clear();
-            this.recordingStartCombo.Items.Add("F11");
             this.recordingStartCombo.Items.AddRange(GetKeys());
             this.markerNormalCombo.Items.Clear();
-            this.markerNormalCombo.Items.Add("F10");
             this.markerNormalCombo.Items.AddRange(GetKeys());
+            this.markerFunnyCombo.Items.Clear();
+            this.markerFunnyCombo.Items.AddRange(GetKeys());
+            this.markerGamingCombo.Items.Clear();
+            this.markerGamingCombo.Items.AddRange(GetKeys());
+            this.markerTalkCombo.Items.Clear();
+            this.markerTalkCombo.Items.AddRange(GetKeys());
 
             this.worldAsAllDeathsCombo.Items.Clear();
             this.worldAsAllDeathsCombo.Items.AddRange(GetYesNo());
@@ -260,6 +270,22 @@ namespace DeathCounterHotkey
                 SetErrMsg("Marker normal can't be set");
                 return;
             }
+            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.MARKER_FUNNY_HOTKEY), markerFunnyCombo.Text))
+            {
+                SetErrMsg("Marker funny can't be set");
+                return;
+            }
+            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.MARKER_GAMING_HOTKEY), markerGamingCombo.Text))
+            {
+                SetErrMsg("Marker gaming can't be set");
+                return;
+            }
+            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.MARKER_TALK_HOTKEY), markerTalkCombo.Text))
+            {
+                SetErrMsg("Marker talk can't be set");
+                return;
+            }
+
             _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.TWITCH_NAME), twitchNameTb.Text);
             _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL), worldAsAllDeathsCombo.Text);
             _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.FONTFAMILY), fontCombo.Text);

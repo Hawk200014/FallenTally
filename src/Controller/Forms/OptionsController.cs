@@ -73,7 +73,10 @@ namespace DeathCounterHotkey.Controller.Forms
             BORDERCOLOR,
             FINISH_LOCATION_HOTKEY,
             START_RECORDING_TIMER,
-            MARKER_NORMAL_HOTKEY
+            MARKER_NORMAL_HOTKEY,
+            MARKER_FUNNY_HOTKEY,
+            MARKER_GAMING_HOTKEY,
+            MARKER_TALK_HOTKEY
         }
 
         public string GetSetting(string key)
