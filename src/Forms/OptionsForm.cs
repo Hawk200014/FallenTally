@@ -1,17 +1,8 @@
 ﻿using DeathCounterHotkey.Controller.Forms;
 using DeathCounterHotkey.Forms;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Text;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Media;
 
 namespace DeathCounterHotkey
 {
@@ -53,6 +44,8 @@ namespace DeathCounterHotkey
             markerGamingCombo.SelectedIndex = index;
             index = markerTalkCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.MARKER_TALK_HOTKEY)));
             markerTalkCombo.SelectedIndex = index;
+            index = markerPauseCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.MARKER_PAUSE_HOTKEY)));
+            markerPauseCombo.SelectedIndex = index;
             twitchNameTb.Text = _controller.GetSetting(nameof(OptionsController.OPTIONS.TWITCH_NAME));
             index = worldAsAllDeathsCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL))) == -1 ? 0 : worldAsAllDeathsCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL)));
             worldAsAllDeathsCombo.SelectedIndex = index;
@@ -119,6 +112,8 @@ namespace DeathCounterHotkey
             this.markerGamingCombo.Items.AddRange(GetKeys());
             this.markerTalkCombo.Items.Clear();
             this.markerTalkCombo.Items.AddRange(GetKeys());
+            this.markerPauseCombo.Items.Clear();
+            this.markerPauseCombo.Items.AddRange(GetKeys());
 
             this.worldAsAllDeathsCombo.Items.Clear();
             this.worldAsAllDeathsCombo.Items.AddRange(GetYesNo());
@@ -134,8 +129,13 @@ namespace DeathCounterHotkey
             this.fontCombo.SelectedIndex = 0;
             SetLanguage();
             LoadOptions();
+
+
+
             this.ResumeLayout(false);
         }
+
+
 
         private string[] GetFontStyles()
         {
@@ -283,6 +283,11 @@ namespace DeathCounterHotkey
             if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.MARKER_TALK_HOTKEY), markerTalkCombo.Text))
             {
                 SetErrMsg("Marker talk can't be set");
+                return;
+            }
+            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.MARKER_PAUSE_HOTKEY), markerPauseCombo.Text))
+            {
+                SetErrMsg("Marker pause can't be set");
                 return;
             }
 

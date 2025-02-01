@@ -131,7 +131,7 @@ partial class MainForm
         syncTimerBtn.IconColor = Color.Black;
         syncTimerBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
         syncTimerBtn.IconSize = 30;
-        syncTimerBtn.Location = new Point(10, 21);
+        syncTimerBtn.Location = new Point(11, 21);
         syncTimerBtn.Name = "syncTimerBtn";
         syncTimerBtn.Size = new Size(50, 50);
         syncTimerBtn.TabIndex = 15;
@@ -181,9 +181,9 @@ partial class MainForm
         panel3.Controls.Add(recordingTimeLbl);
         panel3.Controls.Add(streamTimeLbl);
         panel3.Dock = DockStyle.Fill;
-        panel3.Location = new Point(70, 0);
+        panel3.Location = new Point(73, 0);
         panel3.Name = "panel3";
-        panel3.Size = new Size(789, 90);
+        panel3.Size = new Size(786, 90);
         panel3.TabIndex = 1;
         // 
         // recordingTimeLbl
@@ -192,7 +192,7 @@ partial class MainForm
         recordingTimeLbl.AutoSize = true;
         recordingTimeLbl.FlatStyle = FlatStyle.Flat;
         recordingTimeLbl.Font = new Font("Segoe UI", 12F);
-        recordingTimeLbl.Location = new Point(257, 49);
+        recordingTimeLbl.Location = new Point(256, 49);
         recordingTimeLbl.Name = "recordingTimeLbl";
         recordingTimeLbl.Size = new Size(231, 28);
         recordingTimeLbl.TabIndex = 1;
@@ -205,7 +205,7 @@ partial class MainForm
         streamTimeLbl.AutoSize = true;
         streamTimeLbl.FlatStyle = FlatStyle.Flat;
         streamTimeLbl.Font = new Font("Segoe UI", 17F);
-        streamTimeLbl.Location = new Point(225, 9);
+        streamTimeLbl.Location = new Point(224, 9);
         streamTimeLbl.Name = "streamTimeLbl";
         streamTimeLbl.Size = new Size(298, 40);
         streamTimeLbl.TabIndex = 0;
@@ -218,7 +218,7 @@ partial class MainForm
         panel2.Dock = DockStyle.Left;
         panel2.Location = new Point(0, 0);
         panel2.Name = "panel2";
-        panel2.Size = new Size(70, 90);
+        panel2.Size = new Size(73, 90);
         panel2.TabIndex = 0;
         // 
         // editGameBtn
