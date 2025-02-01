@@ -50,7 +50,7 @@ namespace DeathCounterHotkey.Controller.Forms
             this._hotkeyController = new HotkeyController(this._optionsController, this, 
                 IncreaseHotkeyPressed, DecreaseHotkeyPressed, SwitchHotkeyPressed, 
                 QuickHotkeyPressed, FinishHotkeyPressed, StartRecordingHotkeyPressed, MarkerNormalHotkeyPressed,
-                MarkerFunnyHotkeyPressed, MarkerGamingHotkeyPressed, MarkerTalkHotkeyPressed);
+                MarkerFunnyHotkeyPressed, MarkerGamingHotkeyPressed, MarkerTalkHotkeyPressed, MarkerPauseHotkeyPressed);
             _hotkeyController.LoadHotkeys();
 
         }
@@ -106,6 +106,15 @@ namespace DeathCounterHotkey.Controller.Forms
             if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
             {
                 _markerController.SetMark(MarkerController.MARKER.TALK, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
+                _mainForm?.UpdateMarkers();
+            }
+        }
+
+        private void MarkerPauseHotkeyPressed()
+        {
+            if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
+            {
+                _markerController.SetMark(MarkerController.MARKER.PAUSE, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
                 _mainForm?.UpdateMarkers();
             }
         }

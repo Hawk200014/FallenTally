@@ -67,6 +67,12 @@
             label6 = new Label();
             groupBox2 = new GroupBox();
             groupBox3 = new GroupBox();
+            markerTalkCombo = new ComboBox();
+            label19 = new Label();
+            markerGamingCombo = new ComboBox();
+            label18 = new Label();
+            markerFunnyCombo = new ComboBox();
+            label17 = new Label();
             markerNormalCombo = new ComboBox();
             label16 = new Label();
             recordingStartCombo = new ComboBox();
@@ -74,18 +80,22 @@
             finishLocationCombo = new ComboBox();
             label14 = new Label();
             exportBtn = new Button();
-            markerFunnyCombo = new ComboBox();
-            label17 = new Label();
-            markerGamingCombo = new ComboBox();
-            label18 = new Label();
-            markerTalkCombo = new ComboBox();
-            label19 = new Label();
+            tabControl1 = new TabControl();
+            generalPage = new TabPage();
+            hotkeyPage = new TabPage();
+            overlayPage = new TabPage();
+            markerPauseCombo = new ComboBox();
+            label20 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fontSizeNumeric).BeginInit();
             ((System.ComponentModel.ISupportInitialize)borderSizeNumeric).BeginInit();
             ((System.ComponentModel.ISupportInitialize)shadowSizeNumeric).BeginInit();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
+            tabControl1.SuspendLayout();
+            generalPage.SuspendLayout();
+            hotkeyPage.SuspendLayout();
+            overlayPage.SuspendLayout();
             SuspendLayout();
             // 
             // increaseHotkeyLbl
@@ -134,7 +144,7 @@
             languageCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             languageCombo.FlatStyle = FlatStyle.Flat;
             languageCombo.FormattingEnabled = true;
-            languageCombo.Location = new Point(241, 66);
+            languageCombo.Location = new Point(240, 51);
             languageCombo.Name = "languageCombo";
             languageCombo.Size = new Size(229, 28);
             languageCombo.TabIndex = 6;
@@ -142,7 +152,7 @@
             // languageLbl
             // 
             languageLbl.AutoSize = true;
-            languageLbl.Location = new Point(6, 69);
+            languageLbl.Location = new Point(5, 54);
             languageLbl.Name = "languageLbl";
             languageLbl.Size = new Size(74, 20);
             languageLbl.TabIndex = 5;
@@ -193,7 +203,7 @@
             saveBtn.BackColor = SystemColors.ControlDark;
             saveBtn.FlatAppearance.BorderSize = 0;
             saveBtn.FlatStyle = FlatStyle.Flat;
-            saveBtn.Location = new Point(773, 489);
+            saveBtn.Location = new Point(324, 456);
             saveBtn.Name = "saveBtn";
             saveBtn.Size = new Size(94, 29);
             saveBtn.TabIndex = 11;
@@ -206,7 +216,7 @@
             cancleBtn.BackColor = SystemColors.ControlDark;
             cancleBtn.FlatAppearance.BorderSize = 0;
             cancleBtn.FlatStyle = FlatStyle.Flat;
-            cancleBtn.Location = new Point(873, 489);
+            cancleBtn.Location = new Point(424, 456);
             cancleBtn.Name = "cancleBtn";
             cancleBtn.Size = new Size(94, 29);
             cancleBtn.TabIndex = 12;
@@ -218,7 +228,7 @@
             // 
             errLbl.AutoSize = true;
             errLbl.ForeColor = Color.Red;
-            errLbl.Location = new Point(503, 493);
+            errLbl.Location = new Point(12, 460);
             errLbl.Name = "errLbl";
             errLbl.Size = new Size(47, 20);
             errLbl.TabIndex = 13;
@@ -228,7 +238,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(6, 34);
+            label3.Location = new Point(5, 19);
             label3.Name = "label3";
             label3.Size = new Size(121, 20);
             label3.TabIndex = 14;
@@ -238,7 +248,7 @@
             // 
             twitchNameTb.BackColor = SystemColors.ControlDark;
             twitchNameTb.BorderStyle = BorderStyle.FixedSingle;
-            twitchNameTb.Location = new Point(241, 32);
+            twitchNameTb.Location = new Point(240, 17);
             twitchNameTb.Name = "twitchNameTb";
             twitchNameTb.Size = new Size(229, 27);
             twitchNameTb.TabIndex = 15;
@@ -246,7 +256,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(6, 29);
+            label4.Location = new Point(6, 20);
             label4.Name = "label4";
             label4.Size = new Size(231, 20);
             label4.TabIndex = 16;
@@ -258,7 +268,7 @@
             worldAsAllDeathsCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             worldAsAllDeathsCombo.FlatStyle = FlatStyle.Flat;
             worldAsAllDeathsCombo.FormattingEnabled = true;
-            worldAsAllDeathsCombo.Location = new Point(241, 26);
+            worldAsAllDeathsCombo.Location = new Point(241, 17);
             worldAsAllDeathsCombo.Name = "worldAsAllDeathsCombo";
             worldAsAllDeathsCombo.Size = new Size(229, 28);
             worldAsAllDeathsCombo.TabIndex = 17;
@@ -285,9 +295,9 @@
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(fontCombo);
             groupBox1.Controls.Add(label6);
-            groupBox1.Location = new Point(497, 11);
+            groupBox1.Location = new Point(6, 6);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(477, 369);
+            groupBox1.Size = new Size(485, 376);
             groupBox1.TabIndex = 20;
             groupBox1.TabStop = false;
             groupBox1.Text = "Overlay Settings";
@@ -298,7 +308,7 @@
             fontWeightCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             fontWeightCombo.FlatStyle = FlatStyle.Flat;
             fontWeightCombo.FormattingEnabled = true;
-            fontWeightCombo.Location = new Point(241, 162);
+            fontWeightCombo.Location = new Point(241, 153);
             fontWeightCombo.Name = "fontWeightCombo";
             fontWeightCombo.Size = new Size(229, 28);
             fontWeightCombo.TabIndex = 44;
@@ -306,7 +316,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(6, 165);
+            label5.Location = new Point(6, 156);
             label5.Name = "label5";
             label5.Size = new Size(89, 20);
             label5.TabIndex = 43;
@@ -316,7 +326,7 @@
             // 
             fontSizeNumeric.BackColor = SystemColors.ControlDark;
             fontSizeNumeric.BorderStyle = BorderStyle.FixedSingle;
-            fontSizeNumeric.Location = new Point(241, 95);
+            fontSizeNumeric.Location = new Point(241, 86);
             fontSizeNumeric.Name = "fontSizeNumeric";
             fontSizeNumeric.Size = new Size(229, 27);
             fontSizeNumeric.TabIndex = 42;
@@ -325,7 +335,7 @@
             // 
             borderSizeNumeric.BackColor = SystemColors.ControlDark;
             borderSizeNumeric.BorderStyle = BorderStyle.FixedSingle;
-            borderSizeNumeric.Location = new Point(241, 196);
+            borderSizeNumeric.Location = new Point(241, 187);
             borderSizeNumeric.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             borderSizeNumeric.Name = "borderSizeNumeric";
             borderSizeNumeric.Size = new Size(229, 27);
@@ -335,7 +345,7 @@
             // 
             shadowSizeNumeric.BackColor = SystemColors.ControlDark;
             shadowSizeNumeric.BorderStyle = BorderStyle.FixedSingle;
-            shadowSizeNumeric.Location = new Point(241, 230);
+            shadowSizeNumeric.Location = new Point(241, 221);
             shadowSizeNumeric.Name = "shadowSizeNumeric";
             shadowSizeNumeric.Size = new Size(229, 27);
             shadowSizeNumeric.TabIndex = 23;
@@ -344,7 +354,7 @@
             // 
             shadowColorTB.BackColor = SystemColors.ControlDark;
             shadowColorTB.BorderStyle = BorderStyle.FixedSingle;
-            shadowColorTB.Location = new Point(241, 332);
+            shadowColorTB.Location = new Point(241, 323);
             shadowColorTB.Name = "shadowColorTB";
             shadowColorTB.ReadOnly = true;
             shadowColorTB.Size = new Size(229, 27);
@@ -355,7 +365,7 @@
             // 
             borderColorTB.BackColor = SystemColors.ControlDark;
             borderColorTB.BorderStyle = BorderStyle.FixedSingle;
-            borderColorTB.Location = new Point(241, 298);
+            borderColorTB.Location = new Point(241, 289);
             borderColorTB.Name = "borderColorTB";
             borderColorTB.ReadOnly = true;
             borderColorTB.Size = new Size(229, 27);
@@ -366,7 +376,7 @@
             // 
             textColorTB.BackColor = SystemColors.ControlDark;
             textColorTB.BorderStyle = BorderStyle.FixedSingle;
-            textColorTB.Location = new Point(241, 264);
+            textColorTB.Location = new Point(241, 255);
             textColorTB.Name = "textColorTB";
             textColorTB.ReadOnly = true;
             textColorTB.Size = new Size(229, 27);
@@ -376,7 +386,7 @@
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(6, 334);
+            label13.Location = new Point(6, 325);
             label13.Name = "label13";
             label13.Size = new Size(102, 20);
             label13.TabIndex = 34;
@@ -385,7 +395,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(6, 300);
+            label12.Location = new Point(6, 291);
             label12.Name = "label12";
             label12.Size = new Size(99, 20);
             label12.TabIndex = 32;
@@ -394,7 +404,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(6, 266);
+            label11.Location = new Point(6, 257);
             label11.Name = "label11";
             label11.Size = new Size(78, 20);
             label11.TabIndex = 30;
@@ -406,7 +416,7 @@
             fontStyleCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             fontStyleCombo.FlatStyle = FlatStyle.Flat;
             fontStyleCombo.FormattingEnabled = true;
-            fontStyleCombo.Location = new Point(241, 128);
+            fontStyleCombo.Location = new Point(241, 119);
             fontStyleCombo.Name = "fontStyleCombo";
             fontStyleCombo.Size = new Size(229, 28);
             fontStyleCombo.TabIndex = 29;
@@ -414,7 +424,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(6, 131);
+            label10.Location = new Point(6, 122);
             label10.Name = "label10";
             label10.Size = new Size(74, 20);
             label10.TabIndex = 28;
@@ -423,7 +433,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(6, 232);
+            label9.Location = new Point(6, 223);
             label9.Name = "label9";
             label9.Size = new Size(95, 20);
             label9.TabIndex = 26;
@@ -432,7 +442,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(7, 198);
+            label8.Location = new Point(7, 189);
             label8.Name = "label8";
             label8.Size = new Size(87, 20);
             label8.TabIndex = 24;
@@ -441,7 +451,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(6, 97);
+            label7.Location = new Point(6, 88);
             label7.Name = "label7";
             label7.Size = new Size(71, 20);
             label7.TabIndex = 22;
@@ -453,7 +463,7 @@
             fontCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             fontCombo.FlatStyle = FlatStyle.Flat;
             fontCombo.FormattingEnabled = true;
-            fontCombo.Location = new Point(241, 60);
+            fontCombo.Location = new Point(241, 51);
             fontCombo.Name = "fontCombo";
             fontCombo.Size = new Size(229, 28);
             fontCombo.TabIndex = 21;
@@ -461,7 +471,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(6, 63);
+            label6.Location = new Point(6, 54);
             label6.Name = "label6";
             label6.Size = new Size(86, 20);
             label6.TabIndex = 20;
@@ -473,15 +483,17 @@
             groupBox2.Controls.Add(languageLbl);
             groupBox2.Controls.Add(twitchNameTb);
             groupBox2.Controls.Add(languageCombo);
-            groupBox2.Location = new Point(12, 11);
+            groupBox2.Location = new Point(6, 6);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(479, 105);
+            groupBox2.Size = new Size(483, 374);
             groupBox2.TabIndex = 21;
             groupBox2.TabStop = false;
             groupBox2.Text = "General";
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(markerPauseCombo);
+            groupBox3.Controls.Add(label20);
             groupBox3.Controls.Add(markerTalkCombo);
             groupBox3.Controls.Add(label19);
             groupBox3.Controls.Add(markerGamingCombo);
@@ -502,12 +514,72 @@
             groupBox3.Controls.Add(switchLocationCombo);
             groupBox3.Controls.Add(quickAddLocationCombo);
             groupBox3.Controls.Add(label2);
-            groupBox3.Location = new Point(12, 122);
+            groupBox3.Location = new Point(6, 6);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(479, 361);
+            groupBox3.Size = new Size(485, 393);
             groupBox3.TabIndex = 22;
             groupBox3.TabStop = false;
             groupBox3.Text = "Hotkeys";
+            // 
+            // markerTalkCombo
+            // 
+            markerTalkCombo.BackColor = SystemColors.ControlDark;
+            markerTalkCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            markerTalkCombo.FlatStyle = FlatStyle.Flat;
+            markerTalkCombo.FormattingEnabled = true;
+            markerTalkCombo.Location = new Point(241, 325);
+            markerTalkCombo.Name = "markerTalkCombo";
+            markerTalkCombo.Size = new Size(229, 28);
+            markerTalkCombo.TabIndex = 22;
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new Point(6, 328);
+            label19.Name = "label19";
+            label19.Size = new Size(116, 20);
+            label19.TabIndex = 21;
+            label19.Text = "Add Talk Marker";
+            // 
+            // markerGamingCombo
+            // 
+            markerGamingCombo.BackColor = SystemColors.ControlDark;
+            markerGamingCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            markerGamingCombo.FlatStyle = FlatStyle.Flat;
+            markerGamingCombo.FormattingEnabled = true;
+            markerGamingCombo.Location = new Point(241, 290);
+            markerGamingCombo.Name = "markerGamingCombo";
+            markerGamingCombo.Size = new Size(229, 28);
+            markerGamingCombo.TabIndex = 20;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(6, 293);
+            label18.Name = "label18";
+            label18.Size = new Size(143, 20);
+            label18.TabIndex = 19;
+            label18.Text = "Add Gaming Marker";
+            // 
+            // markerFunnyCombo
+            // 
+            markerFunnyCombo.BackColor = SystemColors.ControlDark;
+            markerFunnyCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            markerFunnyCombo.FlatStyle = FlatStyle.Flat;
+            markerFunnyCombo.FormattingEnabled = true;
+            markerFunnyCombo.Location = new Point(241, 255);
+            markerFunnyCombo.Name = "markerFunnyCombo";
+            markerFunnyCombo.Size = new Size(229, 28);
+            markerFunnyCombo.TabIndex = 18;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(6, 258);
+            label17.Name = "label17";
+            label17.Size = new Size(129, 20);
+            label17.TabIndex = 17;
+            label17.Text = "Add Funny Marker";
             // 
             // markerNormalCombo
             // 
@@ -574,7 +646,7 @@
             exportBtn.BackColor = SystemColors.ControlDark;
             exportBtn.FlatAppearance.BorderSize = 0;
             exportBtn.FlatStyle = FlatStyle.Flat;
-            exportBtn.Location = new Point(12, 489);
+            exportBtn.Location = new Point(191, 456);
             exportBtn.Name = "exportBtn";
             exportBtn.Size = new Size(127, 29);
             exportBtn.TabIndex = 23;
@@ -582,76 +654,82 @@
             exportBtn.UseVisualStyleBackColor = false;
             exportBtn.Click += exportBtn_Click;
             // 
-            // markerFunnyCombo
+            // tabControl1
             // 
-            markerFunnyCombo.BackColor = SystemColors.ControlDark;
-            markerFunnyCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-            markerFunnyCombo.FlatStyle = FlatStyle.Flat;
-            markerFunnyCombo.FormattingEnabled = true;
-            markerFunnyCombo.Location = new Point(241, 255);
-            markerFunnyCombo.Name = "markerFunnyCombo";
-            markerFunnyCombo.Size = new Size(229, 28);
-            markerFunnyCombo.TabIndex = 18;
+            tabControl1.Controls.Add(generalPage);
+            tabControl1.Controls.Add(hotkeyPage);
+            tabControl1.Controls.Add(overlayPage);
+            tabControl1.Location = new Point(12, 12);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(505, 438);
+            tabControl1.SizeMode = TabSizeMode.Fixed;
+            tabControl1.TabIndex = 24;
             // 
-            // label17
+            // generalPage
             // 
-            label17.AutoSize = true;
-            label17.Location = new Point(6, 258);
-            label17.Name = "label17";
-            label17.Size = new Size(129, 20);
-            label17.TabIndex = 17;
-            label17.Text = "Add Funny Marker";
+            generalPage.BackColor = SystemColors.ControlDarkDark;
+            generalPage.BackgroundImageLayout = ImageLayout.None;
+            generalPage.BorderStyle = BorderStyle.FixedSingle;
+            generalPage.Controls.Add(groupBox2);
+            generalPage.ForeColor = SystemColors.ControlText;
+            generalPage.Location = new Point(4, 29);
+            generalPage.Name = "generalPage";
+            generalPage.Padding = new Padding(3);
+            generalPage.Size = new Size(497, 388);
+            generalPage.TabIndex = 0;
+            generalPage.Text = "General";
             // 
-            // markerGamingCombo
+            // hotkeyPage
             // 
-            markerGamingCombo.BackColor = SystemColors.ControlDark;
-            markerGamingCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-            markerGamingCombo.FlatStyle = FlatStyle.Flat;
-            markerGamingCombo.FormattingEnabled = true;
-            markerGamingCombo.Location = new Point(241, 290);
-            markerGamingCombo.Name = "markerGamingCombo";
-            markerGamingCombo.Size = new Size(229, 28);
-            markerGamingCombo.TabIndex = 20;
+            hotkeyPage.BackColor = SystemColors.ControlDarkDark;
+            hotkeyPage.Controls.Add(groupBox3);
+            hotkeyPage.Location = new Point(4, 29);
+            hotkeyPage.Name = "hotkeyPage";
+            hotkeyPage.Padding = new Padding(3);
+            hotkeyPage.Size = new Size(497, 405);
+            hotkeyPage.TabIndex = 1;
+            hotkeyPage.Text = "Hotkeys";
             // 
-            // label18
+            // overlayPage
             // 
-            label18.AutoSize = true;
-            label18.Location = new Point(6, 293);
-            label18.Name = "label18";
-            label18.Size = new Size(143, 20);
-            label18.TabIndex = 19;
-            label18.Text = "Add Gaming Marker";
+            overlayPage.BackColor = SystemColors.ControlDarkDark;
+            overlayPage.Controls.Add(groupBox1);
+            overlayPage.Location = new Point(4, 29);
+            overlayPage.Name = "overlayPage";
+            overlayPage.Padding = new Padding(3);
+            overlayPage.Size = new Size(497, 388);
+            overlayPage.TabIndex = 2;
+            overlayPage.Text = "Overlay";
             // 
-            // markerTalkCombo
+            // markerPauseCombo
             // 
-            markerTalkCombo.BackColor = SystemColors.ControlDark;
-            markerTalkCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-            markerTalkCombo.FlatStyle = FlatStyle.Flat;
-            markerTalkCombo.FormattingEnabled = true;
-            markerTalkCombo.Location = new Point(241, 325);
-            markerTalkCombo.Name = "markerTalkCombo";
-            markerTalkCombo.Size = new Size(229, 28);
-            markerTalkCombo.TabIndex = 22;
+            markerPauseCombo.BackColor = SystemColors.ControlDark;
+            markerPauseCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            markerPauseCombo.FlatStyle = FlatStyle.Flat;
+            markerPauseCombo.FormattingEnabled = true;
+            markerPauseCombo.Location = new Point(241, 359);
+            markerPauseCombo.Name = "markerPauseCombo";
+            markerPauseCombo.Size = new Size(229, 28);
+            markerPauseCombo.TabIndex = 24;
             // 
-            // label19
+            // label20
             // 
-            label19.AutoSize = true;
-            label19.Location = new Point(6, 328);
-            label19.Name = "label19";
-            label19.Size = new Size(116, 20);
-            label19.TabIndex = 21;
-            label19.Text = "Add Talk Marker";
+            label20.AutoSize = true;
+            label20.Location = new Point(6, 362);
+            label20.Name = "label20";
+            label20.Size = new Size(128, 20);
+            label20.TabIndex = 23;
+            label20.Text = "Add Pause Marker";
             // 
             // OptionsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
-            ClientSize = new Size(980, 526);
+            ClientSize = new Size(527, 494);
+            Controls.Add(tabControl1);
             Controls.Add(exportBtn);
-            Controls.Add(groupBox3);
-            Controls.Add(groupBox2);
-            Controls.Add(groupBox1);
             Controls.Add(errLbl);
             Controls.Add(cancleBtn);
             Controls.Add(saveBtn);
@@ -668,6 +746,10 @@
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            tabControl1.ResumeLayout(false);
+            generalPage.ResumeLayout(false);
+            hotkeyPage.ResumeLayout(false);
+            overlayPage.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -724,5 +806,11 @@
         private Label label18;
         private ComboBox markerFunnyCombo;
         private Label label17;
+        private TabControl tabControl1;
+        private TabPage generalPage;
+        private TabPage hotkeyPage;
+        private TabPage overlayPage;
+        private ComboBox markerPauseCombo;
+        private Label label20;
     }
 }
