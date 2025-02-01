@@ -171,7 +171,7 @@ public partial class MainForm : Form
 
     private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
     {
-        this._mainController.UnregisterHotkeys();
+        this._mainController.UnregisterHotkeys(); 
     }
 
     private void addLocationBtn_Click(object sender, EventArgs e)
