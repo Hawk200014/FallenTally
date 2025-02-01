@@ -112,8 +112,10 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 ## Roadmap
 
 - [X] Export Marker
-- [ ] Update UI
 - [X] More Marker
+- [ ] Update UI
+- [ ] Refactor and Optimize Code
+- [ ] Update to own API infastructure
 
 See the [open issues](https://github.com/Hawk200014/FallenTally/issues) for a full list of proposed features (and known issues).
 
