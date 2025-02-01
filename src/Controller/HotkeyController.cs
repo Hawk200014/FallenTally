@@ -22,6 +22,7 @@ namespace DeathCounterHotkey.Controller
         private Action _markerFunnyAction;
         private Action _markerGameAction;
         private Action _markerTalkAction;
+        private Action _markerPlayAction;
         private KeyboardHook _hotkeysHook;
         EventHandler<KeyPressedEventArgs> keyPressedEventHandler;
         private string _increaseHKStr = "";
@@ -34,6 +35,7 @@ namespace DeathCounterHotkey.Controller
         private string _markerFunnyHKStr = "";
         private string _markerGameHKStr = "";
         private string _markerTalkHKStr = "";
+        private string _markerPauseHKStr = "";
 
         public HotkeyController(OptionsController optionsController, MainController mainController,
             Action increaseAction,
@@ -45,7 +47,8 @@ namespace DeathCounterHotkey.Controller
             Action markerNormal,
             Action markerfunny,
             Action markerGame,
-            Action markerTalk
+            Action markerTalk,
+            Action markerPause
             )
         {
             this._optionsController = optionsController;
@@ -60,6 +63,7 @@ namespace DeathCounterHotkey.Controller
             this._markerFunnyAction = markerfunny;
             this._markerGameAction = markerGame;
             this._markerTalkAction = markerTalk;
+            this._markerPlayAction = markerPause;
 
 
             keyPressedEventHandler = new EventHandler<KeyPressedEventArgs>(HotkeyPressedEvent);
@@ -82,6 +86,7 @@ namespace DeathCounterHotkey.Controller
             _markerFunnyHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.MARKER_FUNNY_HOTKEY));
             _markerGameHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.MARKER_GAMING_HOTKEY));
             _markerTalkHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.MARKER_TALK_HOTKEY));
+            _markerPauseHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.MARKER_PAUSE_HOTKEY));
         }
 
         public void LoadHotkeys()
@@ -145,6 +150,12 @@ namespace DeathCounterHotkey.Controller
                 Enum.TryParse(_markerTalkHKStr, out Keys hotkey);
                 _hotkeysHook.RegisterHotKey(hotkey);
             }
+
+            if (!string.IsNullOrEmpty(_markerPauseHKStr))
+            {
+                Enum.TryParse(_markerPauseHKStr, out Keys hotkey);
+                _hotkeysHook.RegisterHotKey(hotkey);
+            }
         }
 
         private void HotkeyPressedEvent(object? sender, KeyPressedEventArgs e)
@@ -190,6 +201,10 @@ namespace DeathCounterHotkey.Controller
             else if (_markerTalkHKStr.Equals(keyname))
             {
                 _markerTalkAction.Invoke();
+            }
+            else if (_markerPauseHKStr.Equals(keyname))
+            {
+                _markerPlayAction.Invoke();
             }
         }
 
