@@ -41,7 +41,7 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             if (string.IsNullOrEmpty(key)) return false;
             SettingsModel? model = _context.Settings.Where(x => x.SettingsName.Equals(key)).FirstOrDefault();
-            if (model == null) return false;
+            if (model is null) return false;
             model.SettingsValue = value;
             _context.SaveChanges();
             return true;
@@ -88,7 +88,7 @@ namespace DeathCounterHotkey.Controller.Forms
         internal string GetLanguage()
         {
             SettingsModel? language = _context.Settings.AsEnumerable().Where(x => x.SettingsName.Equals(nameof(OptionsController.OPTIONS.LANGUAGE))).FirstOrDefault();
-            if (language == null) return "en";
+            if (language is null) return "en";
             return language.SettingsValue;
         }
     }

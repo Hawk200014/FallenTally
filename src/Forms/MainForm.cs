@@ -3,6 +3,7 @@ using DeathCounterHotkey.Controller.Forms;
 using DeathCounterHotkey.Database.Models;
 using DeathCounterHotkey.Forms;
 using DeathCounterHotkey.Resources;
+using FallenTally.Controller.Forms;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Web;
@@ -10,7 +11,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace DeathCounterHotkey;
 
-public partial class MainForm : Form
+public partial class MainForm : Form, IFormUpdate
 {
 
 
@@ -97,7 +98,7 @@ public partial class MainForm : Form
 
     private void UpdateGameList(string? game = null)
     {
-        List<string> games = this._mainController.GetGameNames();
+        List<string> games = this._mainController.GetGameController().GetAllGameNames();
         AddGamesToCombo(games);
     }
 
@@ -129,7 +130,6 @@ public partial class MainForm : Form
         deathCountTxtb.Text = "" + allDeaths;
         int locationDeaths = this._mainController.GetLocationDeaths();
         locationDeathCountTxtb.Text = "" + locationDeaths;
-        GetSelectedGame();
         string gamePrefix = _mainController.GetGameController().GetActiveGame()?.Prefix ?? "";
         string locationName = _mainController.GetLocationController().GetActiveLocation()?.Name ?? "";
         _mainController.GetTextController().WriteDeaths(gamePrefix, allDeaths, locationName, locationDeaths);
@@ -176,7 +176,7 @@ public partial class MainForm : Form
 
     private void addLocationBtn_Click(object sender, EventArgs e)
     {
-        if (_mainController.GetGameController().GetActiveGame() == null) return;
+        if (_mainController.GetGameController().GetActiveGame() is null) return;
         new AddLocation(this._mainController.GetLocationController(), UpdateLocationList).Show(this);
     }
 
@@ -200,7 +200,7 @@ public partial class MainForm : Form
     private void editLocationBtn_Click(object sender, EventArgs e)
     {
         DeathLocationModel? active = _mainController.GetLocationController().GetActiveLocation();
-        if (active == null) return;
+        if (active is null) return;
         if (active.Name.Equals(GLOBALVARS.DEFAULT_LOCATION)) return;
         new EditForm(active.Name, this._mainController.GetEditController(), EditController.EDITCATEGORIE.LOCATION, UpdateLocationList).Show(this);
     }
@@ -420,5 +420,10 @@ public partial class MainForm : Form
     {
         string[] markers = _mainController.GetMarkerController().GetLatestMarkers();
         markerRTB.Lines = markers;
+    }
+
+    public void UpdateForm()
+    {
+        throw new NotImplementedException();
     }
 }

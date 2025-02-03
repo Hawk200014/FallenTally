@@ -1,5 +1,6 @@
 ﻿using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
+using FallenTally.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,14 @@ namespace DeathCounterHotkey.Controller.Forms
 {
     public class GameController
     {
+        private Singleton _singleton = Singleton.GetInstance();
         private SQLiteDBContext _context;
 
         private GameStatsModel? _activeGame;
 
         public GameController(SQLiteDBContext context) 
         {
-            this._context = context;
+            this._context = _singleton.GetValue("SQLiteDBContext") as SQLiteDBContext;
         }
 
         public bool AddGame(string gamename, string prefix)
@@ -36,7 +38,7 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             if (IsDupeName(editText)) return false;
             GameStatsModel? gameModel = GetActiveGame();
-            if (gameModel == null) return false;
+            if (gameModel is null) return false;
             gameModel.GameName = editText;
             _context.SaveChanges();
             return true;
@@ -69,13 +71,13 @@ namespace DeathCounterHotkey.Controller.Forms
 
         internal string GetPrefix()
         {
-            if (_activeGame == null) return "";
+            if (_activeGame is null) return "";
             return _activeGame.Prefix;
         }
 
         internal int GetAllDeaths()
         {
-            if(_activeGame == null) return 0;
+            if(_activeGame is null) return 0;
             int deaths = 0;
             List<DeathLocationModel> list = _context.Locations.Where(x => x.GameID == _activeGame.GameId).ToList();
             foreach(var location in list)
@@ -92,7 +94,7 @@ namespace DeathCounterHotkey.Controller.Forms
 
         internal void RemoveGame()
         {
-            if(_activeGame == null) return;
+            if(_activeGame is null) return;
             _context.GameStats.Remove(_activeGame);
             _activeGame = null;
             _context.SaveChanges();

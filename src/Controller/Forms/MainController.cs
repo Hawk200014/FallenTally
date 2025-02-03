@@ -55,11 +55,79 @@ namespace DeathCounterHotkey.Controller.Forms
 
         }
 
+        #region Getter
+        public ExportController GetExportController()
+        {
+            return _exportController;
+        }
+
+        public GameController GetGameController()
+        {
+            return _gameController;
+        }
+
+        internal EditController GetEditController()
+        {
+            return _editController;
+        }
+
+        internal LocationController GetLocationController()
+        {
+            return _locationcontroller;
+        }
+
+        internal OptionsController GetOptionController()
+        {
+            return _optionsController;
+        }
+
+        internal TimerController GetStreamTimeController()
+        {
+            return _streamTimeController;
+        }
+
+        internal TimerController GetRecordTimeController()
+        {
+            return _recordTimeController;
+        }
+
+        internal TextController GetTextController()
+        {
+            return _textController;
+        }
+
+        internal MarkerController GetMarkerController()
+        {
+            return _markerController;
+        }
+
+        internal RecordingController GetRecordingController()
+        {
+            return _recordingController;
+        }
+
+        #endregion
+
+        #region Setter
+
         public void SetStreaming(bool isStreaming)
         {
             _isStreaming = isStreaming;
         }
 
+        internal void SetRecordTimeController(TimerController recordTimerController)
+        {
+            this._recordTimeController = recordTimerController;
+        }
+
+        internal void SetStreamTimeController(TimerController controller)
+        {
+            this._streamTimeController = controller;
+        }
+
+        #endregion
+
+        #region Hotkey Methods
 
         private void StartRecordingHotkeyPressed()
         {
@@ -119,14 +187,9 @@ namespace DeathCounterHotkey.Controller.Forms
             }
         }
 
-        public ExportController GetExportController()
-        {
-            return _exportController;
-        }
-
         private void FinishHotkeyPressed()
         {
-            if (_locationcontroller.GetActiveLocation() == null) return;
+            if (_locationcontroller.GetActiveLocation() is null) return;
             if (_locationcontroller.GetActiveLocation()?.Name == GLOBALVARS.DEFAULT_LOCATION) return;
             _locationcontroller.SetFinish(true);
         }
@@ -144,19 +207,6 @@ namespace DeathCounterHotkey.Controller.Forms
             _mainForm?.UpdateDeaths();
         }
 
-        private int GetIndexOfListWithItemName(List<DeathLocationModel> locations, string? name)
-        {
-            if(name == null) return -1;
-            for (int i = 0; i < locations.Count; i++)
-            {
-                if (locations[i].Name == name)
-                {
-                    return i;
-                }
-            }
-            return 0;
-        }
-
         private void SwitchHotkeyPressed()
         {
             List<DeathLocationModel> locations = _locationcontroller.GetListOfLocations();
@@ -165,7 +215,7 @@ namespace DeathCounterHotkey.Controller.Forms
             if (locLength == 0) return;
             int index = GetIndexOfListWithItemName(locations, _locationcontroller.GetActiveLocation()?.Name);
             if (index == -1) return;
-            if (index == locLength -1)
+            if (index == locLength - 1)
             {
                 index = 0;
             }
@@ -186,34 +236,48 @@ namespace DeathCounterHotkey.Controller.Forms
 
         public void DecreaseDeaths()
         {
-            if (_gameController.GetActiveGame() == null) return;
+            if (_gameController.GetActiveGame() is null) return;
             DeathLocationModel? model = _locationcontroller.GetActiveLocation();
-            if (model == null) return;
+            if (model is null) return;
             if (_deathController.GetDeaths(model.LocationId) == 0) return;
             _deathController.RemoveDeath();
         }
 
+        #endregion
+
+        
+
+
+        private int GetIndexOfListWithItemName(List<DeathLocationModel> locations, string? name)
+        {
+            if(name is null) return -1;
+            for (int i = 0; i < locations.Count; i++)
+            {
+                if (locations[i].Name == name)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
+        
+
         public string GameChanged(string? gameName)
         {
-            if (gameName == null) return "";
+            if (gameName is null) return "";
             _gameController.SetActiveGame(gameName);
             return _gameController.GetPrefix();
         }
 
-        public GameController GetGameController()
-        {
-            return _gameController;
-        }
+        
 
         public int GetAllDeaths()
         {
             return this._gameController.GetAllDeaths();
         }
 
-        internal EditController GetEditController()
-        {
-            return _editController;
-        }
+        
 
         internal List<string> GetGameNames()
         {
@@ -225,27 +289,21 @@ namespace DeathCounterHotkey.Controller.Forms
             return _twitchTokenController;
         }
 
-        internal LocationController GetLocationController()
-        {
-            return _locationcontroller;
-        }
+        
 
         internal int GetLocationDeaths()
         {
-            if( _locationcontroller.GetActiveLocation() == null) return 0;
+            if( _locationcontroller.GetActiveLocation() is null) return 0;
             return _locationcontroller.GetDeathsAtLocation();
         }
 
         internal List<string> GetLocationNames()
         {
-            //if(_locationcontroller.GetActiveLocation() == null) return new List<string>();
+            //if(_locationcontroller.GetActiveLocation() is null) return new List<string>();
             return _locationcontroller.GetListOfLocations().Select(x=> x.Name).ToList();
         }
 
-        internal OptionsController GetOptionController()
-        {
-            return _optionsController;
-        }
+        
 
         internal void OptionsChangedAction()
         {
@@ -256,8 +314,8 @@ namespace DeathCounterHotkey.Controller.Forms
 
         internal void IncreaseDeaths()
         {
-            if (_gameController.GetActiveGame() == null) return;
-            if (_locationcontroller.GetActiveLocation() == null) return;
+            if (_gameController.GetActiveGame() is null) return;
+            if (_locationcontroller.GetActiveLocation() is null) return;
             _deathController.AddDeath(_locationcontroller.GetActiveLocation()!.LocationId, _streamTimeController, _recordTimeController);
         }
 
@@ -284,7 +342,7 @@ namespace DeathCounterHotkey.Controller.Forms
 
         internal void LocationChanged(string locationName)
         {
-            if (locationName == null) return ;
+            if (locationName is null) return ;
             _locationcontroller.SetActiveLocation(locationName);
         }
 
@@ -307,39 +365,10 @@ namespace DeathCounterHotkey.Controller.Forms
             this._mainForm = mainForm;
         }
 
-        internal TimerController GetStreamTimeController()
-        {
-            return _streamTimeController;
-        }
 
-        internal TimerController GetRecordTimeController()
-        {
-            return _recordTimeController;
-        }
 
-        internal TextController GetTextController()
-        {
-            return _textController;
-        }
+        
 
-        internal void SetRecordTimeController(TimerController recordTimerController)
-        {
-            this._recordTimeController = recordTimerController;
-        }
-
-        internal void SetStreamTimeController(TimerController controller)
-        {
-            this._streamTimeController = controller;
-        }
-
-        internal MarkerController GetMarkerController()
-        {
-            return _markerController;
-        }
-
-        internal RecordingController GetRecordingController()
-        {
-            return _recordingController;
-        }
+        
     }
 }

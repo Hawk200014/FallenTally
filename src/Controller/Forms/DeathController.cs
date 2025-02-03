@@ -33,7 +33,7 @@ namespace DeathCounterHotkey.Controller.Forms
         public void RemoveDeath()
         {
             DeathModel? latest = _context.Deaths.OrderByDescending(x => x.DeathId).FirstOrDefault();
-            if (latest == null) return;
+            if (latest is null) return;
             _context.Deaths.Remove(latest);
             _context.SaveChanges();
         }
