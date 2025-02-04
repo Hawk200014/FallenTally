@@ -122,6 +122,9 @@ namespace DeathCounterHotkey.Forms
                 case ExportController.ExportType.EXCEL:
                     fileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
                     break;
+                case ExportController.ExportType.FTSTAMPS:
+                    fileDialog.Filter = "Fallen Tally Stamps (*.ftstamps)|*.ftstamps";
+                    break;
                 default:
                     break;
             }
@@ -188,6 +191,9 @@ namespace DeathCounterHotkey.Forms
                     break;
                 case ExportController.ExportType.EXCEL:
                     fileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+                    break;
+                case ExportController.ExportType.FTSTAMPS:
+                    fileDialog.Filter = "Fallen Tally Stamps (*.ftstamps)|*.ftstamps";
                     break;
                 default:
                     break;
