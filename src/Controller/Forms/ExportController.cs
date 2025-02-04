@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
+using DeathCounterHotkey.Resources;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,8 @@ namespace DeathCounterHotkey.Controller.Forms
         public enum ExportType
         {
             CSV,
-            EXCEL
+            EXCEL,
+            FTSTAMPS
         }
 
         private readonly MarkerController _markercontroller;
@@ -86,7 +88,7 @@ namespace DeathCounterHotkey.Controller.Forms
         /// <returns>An array of distinct death dates.</returns>
         internal string[] GetDistinctDeathDates(string? gameName = null, string? locationName = null, string? timeStamp = null)
         {
-            var query = GetDeathModels(gameName, locationName, timeStamp).Select(x => DateOnly.FromDateTime( x.TimeStamp).ToString("d", _culture));
+            var query = GetDeathModels(gameName, locationName, timeStamp).Select(x => DateOnly.FromDateTime(x.TimeStamp).ToString("d", _culture));
             return query.Distinct().ToArray();
         }
 
@@ -130,6 +132,7 @@ namespace DeathCounterHotkey.Controller.Forms
             {
                 ExportType.CSV => ExportCSV(dt, exportPath),
                 ExportType.EXCEL => ExportToExcel(dt, exportPath),
+                ExportType.FTSTAMPS => ExportToFTStamps(CreateDataTableFromFilterForFTS(gameName, locationName, date), exportPath), // Not implemented
                 _ => 0
             };
 
@@ -141,6 +144,74 @@ namespace DeathCounterHotkey.Controller.Forms
 
             MessageBox.Show(message, "Export", MessageBoxButtons.OK);
             return message;
+        }
+
+        private DataTable CreateDataTableFromFilterForFTS(string gameName, string locationName, string date)
+        {
+            var gameStatsModels = _context.GameStats
+                .Where(x => string.IsNullOrEmpty(gameName) || x.GameName == gameName)
+                .OrderBy(x => x.GameId)
+                .ToList();
+
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Location", typeof(string));
+            dataTable.Columns.Add("Death stream time", typeof(string));
+            dataTable.Columns.Add("Death recording time", typeof(string));
+            dataTable.Columns.Add("Death Number", typeof(int));
+
+            foreach (var gameStats in gameStatsModels)
+            {
+                int deathNumber = 0;
+                var deathLocationModels = _context.Locations
+                    .Where(x => x.GameID == gameStats.GameId && (string.IsNullOrEmpty(locationName) || x.Name == locationName))
+                    .OrderBy(x => x.LocationId)
+                    .ToList();
+
+                foreach (var deathLocation in deathLocationModels)
+                {
+                    string deahLocStr = deathLocation.Name == GLOBALVARS.DEFAULT_LOCATION ? "WORLD" : "LOCATION";
+                    var deathModels = _context.Deaths
+                        .Where(x => x.LocationId == deathLocation.LocationId)
+                        .Where(x => string.IsNullOrEmpty(date) || x.TimeStamp.ToLongDateString() == date)
+                        .ToList();
+
+                    foreach (var death in deathModels)
+                    {
+                        deathNumber++;
+
+                        dataTable.Rows.Add(deahLocStr, death.RecordingTime, death.StreamTime, deathNumber);
+                    }
+                }
+            }
+            return dataTable;
+        }
+
+        private int ExportToFTStamps(DataTable dt, string exportPath)
+        {
+            try
+            {
+                using (var writer = new StreamWriter(exportPath))
+                {
+                    // Write the header
+                    //var header = string.Join(";", dt.Columns.Cast<DataColumn>().Select(c => c.ColumnName));
+
+                    //dt.Columns.Cast<DataColumn>().Where(x => x.ColumnName.Equals())
+
+                    //writer.WriteLine(header);
+
+                    // Write the data
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        var line = string.Join(";", row.ItemArray.Select(field => field.ToString()));
+                        writer.WriteLine(line);
+                    }
+                }
+                return 1; // Success
+            }
+            catch
+            {
+                return 0; // Failure
+            }
         }
 
         /// <summary>
@@ -287,12 +358,12 @@ namespace DeathCounterHotkey.Controller.Forms
                     .FirstOrDefault()
                 );
             }
-            
-            return query.Select(m =>DateOnly.FromDateTime( m.TimeStamp).ToString("d",
+
+            return query.Select(m => DateOnly.FromDateTime(m.TimeStamp).ToString("d",
                   _culture)).Distinct().ToArray();
         }
 
-        internal string[] GetDistinctMarkerSessions(string? gamename = null , string? date = null )
+        internal string[] GetDistinctMarkerSessions(string? gamename = null, string? date = null)
         {
             var query = _context.Markers.AsQueryable();
 
@@ -307,7 +378,7 @@ namespace DeathCounterHotkey.Controller.Forms
 
             if (!string.IsNullOrEmpty(date))
             {
-                query = query.Where(m => DateOnly.FromDateTime( m.TimeStamp) == DateOnly.Parse( date));
+                query = query.Where(m => DateOnly.FromDateTime(m.TimeStamp) == DateOnly.Parse(date));
             }
             return query.Select(m => m.RecordingSession.ToString()).Distinct().ToArray();
         }
@@ -319,6 +390,7 @@ namespace DeathCounterHotkey.Controller.Forms
             {
                 ExportType.CSV => ExportCSV(dt, fileName),
                 ExportType.EXCEL => ExportToExcel(dt, fileName),
+                ExportType.FTSTAMPS => ExportToFTStamps(CreateDataTableFromFilterMarkerFTS(gameName, date, session), fileName),
                 _ => 0
             };
 
@@ -358,6 +430,38 @@ namespace DeathCounterHotkey.Controller.Forms
                 foreach (var marker in markers)
                 {
                     dataTable.Rows.Add(gameStats.GameName, marker.categorie, marker.TimeStamp.ToString(), marker.RecordingSession, TimerController.ConvertTimeToReadableTime(marker.RecordingTime), marker.StreamSession, TimerController.ConvertTimeToReadableTime(marker.StreamTime));
+                }
+
+            }
+            return dataTable;
+        }
+
+        private DataTable CreateDataTableFromFilterMarkerFTS(string gameName, string date, string session)
+        {
+            var gameStatsModels = _context.GameStats
+               .Where(x => string.IsNullOrEmpty(gameName) || x.GameName == gameName)
+               .OrderBy(x => x.GameId)
+               .ToList();
+
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("MarkerType", typeof(string));
+            dataTable.Columns.Add("Recording Time", typeof(string));
+            dataTable.Columns.Add("Stream Time", typeof(string));
+            dataTable.Columns.Add("Marker Number", typeof(int));
+
+            int markerNumber = 0;
+
+            foreach (var gameStats in gameStatsModels)
+            {
+                var markers = _context.Markers
+                    .Where(x => x.GameId == gameStats.GameId)
+                    .Where(x => string.IsNullOrEmpty(date) || DateOnly.FromDateTime(x.TimeStamp).ToString("d", _culture) == date)
+                    .Where(x => string.IsNullOrEmpty(session) || x.RecordingSession.ToString() == session)
+                    .ToList();
+                foreach (var marker in markers)
+                {
+                    markerNumber++;
+                    dataTable.Rows.Add( marker.categorie, marker.RecordingTime, marker.StreamTime, markerNumber);
                 }
 
             }
