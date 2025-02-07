@@ -1,4 +1,5 @@
 ﻿using DeathCounterHotkey.Database.Models;
+using FallenTally.Utility.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DeathCounterHotkey.Controller
 {
-    public class TimerController
+    public class TimerController : ISingleton
     {
 
         public TimerController() { }
@@ -38,6 +39,11 @@ namespace DeathCounterHotkey.Controller
         internal void SetTime(int time)
         {
             timeInSec = time;
+        }
+
+        public static string GetSingletonName()
+        {
+            return "TimerController";
         }
     }
 }

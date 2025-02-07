@@ -13,17 +13,16 @@ namespace DeathCounterHotkey.Database.Models
         [Key]
         public int MarkerId { get; set; }
         public int GameId { get; set; }
-        public string categorie { get; set; }
+        [Required]
+        public string Categorie { get; set; }
         public DateTime TimeStamp { get; set; }
         public int StreamTime { get; set; }
-        public int StreamSession { get; set; }
         public int RecordingTime { get; set; }
+        public int StreamSession { get; set; }
         public int RecordingSession { get; set; }
 
+        // Navigation properties
+        public GameStatsModel Game { get; set; }
 
-        public override string ToString()
-        {
-            return RecordingSession + ", " + categorie + ", R:" + TimerController.ConvertTimeToReadableTime(RecordingTime) + ",  S:" + TimerController.ConvertTimeToReadableTime(StreamTime);
-        }
     }
 }

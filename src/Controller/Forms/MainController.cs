@@ -1,5 +1,6 @@
 ﻿using DeathCounterHotkey.Database.Models;
 using DeathCounterHotkey.Resources;
+using FallenTally.Utility.Singletons;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices.ActiveDirectory;
@@ -9,45 +10,44 @@ using System.Threading.Tasks;
 
 namespace DeathCounterHotkey.Controller.Forms
 {
-    public class MainController
+    public class MainController : ISingleton
     {
+        private readonly Singleton _singleton = Singleton.GetInstance();
 
         private bool _isRecording = false;
-        private GameController _gameController;
-        private LocationController _locationcontroller;
-        private DeathController _deathController;
-        private EditController _editController;
-        private OptionsController _optionsController;
-        private TwitchTokenController _twitchTokenController;
-        private HotkeyController _hotkeyController;
-        private MainForm? _mainForm;
-        private TimerController _streamTimeController;
-        private TimerController _recordTimeController;
-        private TextController _textController;
-        private ExportController _exportController;
-        private MarkerController _markerController;
-        private RecordingController _recordingController;
         private bool _isStreaming;
 
-        public MainController(GameController gameController, LocationController locationController,
-            DeathController deathController, EditController editController, OptionsController optionsController, 
-            TimerController streamTimerController, TwitchTokenController tokenController, TextController textController, 
-            ExportController exportController, MarkerController markerController, TimerController recordTimerController, RecordingController recordingController) 
-        {
-            this._gameController = gameController;
-            this._locationcontroller = locationController;
-            this._deathController = deathController;
-            this._editController = editController;
-            this._optionsController = optionsController;
-            this._twitchTokenController = tokenController;
-            this._streamTimeController = streamTimerController;
-            this._textController = textController;
-            this._exportController = exportController;
-            this._markerController = markerController;
-            this._recordTimeController = recordTimerController;
-            this._recordingController = recordingController;
+        private GameController? _gameController;
+        private LocationController? _locationcontroller;
+        private DeathController? _deathController;
+        private EditController? _editController;
+        private OptionsController? _optionsController;
+        private TwitchTokenController? _twitchTokenController;
+        private HotkeyController? _hotkeyController;
+        private MainForm? _mainForm;
+        private TimerController? _streamTimeController;
+        private TimerController? _recordTimeController;
+        private TextController? _textController;
+        private ExportController? _exportController;
+        private MarkerController? _markerController;
+        private RecordingController? _recordingController;
 
-            this._hotkeyController = new HotkeyController(this._optionsController, this, 
+        public MainController() 
+        {
+            this._gameController = _singleton.GetValue(GameController.GetSingletonName()) as GameController;
+            this._locationcontroller = _singleton.GetValue(LocationController.GetSingletonName()) as LocationController;
+            this._deathController = _singleton.GetValue(DeathController.GetSingletonName()) as DeathController;
+            this._editController = _singleton.GetValue(EditController.GetSingletonName()) as EditController;
+            this._optionsController = _singleton.GetValue(OptionsController.GetSingletonName()) as OptionsController;
+            this._streamTimeController = _singleton.GetValue("StreamTimerController") as TimerController;
+            this._recordTimeController = _singleton.GetValue("RecordTimerController") as TimerController;
+            this._textController = _singleton.GetValue(TextController.GetSingletonName()) as TextController;
+            this._exportController = _singleton.GetValue(ExportController.GetSingletonName()) as ExportController;
+            this._markerController = _singleton.GetValue(MarkerController.GetSingletonName()) as MarkerController;
+            this._recordingController = _singleton.GetValue(RecordingController.GetSingletonName()) as RecordingController;
+            this._twitchTokenController = _singleton.GetValue(TwitchTokenController.GetSingletonName()) as TwitchTokenController;
+
+            this._hotkeyController = new HotkeyController(
                 IncreaseHotkeyPressed, DecreaseHotkeyPressed, SwitchHotkeyPressed, 
                 QuickHotkeyPressed, FinishHotkeyPressed, StartRecordingHotkeyPressed, MarkerNormalHotkeyPressed,
                 MarkerFunnyHotkeyPressed, MarkerGamingHotkeyPressed, MarkerTalkHotkeyPressed, MarkerPauseHotkeyPressed);
@@ -316,7 +316,7 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             if (_gameController.GetActiveGame() is null) return;
             if (_locationcontroller.GetActiveLocation() is null) return;
-            _deathController.AddDeath(_locationcontroller.GetActiveLocation()!.LocationId, _streamTimeController, _recordTimeController);
+            _deathController.AddDeath(_locationcontroller.GetActiveLocation().LocationId, _streamTimeController, _recordTimeController);
         }
 
         internal void RemoveGame( )
@@ -365,10 +365,9 @@ namespace DeathCounterHotkey.Controller.Forms
             this._mainForm = mainForm;
         }
 
-
-
-        
-
-        
+        public static string GetSingletonName()
+        {
+            return "MainController";
+        }
     }
 }

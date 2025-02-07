@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FallenTally.Utility
+namespace FallenTally.Utility.Singletons
 {
     public class Singleton
     {

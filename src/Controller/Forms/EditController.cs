@@ -1,20 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+
+using FallenTally.Utility.Singletons;
 
 namespace DeathCounterHotkey.Controller.Forms
 {
-    public class EditController
+    public class EditController : ISingleton
     {
-        private GameController _gameController;
-        private LocationController _locationController;
+        private readonly Singleton _singleton = Singleton.GetInstance();
+        private GameController? _gameController;
+        private LocationController? _locationController;
 
         public EditController(GameController gameController, LocationController locationController)
         {
-            this._gameController = gameController;
-            this._locationController = locationController;
+            this._gameController = _singleton.GetValue(GameController.GetSingletonName()) as GameController;
+            this._locationController = _singleton.GetValue(LocationController.GetSingletonName()) as LocationController;
+        }
+
+        public static string GetSingletonName()
+        {
+            return "EditController";
         }
 
         internal bool AddEdit(string editText, EDITCATEGORIE editCat, bool? finished = null)

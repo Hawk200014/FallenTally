@@ -13,18 +13,20 @@ using Newtonsoft.Json.Linq;
 using TwitchLib.Api;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration.Json;
+using FallenTally.Utility.Singletons;
 
 namespace DeathCounterHotkey.Controller
 {
-    public class TwitchTokenController
+    public class TwitchTokenController : ISingleton
     {
         private static readonly HttpClient client = new HttpClient();
         private byte[] s_additionalEntropy = { 9, 1, 7, 8, 5 };
-        private OptionsController _optionsController;
+        private OptionsController? _optionsController;
+        private readonly Singleton _singleton = Singleton.GetInstance();
 
-        public TwitchTokenController(OptionsController optionsController)
+        public TwitchTokenController()
         {
-            _optionsController = optionsController;
+            _optionsController = _singleton.GetValue(OptionsController.GetSingletonName()) as OptionsController;
         }
 
         public string EncryptStr(string decrypted)
@@ -104,8 +106,9 @@ namespace DeathCounterHotkey.Controller
             return (clientId, clientSecret);
         }
 
-
-
-
+        public static string GetSingletonName()
+        {
+            return "TwitchTokenController";
+        }
     }
 }

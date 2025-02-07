@@ -1,19 +1,16 @@
 ﻿using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FallenTally.Utility.Singletons;
 
 namespace DeathCounterHotkey.Controller.Forms
 {
-    public class DeathController
+    public class DeathController : ISingleton
     {
-        private SQLiteDBContext _context;
-        public DeathController(SQLiteDBContext context) 
+        private SQLiteDBContext? _context;
+        private readonly Singleton _singleton = Singleton.GetInstance();
+        public DeathController() 
         {
-            this._context = context;
+            _context = _singleton.GetValue(SQLiteDBContext.GetSingletonName()) as SQLiteDBContext;
         }
 
 
@@ -40,7 +37,13 @@ namespace DeathCounterHotkey.Controller.Forms
 
         public int GetDeaths(int locId)
         {
-            return _context.Deaths.Where(x => x.LocationId == locId).Count();
+            return _context.Locations.Find(locId).Deaths.Count();
+            //return _context.Deaths.Where(x => x.LocationId == locId).Count();
+        }
+
+        public static string GetSingletonName()
+        {
+            return "DeathController";
         }
     }
 }

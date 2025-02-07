@@ -12,11 +12,13 @@ namespace DeathCounterHotkey.Database.Models
     {
         [Key]
         public int LocationId { get; set; }
-        public int GameID { get; set; }
-        public string Name { get; set; }
         public bool Finish { get; set; }
+        public int GameID { get; set; }
+        [Required]
+        public string Name { get; set; }
 
-
-
+        // Navigation properties
+        public GameStatsModel Game { get; set; }
+        public ICollection<DeathModel> Deaths { get; set; }
     }
 }

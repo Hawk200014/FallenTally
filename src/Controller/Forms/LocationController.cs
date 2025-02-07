@@ -1,6 +1,7 @@
 ﻿using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
 using DeathCounterHotkey.Resources;
+using FallenTally.Utility.Singletons;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,17 +11,18 @@ using System.Threading.Tasks;
 
 namespace DeathCounterHotkey.Controller.Forms
 {
-    public class LocationController
+    public class LocationController : ISingleton
     {
-        private GameController _gameController;
-        private SQLiteDBContext _context;
+        private readonly Singleton _singleton = Singleton.GetInstance();
+        private GameController? _gameController;
+        private SQLiteDBContext? _context;
 
         private DeathLocationModel? _activeDeathLocation;
 
         public LocationController(GameController gameController, SQLiteDBContext context)
         {
-            this._gameController = gameController;
-            this._context = context;
+            this._gameController = _singleton.GetValue(GameController.GetSingletonName()) as GameController;
+            this._context = _singleton.GetValue(SQLiteDBContext.GetSingletonName()) as SQLiteDBContext;
         }
 
         public bool AddLocation(string locationName)
@@ -122,6 +124,11 @@ namespace DeathCounterHotkey.Controller.Forms
             if (finished is null) return;
             locationModel.Finish = (bool)finished;
             _context.SaveChanges();
+        }
+
+        public static string GetSingletonName()
+        {
+            return "LocationController";
         }
     }
 }

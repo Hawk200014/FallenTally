@@ -13,6 +13,7 @@ namespace DeathCounterHotkey.Database.Models
         public int RecordingId { get; set; }
         public int SessionCount { get; set; }
         public DateOnly SessionDate { get; set; }
+        [Required]
         public string Type { get; set; }
     }
 }

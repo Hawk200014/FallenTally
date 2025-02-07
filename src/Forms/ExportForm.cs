@@ -130,7 +130,11 @@ namespace DeathCounterHotkey.Forms
             }
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                _exportController.Export(exportType, filterDeathGameCombo.Text, filterDeathLocationCombo.Text, filterDeathDateCombo.Text, fileDialog.FileName);
+                Task.Run(async () =>
+                {
+                    await _exportController.Export(exportType, filterDeathGameCombo.Text, filterDeathLocationCombo.Text, filterDeathDateCombo.Text, fileDialog.FileName);
+                });
+
             }
 
         }
@@ -200,7 +204,10 @@ namespace DeathCounterHotkey.Forms
             }
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                _exportController.ExportMarker(exportType, filterMarkerGameCombo.Text, filterMarkerDateCombo.Text, filterMarkerSessionCombo.Text, fileDialog.FileName);
+                Task.Run(async () =>
+                {
+                    await _exportController.ExportMarker(exportType, filterMarkerGameCombo.Text, filterMarkerDateCombo.Text, filterMarkerSessionCombo.Text, fileDialog.FileName);
+                });
             }
         }
     }

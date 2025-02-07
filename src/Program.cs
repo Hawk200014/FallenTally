@@ -1,7 +1,7 @@
 using DeathCounterHotkey.Controller;
 using DeathCounterHotkey.Controller.Forms;
 using DeathCounterHotkey.Database;
-using FallenTally.Utility;
+using FallenTally.Utility.Singletons;
 
 namespace DeathCounterHotkey;
 
@@ -28,35 +28,35 @@ static class Program
             Application.SetCompatibleTextRenderingDefault(true);
             Singleton singleton = Singleton.GetInstance();
             SQLiteDBContext db = new SQLiteDBContext();
-            singleton.Add("SQLiteDBContext", db);
+            singleton.Add(SQLiteDBContext.GetSingletonName(), db);
             db.TryMigrate();
             GameController gameController = new GameController(db);
-            singleton.Add(gameController.GetType().ToString(), gameController);
+            singleton.Add(GameController.GetSingletonName(), gameController);
             LocationController locationController = new LocationController(gameController, db);
-            singleton.Add(locationController.GetType().ToString(), locationController);
+            singleton.Add(LocationController.GetSingletonName(), locationController);
             TimerController streamTimerController = new TimerController();
             singleton.Add("StreamTimerController", streamTimerController);
             TimerController recordTimerController = new TimerController();
             singleton.Add("RecordTimerController", recordTimerController);
-            DeathController deathController = new DeathController(db);
-            singleton.Add(deathController.GetType().ToString(), deathController);
+            DeathController deathController = new DeathController();
+            singleton.Add(DeathController.GetSingletonName(), deathController);
             EditController editController = new EditController(gameController, locationController);
-            singleton.Add(editController.GetType().ToString(), editController);
-            OptionsController optionsController = new OptionsController(db);
-            singleton.Add(optionsController.GetType().ToString(), optionsController);
-            TextController textController = new TextController(optionsController);
-            singleton.Add(textController.GetType().ToString(), textController);
+            singleton.Add(EditController.GetSingletonName(), editController);
+            OptionsController optionsController = new OptionsController();
+            singleton.Add(OptionsController.GetSingletonName(), optionsController);
+            TextController textController = new TextController();
+            singleton.Add(TextController.GetSingletonName(), textController);
             textController.CreateDirectory();
-            TwitchTokenController tokenController = new TwitchTokenController(optionsController);
-            singleton.Add(tokenController.GetType().ToString(), tokenController);
-            RecordingController recordingController = new RecordingController(db);
-            singleton.Add("", recordingController);
-            MarkerController markerController = new MarkerController(db, recordingController);
-            singleton.Add(markerController.GetType().ToString(), markerController);
-            ExportController exportController = new ExportController(db, markerController);
-            singleton.Add(exportController.GetType().ToString(), exportController);
-            MainController mainController = new MainController(gameController, locationController, deathController, editController, optionsController, streamTimerController, tokenController, textController, exportController, markerController, recordTimerController, recordingController);
-            singleton.Add(mainController.GetType().ToString(), mainController);
+            TwitchTokenController tokenController = new TwitchTokenController();
+            singleton.Add(TwitchTokenController.GetSingletonName(), tokenController);
+            RecordingController recordingController = new RecordingController();
+            singleton.Add(RecordingController.GetSingletonName(), recordingController);
+            MarkerController markerController = new MarkerController();
+            singleton.Add(MarkerController.GetSingletonName(), markerController);
+            ExportController exportController = new ExportController();
+            singleton.Add(ExportController.GetSingletonName(), exportController);
+            MainController mainController = new MainController();
+            singleton.Add(MainController.GetSingletonName(), mainController);
             Application.Run(new MainForm(mainController));
         }
         catch (Exception ex)

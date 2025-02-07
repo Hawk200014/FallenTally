@@ -1,5 +1,6 @@
 ﻿using DeathCounterHotkey.Controller.Forms;
 using DeathCounterHotkey.Resources;
+using FallenTally.Utility.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,14 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace DeathCounterHotkey.Controller
 {
-    public class TextController
+    public class TextController : ISingleton
     {
-        private OptionsController _optionsController;
+        private readonly Singleton _singleton = Singleton.GetInstance();
+        private OptionsController? _optionsController;
 
-        public TextController(OptionsController optionsController)
+        public TextController()
         { 
-            this._optionsController = optionsController;
+            this._optionsController = _singleton.GetValue(OptionsController.GetSingletonName()) as OptionsController;
         }
 
         public void CreateDirectory()
@@ -236,5 +238,9 @@ namespace DeathCounterHotkey.Controller
             File.WriteAllText(path, textContent);
         }
 
+        public static string GetSingletonName()
+        {
+            return "TextController";
+        }
     }
 }

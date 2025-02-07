@@ -1,5 +1,6 @@
 ﻿using DeathCounterHotkey.Database.Models;
 using DeathCounterHotkey.Resources;
+using FallenTally.Utility.Singletons;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,20 +11,19 @@ using System.Threading.Tasks;
 
 namespace DeathCounterHotkey.Database
 {
-    public class SQLiteDBContext : DbContext
+    public class SQLiteDBContext : DbContext, ISingleton
     {
-        public SQLiteDBContext() 
+        public SQLiteDBContext()
         {
-            //Database.EnsureCreated();
             Database.Migrate();
         }
+
         public DbSet<SettingsModel> Settings { get; set; }
         public DbSet<GameStatsModel> GameStats { get; set; }
         public DbSet<DeathModel> Deaths { get; set; }
         public DbSet<DeathLocationModel> Locations { get; set; }
         public DbSet<MarkerModel> Markers { get; set; }
         public DbSet<RecordingModel> Recordings { get; set; }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -49,11 +49,32 @@ namespace DeathCounterHotkey.Database
                 .HasKey(x => x.MarkerId);
             modelBuilder.Entity<RecordingModel>()
                 .HasKey(x => x.RecordingId);
+
+            // Configure relationships
+            modelBuilder.Entity<DeathLocationModel>()
+                .HasOne(dl => dl.Game)
+                .WithMany(g => g.Locations)
+                .HasForeignKey(dl => dl.GameID);
+
+            modelBuilder.Entity<DeathModel>()
+                .HasOne(d => d.Location)
+                .WithMany(dl => dl.Deaths)
+                .HasForeignKey(d => d.LocationId);
+
+            modelBuilder.Entity<MarkerModel>()
+                .HasOne(m => m.Game)
+                .WithMany(g => g.Markers)
+                .HasForeignKey(m => m.GameId);
         }
 
         public void TryMigrate()
         {
             //Database.Migrate();
+        }
+
+        public static string GetSingletonName()
+        {
+            return "SQLiteDBContext";
         }
     }
 }

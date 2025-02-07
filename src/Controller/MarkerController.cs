@@ -1,6 +1,7 @@
 ﻿using DeathCounterHotkey.Controller.Forms;
 using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
+using FallenTally.Utility.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,11 @@ using System.Threading.Tasks;
 
 namespace DeathCounterHotkey.Controller
 {
-    public class MarkerController
+    public class MarkerController : ISingleton
     {
-        private SQLiteDBContext _context;
-        private RecordingController _recordingController;
+        private readonly Singleton _singleton = Singleton.GetInstance();
+        private SQLiteDBContext? _context;
+        private RecordingController? _recordingController;
 
         public enum MARKER
         {
@@ -23,10 +25,10 @@ namespace DeathCounterHotkey.Controller
             PAUSE
         }
 
-        public MarkerController(SQLiteDBContext context , RecordingController recordingController) 
-        { 
-            this._context = context;
-            this._recordingController = recordingController;
+        public MarkerController() 
+        {   
+            this._context = _singleton.GetValue(SQLiteDBContext.GetSingletonName()) as SQLiteDBContext;
+            this._recordingController = _singleton.GetValue(RecordingController.GetSingletonName()) as RecordingController;
         }
 
         internal void SetMark(MARKER markerType, GameStatsModel? gameStatsModel, TimerController? streamTimer = null, TimerController? recordController = null)
@@ -34,7 +36,7 @@ namespace DeathCounterHotkey.Controller
             string categorie = markerType.ToString();
             MarkerModel markerModel = new MarkerModel()
             {
-                categorie = categorie,
+                Categorie = categorie,
                 GameId = gameStatsModel?.GameId ?? -1,
                 TimeStamp = DateTime.Now,
                 RecordingTime = recordController?.GetTime() ?? 0,
@@ -79,6 +81,11 @@ namespace DeathCounterHotkey.Controller
             }
 
             return query.ToList();
+        }
+
+        public static string GetSingletonName()
+        {
+            return "MarkerController";
         }
     }
 }

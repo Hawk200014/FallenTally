@@ -1,4 +1,5 @@
 ﻿using DeathCounterHotkey.Controller.Forms;
+using FallenTally.Utility.Singletons;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,11 @@ using System.Threading.Tasks;
 
 namespace DeathCounterHotkey.Controller
 {
-    public class HotkeyController
+    public class HotkeyController : ISingleton
     {
-        private OptionsController _optionsController;
-        private MainController _mainController;
+        private readonly Singleton _singleton = Singleton.GetInstance();
+        private OptionsController? _optionsController;
+        //private MainController _mainController;
         private Action _increaseAction;
         private Action _decreaseAction;
         private Action _switchAction;
@@ -37,7 +39,7 @@ namespace DeathCounterHotkey.Controller
         private string _markerTalkHKStr = "";
         private string _markerPauseHKStr = "";
 
-        public HotkeyController(OptionsController optionsController, MainController mainController,
+        public HotkeyController(
             Action increaseAction,
             Action decreaseAction,
             Action switchAction,
@@ -51,8 +53,7 @@ namespace DeathCounterHotkey.Controller
             Action markerPause
             )
         {
-            this._optionsController = optionsController;
-            this._mainController = mainController;
+            this._optionsController = _singleton.GetValue(OptionsController.GetSingletonName()) as OptionsController;
             this._increaseAction = increaseAction;
             this._decreaseAction = decreaseAction;
             this._switchAction = switchAction;
@@ -216,6 +217,11 @@ namespace DeathCounterHotkey.Controller
             _hotkeysHook.Dispose();
             _hotkeysHook = new KeyboardHook();
             _hotkeysHook.KeyPressed += keyPressedEventHandler;
+        }
+
+        public static string GetSingletonName()
+        {
+            return "HotkeyController";
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
-using FallenTally.Utility;
+using FallenTally.Utility.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace DeathCounterHotkey.Controller.Forms
 {
-    public class GameController
+    public class GameController : ISingleton
     {
-        private Singleton _singleton = Singleton.GetInstance();
-        private SQLiteDBContext _context;
+        private readonly Singleton _singleton = Singleton.GetInstance();
+        private SQLiteDBContext? _context;
 
         private GameStatsModel? _activeGame;
 
         public GameController(SQLiteDBContext context) 
         {
-            this._context = _singleton.GetValue("SQLiteDBContext") as SQLiteDBContext;
+            this._context = _singleton.GetValue(SQLiteDBContext.GetSingletonName()) as SQLiteDBContext;
         }
 
         public bool AddGame(string gamename, string prefix)
@@ -98,6 +98,11 @@ namespace DeathCounterHotkey.Controller.Forms
             _context.GameStats.Remove(_activeGame);
             _activeGame = null;
             _context.SaveChanges();
+        }
+
+        public static string GetSingletonName()
+        {
+            return "GameController";
         }
     }
 }

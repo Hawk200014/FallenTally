@@ -1,5 +1,6 @@
 ﻿using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
+using FallenTally.Utility.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace DeathCounterHotkey.Controller.Forms
 {
-    public class OptionsController
+    public class OptionsController : ISingleton
     {
-        private SQLiteDBContext _context;
-        public OptionsController(SQLiteDBContext context)
+        private readonly Singleton _singleton = Singleton.GetInstance();
+        private SQLiteDBContext? _context;
+        public OptionsController()
         {
-            this._context = context;
-
+            this._context = _singleton.GetValue(SQLiteDBContext.GetSingletonName()) as SQLiteDBContext;
         }
 
         public bool SetSetting(string key, string value)
@@ -90,6 +91,11 @@ namespace DeathCounterHotkey.Controller.Forms
             SettingsModel? language = _context.Settings.AsEnumerable().Where(x => x.SettingsName.Equals(nameof(OptionsController.OPTIONS.LANGUAGE))).FirstOrDefault();
             if (language is null) return "en";
             return language.SettingsValue;
+        }
+
+        public static string GetSingletonName()
+        {
+            return "OptionsController";
         }
     }
 }

@@ -2,20 +2,14 @@
 using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
 using DeathCounterHotkey.Resources;
-using DocumentFormat.OpenXml.Wordprocessing;
-using System;
-using System.Collections.Generic;
+using FallenTally.Utility.Singletons;
 using System.Data;
-using System.DirectoryServices.ActiveDirectory;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DeathCounterHotkey.Controller.Forms
 {
-    public class ExportController
+    public class ExportController : ISingleton
     {
         public enum ExportType
         {
@@ -24,35 +18,22 @@ namespace DeathCounterHotkey.Controller.Forms
             FTSTAMPS
         }
 
-        private readonly MarkerController _markercontroller;
-        private readonly SQLiteDBContext _context;
+        private readonly MarkerController? _markercontroller;
+        private readonly Singleton _singleton = Singleton.GetInstance();
+        private readonly SQLiteDBContext? _context;
         private CultureInfo _culture = new CultureInfo("de-DE");
 
-        public ExportController(SQLiteDBContext context, MarkerController markerController)
+        public ExportController()
         {
-            _markercontroller = markerController;
-            _context = context;
+            _context = _singleton.GetValue(SQLiteDBContext.GetSingletonName()) as SQLiteDBContext;
+            _markercontroller = _singleton.GetValue(MarkerController.GetSingletonName()) as MarkerController;
         }
 
-        /// <summary>
-        /// Gets the count of deaths based on the provided filters.
-        /// </summary>
-        /// <param name="gameName">The name of the game.</param>
-        /// <param name="locationName">The name of the location.</param>
-        /// <param name="timeStamp">The timestamp to filter by.</param>
-        /// <returns>The count of deaths.</returns>
         internal int GetDeathCount(string? gameName, string? locationName, string? timeStamp)
         {
             return GetDeathModels(gameName, locationName, timeStamp).Count;
         }
 
-        /// <summary>
-        /// Retrieves death models based on the provided filters.
-        /// </summary>
-        /// <param name="gameName">The name of the game.</param>
-        /// <param name="locationName">The name of the location.</param>
-        /// <param name="timeStamp">The timestamp to filter by.</param>
-        /// <returns>A list of death models.</returns>
         private List<DeathModel> GetDeathModels(string? gameName, string? locationName, string? timeStamp)
         {
             var query = _context.Deaths
@@ -69,43 +50,27 @@ namespace DeathCounterHotkey.Controller.Forms
                 query = query.Where(x => x.dl.l.Name == locationName);
             }
 
-            var result = query.ToList();
-
             if (!string.IsNullOrEmpty(timeStamp))
             {
-                result = result.Where(x => x.dl.d.TimeStamp.ToLongDateString() == timeStamp).ToList();
+                query = query.Where(x => x.dl.d.TimeStamp.ToLongDateString() == timeStamp);
             }
 
-            return result.Select(x => x.dl.d).ToList();
+            return query.Select(x => x.dl.d).ToList();
         }
 
-        /// <summary>
-        /// Gets distinct death dates based on the provided filters.
-        /// </summary>
-        /// <param name="gameName">The name of the game.</param>
-        /// <param name="locationName">The name of the location.</param>
-        /// <param name="timeStamp">The timestamp to filter by.</param>
-        /// <returns>An array of distinct death dates.</returns>
         internal string[] GetDistinctDeathDates(string? gameName = null, string? locationName = null, string? timeStamp = null)
         {
-            var query = GetDeathModels(gameName, locationName, timeStamp).Select(x => DateOnly.FromDateTime(x.TimeStamp).ToString("d", _culture));
-            return query.Distinct().ToArray();
+            return GetDeathModels(gameName, locationName, timeStamp)
+                .Select(x => DateOnly.FromDateTime(x.TimeStamp).ToString("d", _culture))
+                .Distinct()
+                .ToArray();
         }
 
-        /// <summary>
-        /// Retrieves a list of distinct game names.
-        /// </summary>
-        /// <returns>An array of game names.</returns>
         internal string[] GetGameDeathList()
         {
             return _context.GameStats.Select(x => x.GameName).Distinct().ToArray();
         }
 
-        /// <summary>
-        /// Retrieves a list of distinct locations for a given game.
-        /// </summary>
-        /// <param name="gameName">The name of the game.</param>
-        /// <returns>An array of location names.</returns>
         internal string[] GetLocationDeathList(string gameName)
         {
             return _context.Locations
@@ -116,111 +81,37 @@ namespace DeathCounterHotkey.Controller.Forms
                 .ToArray();
         }
 
-        /// <summary>
-        /// Exports the death data to the specified format.
-        /// </summary>
-        /// <param name="exportType">The type of export (CSV or EXCEL).</param>
-        /// <param name="gameName">The name of the game.</param>
-        /// <param name="locationName">The name of the location.</param>
-        /// <param name="date">The date to filter by.</param>
-        /// <param name="exportPath">The path to save the exported file.</param>
-        /// <returns>A message indicating the result of the export.</returns>
-        internal string Export(ExportType exportType, string gameName, string locationName, string date, string exportPath)
+        internal async Task<string> Export(ExportType exportType, string gameName, string locationName, string date, string exportPath)
         {
             DataTable dt = CreateDataTableFromFilter(gameName, locationName, date);
             int result = exportType switch
             {
-                ExportType.CSV => ExportCSV(dt, exportPath),
-                ExportType.EXCEL => ExportToExcel(dt, exportPath),
-                ExportType.FTSTAMPS => ExportToFTStamps(CreateDataTableFromFilterForFTS(gameName, locationName, date), exportPath), // Not implemented
+                ExportType.CSV => await ExportCSV(dt, exportPath),
+                ExportType.EXCEL => await ExportToExcel(dt, exportPath),
+                ExportType.FTSTAMPS => await ExportToFTStamps(CreateDataTableFromFilterForFTS(gameName, locationName, date), exportPath),
                 _ => 0
             };
 
-            string message = result switch
-            {
-                1 => "Export successful",
-                _ => "Export failed"
-            };
-
+            string message = result == 1 ? "Export successful" : "Export failed";
             MessageBox.Show(message, "Export", MessageBoxButtons.OK);
             return message;
         }
 
         private DataTable CreateDataTableFromFilterForFTS(string gameName, string locationName, string date)
         {
-            var gameStatsModels = _context.GameStats
-                .Where(x => string.IsNullOrEmpty(gameName) || x.GameName == gameName)
-                .OrderBy(x => x.GameId)
-                .ToList();
-
-            DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("Location", typeof(string));
-            dataTable.Columns.Add("Death stream time", typeof(string));
-            dataTable.Columns.Add("Death recording time", typeof(string));
-            dataTable.Columns.Add("Death Number", typeof(int));
-
-            foreach (var gameStats in gameStatsModels)
+            return CreateDataTable(gameName, locationName, date, (dataTable, death, deathNumber) =>
             {
-                int deathNumber = 0;
-                var deathLocationModels = _context.Locations
-                    .Where(x => x.GameID == gameStats.GameId && (string.IsNullOrEmpty(locationName) || x.Name == locationName))
-                    .OrderBy(x => x.LocationId)
-                    .ToList();
-
-                foreach (var deathLocation in deathLocationModels)
-                {
-                    string deahLocStr = deathLocation.Name == GLOBALVARS.DEFAULT_LOCATION ? "WORLD" : "LOCATION";
-                    var deathModels = _context.Deaths
-                        .Where(x => x.LocationId == deathLocation.LocationId)
-                        .Where(x => string.IsNullOrEmpty(date) || x.TimeStamp.ToLongDateString() == date)
-                        .ToList();
-
-                    foreach (var death in deathModels)
-                    {
-                        deathNumber++;
-
-                        dataTable.Rows.Add(deahLocStr, death.RecordingTime, death.StreamTime, deathNumber);
-                    }
-                }
-            }
-            return dataTable;
+                string deahLocStr = death.Location.Name == GLOBALVARS.DEFAULT_LOCATION ? "WORLD" : "LOCATION";
+                dataTable.Rows.Add(deahLocStr, death.RecordingTime, death.StreamTime, deathNumber);
+            });
         }
 
-        private int ExportToFTStamps(DataTable dt, string exportPath)
+        private Task<int> ExportToFTStamps(DataTable dt, string exportPath)
         {
-            try
-            {
-                using (var writer = new StreamWriter(exportPath))
-                {
-                    // Write the header
-                    //var header = string.Join(";", dt.Columns.Cast<DataColumn>().Select(c => c.ColumnName));
-
-                    //dt.Columns.Cast<DataColumn>().Where(x => x.ColumnName.Equals())
-
-                    //writer.WriteLine(header);
-
-                    // Write the data
-                    foreach (DataRow row in dt.Rows)
-                    {
-                        var line = string.Join(";", row.ItemArray.Select(field => field.ToString()));
-                        writer.WriteLine(line);
-                    }
-                }
-                return 1; // Success
-            }
-            catch
-            {
-                return 0; // Failure
-            }
+            return ExportToFile(dt, exportPath, async (writer, line) => await writer.WriteLineAsync(line));
         }
 
-        /// <summary>
-        /// Exports the data to an Excel file.
-        /// </summary>
-        /// <param name="dt">The data to export.</param>
-        /// <param name="exportPath">The path to save the Excel file.</param>
-        /// <returns>1 for success, 0 for failure.</returns>
-        private int ExportToExcel(DataTable dt, string exportPath)
+        private async Task<int> ExportToExcel(DataTable dt, string exportPath)
         {
             try
             {
@@ -230,53 +121,53 @@ namespace DeathCounterHotkey.Controller.Forms
                     worksheet.Cell(1, 1).InsertTable(dt);
                     workbook.SaveAs(exportPath);
                 }
-                return 1; // Success
+                return 1;
             }
-            catch
+            catch (Exception ex)
             {
-                return 0; // Failure
+                // Log exception
+                return 0;
             }
         }
 
-        /// <summary>
-        /// Exports the data to a CSV file.
-        /// </summary>
-        /// <param name="dt">The data to export.</param>
-        /// <param name="exportPath">The path to save the CSV file.</param>
-        /// <returns>1 for success, 0 for failure.</returns>
-        private int ExportCSV(DataTable dt, string exportPath)
+        private Task<int> ExportCSV(DataTable dt, string exportPath)
+        {
+            return ExportToFile(dt, exportPath, async (writer, line) => await writer.WriteLineAsync(line));
+        }
+
+        private async Task<int> ExportToFile(DataTable dt, string exportPath, Func<StreamWriter, string, Task> writeLineAsync)
         {
             try
             {
                 using (var writer = new StreamWriter(exportPath))
                 {
-                    // Write the header
                     var header = string.Join(";", dt.Columns.Cast<DataColumn>().Select(c => c.ColumnName));
-                    writer.WriteLine(header);
+                    await writeLineAsync(writer, header);
 
-                    // Write the data
                     foreach (DataRow row in dt.Rows)
                     {
                         var line = string.Join(";", row.ItemArray.Select(field => field.ToString()));
-                        writer.WriteLine(line);
+                        await writeLineAsync(writer, line);
                     }
                 }
-                return 1; // Success
+                return 1;
             }
-            catch
+            catch (Exception ex)
             {
-                return 0; // Failure
+                // Log exception
+                return 0;
             }
         }
 
-        /// <summary>
-        /// Creates a DataTable from the filtered death data.
-        /// </summary>
-        /// <param name="gameName">The name of the game.</param>
-        /// <param name="locationName">The name of the location.</param>
-        /// <param name="date">The date to filter by.</param>
-        /// <returns>A DataTable containing the filtered data.</returns>
         private DataTable CreateDataTableFromFilter(string gameName, string locationName, string date)
+        {
+            return CreateDataTable(gameName, locationName, date, (dataTable, death, deathNumber) =>
+            {
+                dataTable.Rows.Add(death.Location.Game.GameName, deathNumber, death.Location.Name, death.Location.Finish, death.Location.DeathNumberAtLocation, death.TimeStamp.ToString(), TimerController.ConvertTimeToReadableTime(death.StreamTime), TimerController.ConvertTimeToReadableTime(death.RecordingTime));
+            });
+        }
+
+        private DataTable CreateDataTable(string gameName, string locationName, string date, Action<DataTable, DeathModel, int> addRow)
         {
             var gameStatsModels = _context.GameStats
                 .Where(x => string.IsNullOrEmpty(gameName) || x.GameName == gameName)
@@ -295,7 +186,7 @@ namespace DeathCounterHotkey.Controller.Forms
 
             foreach (var gameStats in gameStatsModels)
             {
-                int deathInGame = 0;
+                int deathNumber = 0;
                 var deathLocationModels = _context.Locations
                     .Where(x => x.GameID == gameStats.GameId && (string.IsNullOrEmpty(locationName) || x.Name == locationName))
                     .OrderBy(x => x.LocationId)
@@ -303,7 +194,6 @@ namespace DeathCounterHotkey.Controller.Forms
 
                 foreach (var deathLocation in deathLocationModels)
                 {
-                    int deathAtLocation = 0;
                     var deathModels = _context.Deaths
                         .Where(x => x.LocationId == deathLocation.LocationId)
                         .Where(x => string.IsNullOrEmpty(date) || x.TimeStamp.ToLongDateString() == date)
@@ -311,20 +201,14 @@ namespace DeathCounterHotkey.Controller.Forms
 
                     foreach (var death in deathModels)
                     {
-                        deathInGame++;
-                        deathAtLocation++;
-                        dataTable.Rows.Add(gameStats.GameName, deathInGame, deathLocation.Name, deathLocation.Finish, deathAtLocation, death.TimeStamp.ToString(), TimerController.ConvertTimeToReadableTime(death.StreamTime), TimerController.ConvertTimeToReadableTime(death.RecordingTime));
+                        deathNumber++;
+                        addRow(dataTable, death, deathNumber);
                     }
                 }
             }
             return dataTable;
         }
 
-
-        /// <summary>
-        /// Gets the available export formats.
-        /// </summary>
-        /// <returns>An array of export format names.</returns>
         internal string[] GetExportFormats()
         {
             return Enum.GetNames(typeof(ExportType));
@@ -338,12 +222,11 @@ namespace DeathCounterHotkey.Controller.Forms
 
         internal string[] GetGameMarkerList()
         {
-
             return _context.GameStats
-                .Where(x => _context.Markers
-                                   .Select(m => m.GameId)
-                                                      .Contains(x.GameId))
-                .Select(x => x.GameName).Distinct().ToArray();
+                .Where(x => _context.Markers.Select(m => m.GameId).Contains(x.GameId))
+                .Select(x => x.GameName)
+                .Distinct()
+                .ToArray();
         }
 
         internal string[] GetDistinctMarkerDates(string gamename = "")
@@ -352,15 +235,10 @@ namespace DeathCounterHotkey.Controller.Forms
 
             if (!string.IsNullOrEmpty(gamename))
             {
-                query = query.Where(m => m.GameId == _context.GameStats
-                    .Where(x => x.GameName == gamename)
-                    .Select(x => x.GameId)
-                    .FirstOrDefault()
-                );
+                query = query.Where(m => m.GameId == _context.GameStats.Where(x => x.GameName == gamename).Select(x => x.GameId).FirstOrDefault());
             }
 
-            return query.Select(m => DateOnly.FromDateTime(m.TimeStamp).ToString("d",
-                  _culture)).Distinct().ToArray();
+            return query.Select(m => DateOnly.FromDateTime(m.TimeStamp).ToString("d", _culture)).Distinct().ToArray();
         }
 
         internal string[] GetDistinctMarkerSessions(string? gamename = null, string? date = null)
@@ -369,11 +247,7 @@ namespace DeathCounterHotkey.Controller.Forms
 
             if (!string.IsNullOrEmpty(gamename))
             {
-                query = query.Where(m => m.GameId == _context.GameStats
-                    .Where(x => x.GameName == gamename)
-                    .Select(x => x.GameId)
-                    .FirstOrDefault()
-                );
+                query = query.Where(m => m.GameId == _context.GameStats.Where(x => x.GameName == gamename).Select(x => x.GameId).FirstOrDefault());
             }
 
             if (!string.IsNullOrEmpty(date))
@@ -383,33 +257,44 @@ namespace DeathCounterHotkey.Controller.Forms
             return query.Select(m => m.RecordingSession.ToString()).Distinct().ToArray();
         }
 
-        internal string ExportMarker(ExportType exportType, string gameName, string date, string session, string fileName)
+        internal async Task<string> ExportMarker(ExportType exportType, string gameName, string date, string session, string fileName)
         {
             DataTable dt = CreateDataTableFromFilterMarker(gameName, date, session);
             int result = exportType switch
             {
-                ExportType.CSV => ExportCSV(dt, fileName),
-                ExportType.EXCEL => ExportToExcel(dt, fileName),
-                ExportType.FTSTAMPS => ExportToFTStamps(CreateDataTableFromFilterMarkerFTS(gameName, date, session), fileName),
+                ExportType.CSV => await ExportCSV(dt, fileName),
+                ExportType.EXCEL => await ExportToExcel(dt, fileName),
+                ExportType.FTSTAMPS => await ExportToFTStamps(CreateDataTableFromFilterMarkerFTS(gameName, date, session), fileName),
                 _ => 0
             };
 
-            string message = result switch
-            {
-                1 => "Export successful",
-                _ => "Export failed"
-            };
-
+            string message = result == 1 ? "Export successful" : "Export failed";
             MessageBox.Show(message, "Export", MessageBoxButtons.OK);
             return message;
         }
 
         private DataTable CreateDataTableFromFilterMarker(string gameName, string date, string session)
         {
+            return CreateDataTableMarker(gameName, date, session, (dataTable, marker, markerNumber) =>
+            {
+                dataTable.Rows.Add(marker.Game.GameName, marker.Categorie, marker.TimeStamp.ToString(), marker.RecordingSession, TimerController.ConvertTimeToReadableTime(marker.RecordingTime), marker.StreamSession, TimerController.ConvertTimeToReadableTime(marker.StreamTime));
+            });
+        }
+
+        private DataTable CreateDataTableFromFilterMarkerFTS(string gameName, string date, string session)
+        {
+            return CreateDataTableMarker(gameName, date, session, (dataTable, marker, markerNumber) =>
+            {
+                dataTable.Rows.Add(marker.Categorie, marker.RecordingTime, marker.StreamTime, markerNumber);
+            });
+        }
+
+        private DataTable CreateDataTableMarker(string gameName, string date, string session, Action<DataTable, MarkerModel, int> addRow)
+        {
             var gameStatsModels = _context.GameStats
-               .Where(x => string.IsNullOrEmpty(gameName) || x.GameName == gameName)
-               .OrderBy(x => x.GameId)
-               .ToList();
+                .Where(x => string.IsNullOrEmpty(gameName) || x.GameName == gameName)
+                .OrderBy(x => x.GameId)
+                .ToList();
 
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Game", typeof(string));
@@ -420,35 +305,6 @@ namespace DeathCounterHotkey.Controller.Forms
             dataTable.Columns.Add("Streaming Session", typeof(int));
             dataTable.Columns.Add("Stream Time", typeof(string));
 
-            foreach (var gameStats in gameStatsModels)
-            {
-                var markers = _context.Markers
-                    .Where(x => x.GameId == gameStats.GameId)
-                    .Where(x => string.IsNullOrEmpty(date) || DateOnly.FromDateTime(x.TimeStamp).ToString("d", _culture) == date)
-                    .Where(x => string.IsNullOrEmpty(session) || x.RecordingSession.ToString() == session)
-                    .ToList();
-                foreach (var marker in markers)
-                {
-                    dataTable.Rows.Add(gameStats.GameName, marker.categorie, marker.TimeStamp.ToString(), marker.RecordingSession, TimerController.ConvertTimeToReadableTime(marker.RecordingTime), marker.StreamSession, TimerController.ConvertTimeToReadableTime(marker.StreamTime));
-                }
-
-            }
-            return dataTable;
-        }
-
-        private DataTable CreateDataTableFromFilterMarkerFTS(string gameName, string date, string session)
-        {
-            var gameStatsModels = _context.GameStats
-               .Where(x => string.IsNullOrEmpty(gameName) || x.GameName == gameName)
-               .OrderBy(x => x.GameId)
-               .ToList();
-
-            DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("MarkerType", typeof(string));
-            dataTable.Columns.Add("Recording Time", typeof(string));
-            dataTable.Columns.Add("Stream Time", typeof(string));
-            dataTable.Columns.Add("Marker Number", typeof(int));
-
             int markerNumber = 0;
 
             foreach (var gameStats in gameStatsModels)
@@ -458,14 +314,19 @@ namespace DeathCounterHotkey.Controller.Forms
                     .Where(x => string.IsNullOrEmpty(date) || DateOnly.FromDateTime(x.TimeStamp).ToString("d", _culture) == date)
                     .Where(x => string.IsNullOrEmpty(session) || x.RecordingSession.ToString() == session)
                     .ToList();
+
                 foreach (var marker in markers)
                 {
                     markerNumber++;
-                    dataTable.Rows.Add( marker.categorie, marker.RecordingTime, marker.StreamTime, markerNumber);
+                    addRow(dataTable, marker, markerNumber);
                 }
-
             }
             return dataTable;
+        }
+
+        public static string GetSingletonName()
+        {
+            return "ExportController";
         }
     }
 }
