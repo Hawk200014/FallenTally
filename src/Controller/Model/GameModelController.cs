@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FallenTally.Controller.Forms
+namespace FallenTally.Controller.Model
 {
-    public interface IFormUpdate
+    internal class GameModelController
     {
-        public void UpdateForm();
     }
 }

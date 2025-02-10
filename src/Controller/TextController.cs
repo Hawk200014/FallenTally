@@ -1,5 +1,6 @@
 ﻿using DeathCounterHotkey.Controller.Forms;
 using DeathCounterHotkey.Resources;
+using FallenTally.Enums;
 using FallenTally.Utility.Singletons;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace DeathCounterHotkey.Controller
                 overlayText += content + "\n";
             }
 
-            string setting = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL));
+            string setting = _optionsController.GetSetting(nameof(OPTIONS.WORLD_AS_ALL));
             if(string.IsNullOrEmpty(setting))
             {
                 setting = "No";
@@ -129,7 +130,7 @@ namespace DeathCounterHotkey.Controller
 
         private string GetShadowColor()
         {
-            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.SHADOWCOLOR));
+            string tmp = _optionsController.GetSetting(nameof(OPTIONS.SHADOWCOLOR));
             if (tmp == "")
             {
                 tmp = "#000000";
@@ -139,7 +140,7 @@ namespace DeathCounterHotkey.Controller
 
         private string GetShadowSize()
         {
-            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.SHADOWSIZE));
+            string tmp = _optionsController.GetSetting(nameof(OPTIONS.SHADOWSIZE));
             if (tmp == "")
             {
                 tmp = "1";
@@ -149,7 +150,7 @@ namespace DeathCounterHotkey.Controller
 
         private string GetBorderColor()
         {
-            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.BORDERCOLOR));
+            string tmp = _optionsController.GetSetting(nameof(OPTIONS.BORDERCOLOR));
             if (tmp == "")
             {
                 tmp = "#000000";
@@ -159,7 +160,7 @@ namespace DeathCounterHotkey.Controller
 
         private string GetBorderSize()
         {
-            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.BORDERSIZE));
+            string tmp = _optionsController.GetSetting(nameof(OPTIONS.BORDERSIZE));
             tmp = tmp.Replace(",", ".");
             if (tmp == "")
             {
@@ -170,7 +171,7 @@ namespace DeathCounterHotkey.Controller
 
         private string GetFontStyle()
         {
-            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FONTSTYLE));
+            string tmp = _optionsController.GetSetting(nameof(OPTIONS.FONTSTYLE));
             if (tmp == "")
             {
                 tmp = "normal";
@@ -180,7 +181,7 @@ namespace DeathCounterHotkey.Controller
 
         private string GetFontWeight()
         {
-            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FONTWEIGHT));
+            string tmp = _optionsController.GetSetting(nameof(OPTIONS.FONTWEIGHT));
             if (tmp == "")
             {
                 tmp = "normal";
@@ -190,7 +191,7 @@ namespace DeathCounterHotkey.Controller
 
         private string GetFontSize()
         {
-            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FONTSIZE));
+            string tmp = _optionsController.GetSetting(nameof(OPTIONS.FONTSIZE));
             if (tmp == "")
             {
                 tmp = "1";
@@ -200,7 +201,7 @@ namespace DeathCounterHotkey.Controller
 
         private string GetFontColor()
         {
-            string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.TEXTCOLOR));
+            string tmp = _optionsController.GetSetting(nameof(OPTIONS.TEXTCOLOR));
             if (tmp == "")
             {
                 tmp = "#000000";
@@ -210,7 +211,7 @@ namespace DeathCounterHotkey.Controller
 
         private string GetFont()
         {
-            string fontname = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FONTFAMILY));
+            string fontname = _optionsController.GetSetting(nameof(OPTIONS.FONTFAMILY));
             if (fontname == "")
             {
                 fontname = "Arial";

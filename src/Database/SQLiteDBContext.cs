@@ -15,6 +15,7 @@ namespace DeathCounterHotkey.Database
     {
         public SQLiteDBContext()
         {
+            //Database.EnsureCreated();
             Database.Migrate();
         }
 

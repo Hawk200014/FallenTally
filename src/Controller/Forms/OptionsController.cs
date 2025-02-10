@@ -1,5 +1,6 @@
 ﻿using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
+using FallenTally.Enums;
 using FallenTally.Utility.Singletons;
 using System;
 using System.Collections.Generic;
@@ -54,32 +55,7 @@ namespace DeathCounterHotkey.Controller.Forms
             return _context.Settings.AsEnumerable().Where(x => x.SettingsName.Equals(key)).Any();
         }
 
-        public enum OPTIONS
-        {
-            LANGUAGE,
-            INCREASE_HOTKEY,
-            DECREASE_HOTKEY,
-            SWITCH_LOCATION_HOTKEY,
-            QUICKADD_LOCATION_HOTKEY,
-            TWITCH_NAME,
-            WORLD_AS_ALL,
-            FONTFAMILY,
-            FONTSIZE,
-            FONTSTYLE,
-            FONTWEIGHT,
-            BORDERSIZE,
-            SHADOWSIZE,
-            TEXTCOLOR,
-            SHADOWCOLOR,
-            BORDERCOLOR,
-            FINISH_LOCATION_HOTKEY,
-            START_RECORDING_TIMER,
-            MARKER_NORMAL_HOTKEY,
-            MARKER_FUNNY_HOTKEY,
-            MARKER_GAMING_HOTKEY,
-            MARKER_TALK_HOTKEY,
-            MARKER_PAUSE_HOTKEY
-        }
+
 
         public string GetSetting(string key)
         {
@@ -88,7 +64,7 @@ namespace DeathCounterHotkey.Controller.Forms
 
         internal string GetLanguage()
         {
-            SettingsModel? language = _context.Settings.AsEnumerable().Where(x => x.SettingsName.Equals(nameof(OptionsController.OPTIONS.LANGUAGE))).FirstOrDefault();
+            SettingsModel? language = _context.Settings.AsEnumerable().Where(x => x.SettingsName.Equals(nameof(OPTIONS.LANGUAGE))).FirstOrDefault();
             if (language is null) return "en";
             return language.SettingsValue;
         }

@@ -1,6 +1,7 @@
 ﻿using DeathCounterHotkey.Controller.Forms;
 using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
+using FallenTally.Enums;
 using FallenTally.Utility.Singletons;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,7 @@ namespace DeathCounterHotkey.Controller
         private SQLiteDBContext? _context;
         private RecordingController? _recordingController;
 
-        public enum MARKER
-        {
-            NORMAL,
-            FUNNY,
-            GAME,
-            TALK,
-            PAUSE
-        }
+
 
         public MarkerController() 
         {   
@@ -41,8 +35,8 @@ namespace DeathCounterHotkey.Controller
                 TimeStamp = DateTime.Now,
                 RecordingTime = recordController?.GetTime() ?? 0,
                 StreamTime = streamTimer?.GetTime() ?? 0,
-                StreamSession = _recordingController.GetRecordingNumber(RecordingController.RecordingType.stream),
-                RecordingSession = _recordingController.GetRecordingNumber(RecordingController.RecordingType.recording)
+                StreamSession = _recordingController.GetRecordingNumber(RECORDINGTYPE.stream),
+                RecordingSession = _recordingController.GetRecordingNumber(RECORDINGTYPE.recording)
             };
             _context.Markers.Add(markerModel);
             _context.SaveChanges();

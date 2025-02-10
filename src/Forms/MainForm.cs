@@ -3,7 +3,8 @@ using DeathCounterHotkey.Controller.Forms;
 using DeathCounterHotkey.Database.Models;
 using DeathCounterHotkey.Forms;
 using DeathCounterHotkey.Resources;
-using FallenTally.Controller.Forms;
+using FallenTally.Enums;
+using FallenTally.Interfaces;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Web;
@@ -82,7 +83,7 @@ public partial class MainForm : Form, IFormUpdate
     {
         string gameName = _mainController.GetGameController().GetActiveGame()?.GameName ?? "";
         if (string.IsNullOrEmpty(gameName)) return;
-        new EditForm(gameName, this._mainController.GetEditController(), EditController.EDITCATEGORIE.GAME, UpdateGameList).Show(this);
+        new EditForm(gameName, this._mainController.GetEditController(), EDITCATEGORIE.GAME, UpdateGameList).Show(this);
     }
 
     private void UpdateAndSelectGame(GameStatsModel? model)
@@ -202,7 +203,7 @@ public partial class MainForm : Form, IFormUpdate
         DeathLocationModel? active = _mainController.GetLocationController().GetActiveLocation();
         if (active is null) return;
         if (active.Name.Equals(GLOBALVARS.DEFAULT_LOCATION)) return;
-        new EditForm(active.Name, this._mainController.GetEditController(), EditController.EDITCATEGORIE.LOCATION, UpdateLocationList).Show(this);
+        new EditForm(active.Name, this._mainController.GetEditController(), EDITCATEGORIE.LOCATION, UpdateLocationList).Show(this);
     }
 
     private string GetSelectedLocation()

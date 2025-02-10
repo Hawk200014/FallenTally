@@ -1,5 +1,6 @@
 ﻿using DeathCounterHotkey.Controller.Forms;
 using DeathCounterHotkey.Forms;
+using FallenTally.Enums;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Text;
@@ -22,65 +23,65 @@ namespace DeathCounterHotkey
 
         private void LoadOptions()
         {
-            int index = languageCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.LANGUAGE)));
+            int index = languageCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.LANGUAGE)));
             languageCombo.SelectedIndex = index;
-            index = increaseCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.INCREASE_HOTKEY)));
+            index = increaseCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.INCREASE_HOTKEY)));
             increaseCombo.SelectedIndex = index;
-            index = decreaseCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.DECREASE_HOTKEY)));
+            index = decreaseCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.DECREASE_HOTKEY)));
             decreaseCombo.SelectedIndex = index;
-            index = switchLocationCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.SWITCH_LOCATION_HOTKEY)));
+            index = switchLocationCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.SWITCH_LOCATION_HOTKEY)));
             switchLocationCombo.SelectedIndex = index;
-            index = quickAddLocationCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.QUICKADD_LOCATION_HOTKEY)));
+            index = quickAddLocationCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.QUICKADD_LOCATION_HOTKEY)));
             quickAddLocationCombo.SelectedIndex = index;
-            index = finishLocationCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.FINISH_LOCATION_HOTKEY)));
+            index = finishLocationCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.FINISH_LOCATION_HOTKEY)));
             finishLocationCombo.SelectedIndex = index;
-            index = recordingStartCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.START_RECORDING_TIMER)));
+            index = recordingStartCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.START_RECORDING_TIMER)));
             recordingStartCombo.SelectedIndex = index;
-            index = markerNormalCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.MARKER_NORMAL_HOTKEY)));
+            index = markerNormalCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.MARKER_NORMAL_HOTKEY)));
             markerNormalCombo.SelectedIndex = index;
-            index = markerFunnyCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.MARKER_FUNNY_HOTKEY)));
+            index = markerFunnyCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.MARKER_FUNNY_HOTKEY)));
             markerFunnyCombo.SelectedIndex = index;
-            index = markerGamingCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.MARKER_GAMING_HOTKEY)));
+            index = markerGamingCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.MARKER_GAMING_HOTKEY)));
             markerGamingCombo.SelectedIndex = index;
-            index = markerTalkCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.MARKER_TALK_HOTKEY)));
+            index = markerTalkCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.MARKER_TALK_HOTKEY)));
             markerTalkCombo.SelectedIndex = index;
-            index = markerPauseCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.MARKER_PAUSE_HOTKEY)));
+            index = markerPauseCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.MARKER_PAUSE_HOTKEY)));
             markerPauseCombo.SelectedIndex = index;
-            twitchNameTb.Text = _controller.GetSetting(nameof(OptionsController.OPTIONS.TWITCH_NAME));
-            index = worldAsAllDeathsCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL))) == -1 ? 0 : worldAsAllDeathsCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL)));
+            twitchNameTb.Text = _controller.GetSetting(nameof(OPTIONS.TWITCH_NAME));
+            index = worldAsAllDeathsCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.WORLD_AS_ALL))) == -1 ? 0 : worldAsAllDeathsCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.WORLD_AS_ALL)));
             worldAsAllDeathsCombo.SelectedIndex = index;
-            index = fontCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.FONTFAMILY))) == -1 ? 0 : fontCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.FONTFAMILY)));
+            index = fontCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.FONTFAMILY))) == -1 ? 0 : fontCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.FONTFAMILY)));
             fontCombo.SelectedIndex = index;
-            index = fontStyleCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.FONTSTYLE))) == -1 ? 0 : fontStyleCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.FONTSTYLE)));
+            index = fontStyleCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.FONTSTYLE))) == -1 ? 0 : fontStyleCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.FONTSTYLE)));
             fontStyleCombo.SelectedIndex = index;
-            index = fontWeightCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.FONTWEIGHT))) == -1 ? 0 : fontWeightCombo.Items.IndexOf(_controller.GetSetting(nameof(OptionsController.OPTIONS.FONTWEIGHT)));
+            index = fontWeightCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.FONTWEIGHT))) == -1 ? 0 : fontWeightCombo.Items.IndexOf(_controller.GetSetting(nameof(OPTIONS.FONTWEIGHT)));
             fontWeightCombo.SelectedIndex = index;
-            string tmpStr = _controller.GetSetting(nameof(OptionsController.OPTIONS.FONTSIZE));
+            string tmpStr = _controller.GetSetting(nameof(OPTIONS.FONTSIZE));
             int size = 1;
             if (!string.IsNullOrEmpty(tmpStr))
             {
                 size = int.Parse(tmpStr);
             }
             fontSizeNumeric.Value = size;
-            tmpStr = _controller.GetSetting(nameof(OptionsController.OPTIONS.BORDERSIZE));
+            tmpStr = _controller.GetSetting(nameof(OPTIONS.BORDERSIZE));
             double borderSize = 1;
             if (!string.IsNullOrEmpty(tmpStr))
             {
                 borderSize = double.Parse(tmpStr) * 100;
             }
             borderSizeNumeric.Value = (decimal)borderSize;
-            tmpStr = _controller.GetSetting(nameof(OptionsController.OPTIONS.SHADOWSIZE));
+            tmpStr = _controller.GetSetting(nameof(OPTIONS.SHADOWSIZE));
             size = 1;
             if (!string.IsNullOrEmpty(tmpStr))
             {
                 size = int.Parse(tmpStr);
             }
             shadowSizeNumeric.Value = size;
-            string color = _controller.GetSetting(nameof(OptionsController.OPTIONS.TEXTCOLOR)) == "" ? "#000000" : _controller.GetSetting(nameof(OptionsController.OPTIONS.TEXTCOLOR));
+            string color = _controller.GetSetting(nameof(OPTIONS.TEXTCOLOR)) == "" ? "#000000" : _controller.GetSetting(nameof(OPTIONS.TEXTCOLOR));
             textColorTB.Text = color;
-            color = _controller.GetSetting(nameof(OptionsController.OPTIONS.SHADOWCOLOR)) == "" ? "#000000" : _controller.GetSetting(nameof(OptionsController.OPTIONS.SHADOWCOLOR));
+            color = _controller.GetSetting(nameof(OPTIONS.SHADOWCOLOR)) == "" ? "#000000" : _controller.GetSetting(nameof(OPTIONS.SHADOWCOLOR));
             shadowColorTB.Text = color;
-            color = _controller.GetSetting(nameof(OptionsController.OPTIONS.BORDERCOLOR)) == "" ? "#000000" : _controller.GetSetting(nameof(OptionsController.OPTIONS.BORDERCOLOR));
+            color = _controller.GetSetting(nameof(OPTIONS.BORDERCOLOR)) == "" ? "#000000" : _controller.GetSetting(nameof(OPTIONS.BORDERCOLOR));
             borderColorTB.Text = color;
 
 
@@ -230,78 +231,78 @@ namespace DeathCounterHotkey
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
-            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.LANGUAGE), languageCombo.Text))
+            if (!_controller.SetOrEditSetting(nameof(OPTIONS.LANGUAGE), languageCombo.Text))
             {
                 SetErrMsg("Incrase can't be set");
                 return;
             }
-            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.INCREASE_HOTKEY), increaseCombo.Text))
+            if (!_controller.SetOrEditSetting(nameof(OPTIONS.INCREASE_HOTKEY), increaseCombo.Text))
             {
                 SetErrMsg("Incrase can't be set");
                 return;
             }
-            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.DECREASE_HOTKEY), decreaseCombo.Text))
+            if (!_controller.SetOrEditSetting(nameof(OPTIONS.DECREASE_HOTKEY), decreaseCombo.Text))
             {
                 SetErrMsg("Decrease can't be set");
                 return;
             }
-            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.SWITCH_LOCATION_HOTKEY), switchLocationCombo.Text))
+            if (!_controller.SetOrEditSetting(nameof(OPTIONS.SWITCH_LOCATION_HOTKEY), switchLocationCombo.Text))
             {
                 SetErrMsg("Switch can't be set");
                 return;
             }
-            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.QUICKADD_LOCATION_HOTKEY), quickAddLocationCombo.Text))
+            if (!_controller.SetOrEditSetting(nameof(OPTIONS.QUICKADD_LOCATION_HOTKEY), quickAddLocationCombo.Text))
             {
                 SetErrMsg("Quick add can't be set");
                 return;
             }
-            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.FINISH_LOCATION_HOTKEY), finishLocationCombo.Text))
+            if (!_controller.SetOrEditSetting(nameof(OPTIONS.FINISH_LOCATION_HOTKEY), finishLocationCombo.Text))
             {
                 SetErrMsg("Finish location can't be set");
                 return;
             }
-            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.START_RECORDING_TIMER), recordingStartCombo.Text))
+            if (!_controller.SetOrEditSetting(nameof(OPTIONS.START_RECORDING_TIMER), recordingStartCombo.Text))
             {
                 SetErrMsg("Recording can't be set");
                 return;
             }
-            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.MARKER_NORMAL_HOTKEY), markerNormalCombo.Text))
+            if (!_controller.SetOrEditSetting(nameof(OPTIONS.MARKER_NORMAL_HOTKEY), markerNormalCombo.Text))
             {
                 SetErrMsg("Marker normal can't be set");
                 return;
             }
-            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.MARKER_FUNNY_HOTKEY), markerFunnyCombo.Text))
+            if (!_controller.SetOrEditSetting(nameof(OPTIONS.MARKER_FUNNY_HOTKEY), markerFunnyCombo.Text))
             {
                 SetErrMsg("Marker funny can't be set");
                 return;
             }
-            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.MARKER_GAMING_HOTKEY), markerGamingCombo.Text))
+            if (!_controller.SetOrEditSetting(nameof(OPTIONS.MARKER_GAMING_HOTKEY), markerGamingCombo.Text))
             {
                 SetErrMsg("Marker gaming can't be set");
                 return;
             }
-            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.MARKER_TALK_HOTKEY), markerTalkCombo.Text))
+            if (!_controller.SetOrEditSetting(nameof(OPTIONS.MARKER_TALK_HOTKEY), markerTalkCombo.Text))
             {
                 SetErrMsg("Marker talk can't be set");
                 return;
             }
-            if (!_controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.MARKER_PAUSE_HOTKEY), markerPauseCombo.Text))
+            if (!_controller.SetOrEditSetting(nameof(OPTIONS.MARKER_PAUSE_HOTKEY), markerPauseCombo.Text))
             {
                 SetErrMsg("Marker pause can't be set");
                 return;
             }
 
-            _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.TWITCH_NAME), twitchNameTb.Text);
-            _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL), worldAsAllDeathsCombo.Text);
-            _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.FONTFAMILY), fontCombo.Text);
-            _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.FONTSIZE), "" + fontSizeNumeric.Value);
-            _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.BORDERSIZE), "" + borderSizeNumeric.Value / 100);
-            _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.SHADOWSIZE), "" + shadowSizeNumeric.Value);
-            _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.FONTSTYLE), fontStyleCombo.Text);
-            _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.FONTWEIGHT), fontWeightCombo.Text);
-            _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.TEXTCOLOR), textColorTB.Text);
-            _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.SHADOWCOLOR), shadowColorTB.Text);
-            _controller.SetOrEditSetting(nameof(OptionsController.OPTIONS.BORDERCOLOR), borderColorTB.Text);
+            _controller.SetOrEditSetting(nameof(OPTIONS.TWITCH_NAME), twitchNameTb.Text);
+            _controller.SetOrEditSetting(nameof(OPTIONS.WORLD_AS_ALL), worldAsAllDeathsCombo.Text);
+            _controller.SetOrEditSetting(nameof(OPTIONS.FONTFAMILY), fontCombo.Text);
+            _controller.SetOrEditSetting(nameof(OPTIONS.FONTSIZE), "" + fontSizeNumeric.Value);
+            _controller.SetOrEditSetting(nameof(OPTIONS.BORDERSIZE), "" + borderSizeNumeric.Value / 100);
+            _controller.SetOrEditSetting(nameof(OPTIONS.SHADOWSIZE), "" + shadowSizeNumeric.Value);
+            _controller.SetOrEditSetting(nameof(OPTIONS.FONTSTYLE), fontStyleCombo.Text);
+            _controller.SetOrEditSetting(nameof(OPTIONS.FONTWEIGHT), fontWeightCombo.Text);
+            _controller.SetOrEditSetting(nameof(OPTIONS.TEXTCOLOR), textColorTB.Text);
+            _controller.SetOrEditSetting(nameof(OPTIONS.SHADOWCOLOR), shadowColorTB.Text);
+            _controller.SetOrEditSetting(nameof(OPTIONS.BORDERCOLOR), borderColorTB.Text);
 
             _optionsChangedAction?.Invoke();
             this.Close();

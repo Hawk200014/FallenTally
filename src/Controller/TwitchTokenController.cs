@@ -14,6 +14,7 @@ using TwitchLib.Api;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration.Json;
 using FallenTally.Utility.Singletons;
+using FallenTally.Enums;
 
 namespace DeathCounterHotkey.Controller
 {
@@ -48,7 +49,7 @@ namespace DeathCounterHotkey.Controller
 
         public double GetStreamTime()
         {
-            string name = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.TWITCH_NAME));
+            string name = _optionsController.GetSetting(nameof(OPTIONS.TWITCH_NAME));
             if (string.IsNullOrEmpty(name)) return -1;
             (string, string) twitchAppCred = GetCurrentTwitchAppId();
             string clientID = twitchAppCred.Item1;

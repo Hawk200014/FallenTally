@@ -1,5 +1,6 @@
 ﻿using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
+using FallenTally.Enums;
 using FallenTally.Utility.Singletons;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,7 @@ namespace DeathCounterHotkey.Controller
     {
         private readonly Singleton _singleton = Singleton.GetInstance();
 
-        public enum RecordingType
-        {
-            recording,
-            stream
-        }
+
         private SQLiteDBContext? _context;
 
         public RecordingController()
@@ -25,7 +22,7 @@ namespace DeathCounterHotkey.Controller
             this._context = _singleton.GetValue(SQLiteDBContext.GetSingletonName()) as SQLiteDBContext;
         }
 
-        public void AddRecording(RecordingType type)
+        public void AddRecording(RECORDINGTYPE type)
         {
             if (_context.Recordings.Where(x => x.SessionDate == DateOnly.FromDateTime(DateTime.Now) && x.Type == type.ToString()).Count() == 0)
             {
@@ -45,7 +42,7 @@ namespace DeathCounterHotkey.Controller
             _context.SaveChanges();
         }
 
-        public int GetRecordingNumber(RecordingType type)
+        public int GetRecordingNumber(RECORDINGTYPE type)
         {
             var today = DateOnly.FromDateTime(DateTime.Now);
             var recording = _context.Recordings

@@ -1,5 +1,6 @@
 ﻿using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
+using FallenTally.Controller.Model;
 using FallenTally.Utility.Singletons;
 using System;
 using System.Collections.Generic;
@@ -9,100 +10,134 @@ using System.Threading.Tasks;
 
 namespace DeathCounterHotkey.Controller.Forms
 {
+    /// <summary>
+    /// Controller for managing game-related operations.
+    /// </summary>
     public class GameController : ISingleton
     {
-        private readonly Singleton _singleton = Singleton.GetInstance();
-        private SQLiteDBContext? _context;
-
+        private readonly SQLiteDBContext? _context;
         private GameStatsModel? _activeGame;
+        private readonly Singleton _singleton = Singleton.GetInstance();
 
-        public GameController(SQLiteDBContext context) 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameController"/> class.
+        /// </summary>
+        /// <param name="context">The database context.</param>
+        public GameController()
         {
-            this._context = _singleton.GetValue(SQLiteDBContext.GetSingletonName()) as SQLiteDBContext;
+            _context = _singleton.GetValue(SQLiteDBContext.GetSingletonName()) as SQLiteDBContext;
         }
 
+        /// <summary>
+        /// Adds a new game to the database.
+        /// </summary>
+        /// <param name="gamename">The name of the game.</param>
+        /// <param name="prefix">The prefix for the game.</param>
+        /// <returns>True if the game was added successfully, otherwise false.</returns>
         public bool AddGame(string gamename, string prefix)
         {
-            if (string.IsNullOrEmpty(gamename) || string.IsNullOrEmpty(prefix)) return false;
-            if (IsDupeName(gamename)) return false;
-            _context.GameStats.Add(new GameStatsModel() {
+            if (string.IsNullOrEmpty(gamename) || string.IsNullOrEmpty(prefix) || IsDupeName(gamename)) return false;
+
+            _context.GameStats.Add(new GameStatsModel
+            {
                 GameName = gamename,
                 Prefix = prefix
-            }); 
+            });
             _context.SaveChanges();
             return true;
-            
         }
 
+        /// <summary>
+        /// Edits the name of the active game.
+        /// </summary>
+        /// <param name="editText">The new name for the game.</param>
+        /// <returns>True if the name was edited successfully, otherwise false.</returns>
         public bool EditName(string editText)
         {
-            if (IsDupeName(editText)) return false;
-            GameStatsModel? gameModel = GetActiveGame();
-            if (gameModel is null) return false;
-            gameModel.GameName = editText;
+            if (IsDupeName(editText) || _activeGame == null) return false;
+
+            _activeGame.GameName = editText;
             _context.SaveChanges();
             return true;
         }
 
-        public List<GameStatsModel> GetGameStats()
-        {
-            return _context.GameStats.ToList();
-        }
+        /// <summary>
+        /// Gets a list of all game statistics.
+        /// </summary>
+        /// <returns>A list of <see cref="GameStatsModel"/>.</returns>
+        public List<GameStatsModel> GetGameStats() => _context.GameStats.ToList();
 
+        /// <summary>
+        /// Sets the active game based on the game name.
+        /// </summary>
+        /// <param name="gameName">The name of the game to set as active.</param>
         public void SetActiveGame(string gameName)
         {
-            this._activeGame = _context.GameStats.Where(x => x.GameName == gameName).FirstOrDefault();
+            _activeGame = _context.GameStats.FirstOrDefault(x => x.GameName == gameName);
         }
 
-        public GameStatsModel? GetActiveGame()
-        {
-            return this._activeGame;
-        }
+        /// <summary>
+        /// Gets the active game.
+        /// </summary>
+        /// <returns>The active <see cref="GameStatsModel"/>.</returns>
+        public GameStatsModel? GetActiveGame() => _activeGame;
 
-        public GameStatsModel? GetGame(string gameName)
-        {
-            return _context.GameStats.Where(x => x.GameName.Equals(gameName)).FirstOrDefault();
-        }
+        /// <summary>
+        /// Gets a game based on the game name.
+        /// </summary>
+        /// <param name="gameName">The name of the game.</param>
+        /// <returns>The <see cref="GameStatsModel"/> if found, otherwise null.</returns>
+        public GameStatsModel? GetGame(string gameName) => _context.GameStats.FirstOrDefault(x => x.GameName == gameName);
 
-        public bool IsDupeName(string editText)
-        {
-            return _context.GameStats.Where(x=>x.GameName == editText).Any();
-        }
+        /// <summary>
+        /// Checks if a game name is a duplicate.
+        /// </summary>
+        /// <param name="editText">The game name to check.</param>
+        /// <returns>True if the name is a duplicate, otherwise false.</returns>
+        public bool IsDupeName(string editText) => _context.GameStats.Any(x => x.GameName == editText);
 
-        internal string GetPrefix()
-        {
-            if (_activeGame is null) return "";
-            return _activeGame.Prefix;
-        }
+        /// <summary>
+        /// Gets the prefix of the active game.
+        /// </summary>
+        /// <returns>The prefix of the active game.</returns>
+        internal string GetPrefix() => _activeGame?.Prefix ?? string.Empty;
 
+        /// <summary>
+        /// Gets the total number of deaths for the active game.
+        /// </summary>
+        /// <returns>The total number of deaths.</returns>
         internal int GetAllDeaths()
         {
-            if(_activeGame is null) return 0;
-            int deaths = 0;
-            List<DeathLocationModel> list = _context.Locations.Where(x => x.GameID == _activeGame.GameId).ToList();
-            foreach(var location in list)
-            {
-                deaths += _context.Deaths.Where(x => x.LocationId == location.LocationId).Count();
-            }
-            return deaths;
+            if (_activeGame == null) return 0;
+
+            return _context.Locations
+                .Where(x => x.GameID == _activeGame.GameId)
+                .SelectMany(x => x.Deaths)
+                .Count();
         }
 
-        internal List<string> GetAllGameNames()
-        {
-            return _context.GameStats.Select(x => x.GameName).ToList();
-        }
+        /// <summary>
+        /// Gets a list of all game names.
+        /// </summary>
+        /// <returns>A list of game names.</returns>
+        internal List<string> GetAllGameNames() => _context.GameStats.Select(x => x.GameName).ToList();
 
+        /// <summary>
+        /// Removes the active game from the database.
+        /// </summary>
         internal void RemoveGame()
         {
-            if(_activeGame is null) return;
+            if (_activeGame == null) return;
+
             _context.GameStats.Remove(_activeGame);
             _activeGame = null;
             _context.SaveChanges();
         }
 
-        public static string GetSingletonName()
-        {
-            return "GameController";
-        }
+        /// <summary>
+        /// Gets the singleton name for the <see cref="GameController"/>.
+        /// </summary>
+        /// <returns>The singleton name.</returns>
+        public static string GetSingletonName() => "GameController";
     }
 }

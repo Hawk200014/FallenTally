@@ -4,26 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FallenTally.Utility
+namespace FallenTally.Utility.ResultSets
 {
     public class ResultSet<T>
     {
         #region Result Enum
-        public enum Result
-        {
-            SUCCESS = 0,
-            FAILURE = 1
-        }
+
         #endregion
 
-        private Result _result;
+        private RESULT _result;
         private string _message;
         private T _data;
-                     
-        public ResultSet(Result result, T data, string message = "")
+
+        public ResultSet(RESULT result, T data, string message = "")
         {
             _result = result;
-            if (_result == Result.SUCCESS && message == "")
+            if (_result == RESULT.SUCCESS && message == "")
             {
                 _message = "Success";
             }
@@ -44,7 +40,7 @@ namespace FallenTally.Utility
             return _message;
         }
 
-        public Result GetResult()
+        public RESULT GetResult()
         {
             return _result;
         }

@@ -1,4 +1,5 @@
 ﻿using DeathCounterHotkey.Controller.Forms;
+using FallenTally.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -113,16 +114,16 @@ namespace DeathCounterHotkey.Forms
                 MessageBox.Show("No entries to export", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            ExportController.ExportType exportType = (ExportController.ExportType)Enum.Parse(typeof(ExportController.ExportType), deathExportFormatCombo.Text);
+            EXPORTTYPE exportType = (EXPORTTYPE)Enum.Parse(typeof(EXPORTTYPE), deathExportFormatCombo.Text);
             switch (exportType)
             {
-                case ExportController.ExportType.CSV:
+                case EXPORTTYPE.CSV:
                     fileDialog.Filter = "CSV files (*.csv)|*.csv";
                     break;
-                case ExportController.ExportType.EXCEL:
+                case EXPORTTYPE.EXCEL:
                     fileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
                     break;
-                case ExportController.ExportType.FTSTAMPS:
+                case EXPORTTYPE.FTSTAMPS:
                     fileDialog.Filter = "Fallen Tally Stamps (*.ftstamps)|*.ftstamps";
                     break;
                 default:
@@ -187,16 +188,16 @@ namespace DeathCounterHotkey.Forms
                 MessageBox.Show("No entries to export", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            ExportController.ExportType exportType = (ExportController.ExportType)Enum.Parse(typeof(ExportController.ExportType), markerExportFormatCombo.Text);
+            EXPORTTYPE exportType = (EXPORTTYPE)Enum.Parse(typeof(EXPORTTYPE), markerExportFormatCombo.Text);
             switch (exportType)
             {
-                case ExportController.ExportType.CSV:
+                case EXPORTTYPE.CSV:
                     fileDialog.Filter = "CSV files (*.csv)|*.csv";
                     break;
-                case ExportController.ExportType.EXCEL:
+                case EXPORTTYPE.EXCEL:
                     fileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
                     break;
-                case ExportController.ExportType.FTSTAMPS:
+                case EXPORTTYPE.FTSTAMPS:
                     fileDialog.Filter = "Fallen Tally Stamps (*.ftstamps)|*.ftstamps";
                     break;
                 default:

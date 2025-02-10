@@ -1,5 +1,8 @@
 ﻿using DeathCounterHotkey.Database.Models;
 using DeathCounterHotkey.Resources;
+using FallenTally.Controller.Model;
+using FallenTally.Enums;
+using FallenTally.Utility.ResultSets;
 using FallenTally.Utility.Singletons;
 using System;
 using System.Collections.Generic;
@@ -19,7 +22,6 @@ namespace DeathCounterHotkey.Controller.Forms
 
         private GameController? _gameController;
         private LocationController? _locationcontroller;
-        private DeathController? _deathController;
         private EditController? _editController;
         private OptionsController? _optionsController;
         private TwitchTokenController? _twitchTokenController;
@@ -31,12 +33,13 @@ namespace DeathCounterHotkey.Controller.Forms
         private ExportController? _exportController;
         private MarkerController? _markerController;
         private RecordingController? _recordingController;
+        
+        private DeathModelController _deathModelController = new DeathModelController();
 
         public MainController() 
         {
             this._gameController = _singleton.GetValue(GameController.GetSingletonName()) as GameController;
             this._locationcontroller = _singleton.GetValue(LocationController.GetSingletonName()) as LocationController;
-            this._deathController = _singleton.GetValue(DeathController.GetSingletonName()) as DeathController;
             this._editController = _singleton.GetValue(EditController.GetSingletonName()) as EditController;
             this._optionsController = _singleton.GetValue(OptionsController.GetSingletonName()) as OptionsController;
             this._streamTimeController = _singleton.GetValue("StreamTimerController") as TimerController;
@@ -138,7 +141,7 @@ namespace DeathCounterHotkey.Controller.Forms
                 return;
             }
             _isRecording = true;
-            _recordingController.AddRecording(RecordingController.RecordingType.recording);
+            _recordingController.AddRecording(RECORDINGTYPE.recording);
             _mainForm?.StartRecordingTimer();
         }
 
@@ -146,7 +149,7 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
             {
-                _markerController.SetMark(MarkerController.MARKER.NORMAL, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
+                _markerController.SetMark(MARKER.NORMAL, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
                 _mainForm?.UpdateMarkers();
             }
         }
@@ -155,7 +158,7 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
             {
-                _markerController.SetMark(MarkerController.MARKER.FUNNY, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
+                _markerController.SetMark(MARKER.FUNNY, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
                 _mainForm?.UpdateMarkers();
             }
         }
@@ -164,7 +167,7 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
             {
-                _markerController.SetMark(MarkerController.MARKER.GAME, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
+                _markerController.SetMark(MARKER.GAME, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
                 _mainForm?.UpdateMarkers();
             }
         }
@@ -173,7 +176,7 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
             {
-                _markerController.SetMark(MarkerController.MARKER.TALK, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
+                _markerController.SetMark(MARKER.TALK, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
                 _mainForm?.UpdateMarkers();
             }
         }
@@ -182,7 +185,7 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
             {
-                _markerController.SetMark(MarkerController.MARKER.PAUSE, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
+                _markerController.SetMark(MARKER.PAUSE, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
                 _mainForm?.UpdateMarkers();
             }
         }
@@ -239,8 +242,12 @@ namespace DeathCounterHotkey.Controller.Forms
             if (_gameController.GetActiveGame() is null) return;
             DeathLocationModel? model = _locationcontroller.GetActiveLocation();
             if (model is null) return;
-            if (_deathController.GetDeaths(model.LocationId) == 0) return;
-            _deathController.RemoveDeath();
+
+            ResultSet<List<DeathModel>?> resultSet = _deathModelController.GetItems(model);
+            if (resultSet.GetResult() == RESULT.FAILURE || resultSet.GetData()?.Count == 0) return;
+
+            DeathModel deahModel = resultSet.GetData()!.OrderByDescending(x => x.DeathId).First();
+            _deathModelController.RemoveItem(deahModel);
         }
 
         #endregion
@@ -316,7 +323,21 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             if (_gameController.GetActiveGame() is null) return;
             if (_locationcontroller.GetActiveLocation() is null) return;
-            _deathController.AddDeath(_locationcontroller.GetActiveLocation().LocationId, _streamTimeController, _recordTimeController);
+
+            DeathModel death = new DeathModel()
+            {
+                LocationId = _locationcontroller.GetActiveLocation().LocationId,
+                TimeStamp = DateTime.Now,
+                StreamTime = _streamTimeController.GetTime(),
+                RecordingTime = _recordTimeController.GetTime()
+            };
+
+            ResultSet<DeathModel?> resultSet = _deathModelController.AddItem(death);
+            if (resultSet.GetResult() == RESULT.FAILURE)
+            {
+
+                //_mainForm?.ShowError(resultSet.GetMessage());
+            }
         }
 
         internal void RemoveGame( )

@@ -1,4 +1,5 @@
 ﻿using DeathCounterHotkey.Controller.Forms;
+using FallenTally.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,16 +17,16 @@ namespace DeathCounterHotkey.Forms
     {
         private EditController _controller;
         private Action<string> _action;
-        private EditController.EDITCATEGORIE _editCat;
+        private EDITCATEGORIE _editCat;
 
-        public EditForm(string oldValue, EditController controller, EditController.EDITCATEGORIE editCategorie, Action<string> action)
+        public EditForm(string oldValue, EditController controller, EDITCATEGORIE editCategorie, Action<string> action)
         {
             InitializeComponent();
             this._controller = controller;
             this._action = action;
             this._editCat = editCategorie;
             this.editTextBox.Text = oldValue;
-            if(editCategorie == EditController.EDITCATEGORIE.LOCATION)
+            if(editCategorie == EDITCATEGORIE.LOCATION)
             {
                 this.finishedCB.Visible = true;
                 finishedCB.Checked =  _controller.GetCheckedState(oldValue);
@@ -41,7 +42,7 @@ namespace DeathCounterHotkey.Forms
         {
             string editText = editTextBox.Text.Trim();
             bool closeForm;
-            if (_editCat == EditController.EDITCATEGORIE.LOCATION)
+            if (_editCat == EDITCATEGORIE.LOCATION)
             {
                 closeForm = this._controller.AddEdit(editText, _editCat, finishedCB.Checked);
             }

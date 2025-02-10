@@ -2,6 +2,7 @@
 using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
 using DeathCounterHotkey.Resources;
+using FallenTally.Enums;
 using FallenTally.Utility.Singletons;
 using System.Data;
 using System.Globalization;
@@ -11,12 +12,7 @@ namespace DeathCounterHotkey.Controller.Forms
 {
     public class ExportController : ISingleton
     {
-        public enum ExportType
-        {
-            CSV,
-            EXCEL,
-            FTSTAMPS
-        }
+        
 
         private readonly MarkerController? _markercontroller;
         private readonly Singleton _singleton = Singleton.GetInstance();
@@ -81,14 +77,14 @@ namespace DeathCounterHotkey.Controller.Forms
                 .ToArray();
         }
 
-        internal async Task<string> Export(ExportType exportType, string gameName, string locationName, string date, string exportPath)
+        internal async Task<string> Export(EXPORTTYPE exportType, string gameName, string locationName, string date, string exportPath)
         {
             DataTable dt = CreateDataTableFromFilter(gameName, locationName, date);
             int result = exportType switch
             {
-                ExportType.CSV => await ExportCSV(dt, exportPath),
-                ExportType.EXCEL => await ExportToExcel(dt, exportPath),
-                ExportType.FTSTAMPS => await ExportToFTStamps(CreateDataTableFromFilterForFTS(gameName, locationName, date), exportPath),
+                EXPORTTYPE.CSV => await ExportCSV(dt, exportPath),
+                EXPORTTYPE.EXCEL => await ExportToExcel(dt, exportPath),
+                EXPORTTYPE.FTSTAMPS => await ExportToFTStamps(CreateDataTableFromFilterForFTS(gameName, locationName, date), exportPath),
                 _ => 0
             };
 
@@ -163,7 +159,7 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             return CreateDataTable(gameName, locationName, date, (dataTable, death, deathNumber) =>
             {
-                dataTable.Rows.Add(death.Location.Game.GameName, deathNumber, death.Location.Name, death.Location.Finish, death.Location.DeathNumberAtLocation, death.TimeStamp.ToString(), TimerController.ConvertTimeToReadableTime(death.StreamTime), TimerController.ConvertTimeToReadableTime(death.RecordingTime));
+                dataTable.Rows.Add(death.Location.Game.GameName, deathNumber, death.Location.Name, death.Location.Finish, 0, death.TimeStamp.ToString(), TimerController.ConvertTimeToReadableTime(death.StreamTime), TimerController.ConvertTimeToReadableTime(death.RecordingTime));
             });
         }
 
@@ -211,7 +207,7 @@ namespace DeathCounterHotkey.Controller.Forms
 
         internal string[] GetExportFormats()
         {
-            return Enum.GetNames(typeof(ExportType));
+            return Enum.GetNames(typeof(EXPORTTYPE));
         }
 
         internal int GetMarkerCount(string? game, int? session, string? date)
@@ -257,14 +253,14 @@ namespace DeathCounterHotkey.Controller.Forms
             return query.Select(m => m.RecordingSession.ToString()).Distinct().ToArray();
         }
 
-        internal async Task<string> ExportMarker(ExportType exportType, string gameName, string date, string session, string fileName)
+        internal async Task<string> ExportMarker(EXPORTTYPE exportType, string gameName, string date, string session, string fileName)
         {
             DataTable dt = CreateDataTableFromFilterMarker(gameName, date, session);
             int result = exportType switch
             {
-                ExportType.CSV => await ExportCSV(dt, fileName),
-                ExportType.EXCEL => await ExportToExcel(dt, fileName),
-                ExportType.FTSTAMPS => await ExportToFTStamps(CreateDataTableFromFilterMarkerFTS(gameName, date, session), fileName),
+                EXPORTTYPE.CSV => await ExportCSV(dt, fileName),
+                EXPORTTYPE.EXCEL => await ExportToExcel(dt, fileName),
+                EXPORTTYPE.FTSTAMPS => await ExportToFTStamps(CreateDataTableFromFilterMarkerFTS(gameName, date, session), fileName),
                 _ => 0
             };
 
