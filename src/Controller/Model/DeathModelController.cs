@@ -130,16 +130,6 @@ namespace FallenTally.Controller.Model
             return new ResultSet<DeathModel?>(RESULT.SUCCESS, deathFilter);
         }
 
-        public ResultSet<DeathModel?> UpdateItem(int deathId)
-        {
-            ResultSet<DeathModel?> model = GetItem(deathId);
-            if (model.GetResult() == RESULT.FAILURE)
-            {
-                return new ResultSet<DeathModel?>(RESULT.FAILURE, null, "Death not found");
-            }
-            return UpdateItem(model.GetData()!);
-        }
-
         #endregion
     }
 }

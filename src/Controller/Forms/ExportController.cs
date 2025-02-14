@@ -2,6 +2,10 @@
 using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
 using DeathCounterHotkey.Resources;
+using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System;
+using System.Collections.Generic;
 using FallenTally.Enums;
 using FallenTally.Utility.Singletons;
 using System.Data;
@@ -46,12 +50,14 @@ namespace DeathCounterHotkey.Controller.Forms
                 query = query.Where(x => x.dl.l.Name == locationName);
             }
 
+            var result = query.ToList();
+
             if (!string.IsNullOrEmpty(timeStamp))
             {
-                query = query.Where(x => x.dl.d.TimeStamp.ToLongDateString() == timeStamp);
+                result = result.Where(x => string.IsNullOrEmpty(timeStamp) || DateOnly.FromDateTime(x.dl.d.TimeStamp).ToString("d", _culture) == timeStamp).ToList();
             }
 
-            return query.Select(x => x.dl.d).ToList();
+            return result.Select(x => x.dl.d).ToList();
         }
 
         internal string[] GetDistinctDeathDates(string? gameName = null, string? locationName = null, string? timeStamp = null)
@@ -95,11 +101,53 @@ namespace DeathCounterHotkey.Controller.Forms
 
         private DataTable CreateDataTableFromFilterForFTS(string gameName, string locationName, string date)
         {
-            return CreateDataTable(gameName, locationName, date, (dataTable, death, deathNumber) =>
+            var query = _context.Deaths
+                .Join(_context.Locations, d => d.LocationId, l => l.LocationId, (d, l) => new { d, l })
+                .Join(_context.GameStats, dl => dl.l.GameID, g => g.GameId, (dl, g) => new { dl, g });
+
+            if (!string.IsNullOrEmpty(gameName))
             {
-                string deahLocStr = death.Location.Name == GLOBALVARS.DEFAULT_LOCATION ? "WORLD" : "LOCATION";
+                query = query.Where(x => x.g.GameName == gameName);
+            }
+
+            if (!string.IsNullOrEmpty(locationName))
+            {
+                query = query.Where(x => x.dl.l.Name == locationName);
+            }
+            var result = query.ToList();
+
+            if (!string.IsNullOrEmpty(date))
+            {
+                result = result.Where(x => string.IsNullOrEmpty(date) || DateOnly.FromDateTime(x.dl.d.TimeStamp).ToString("d", _culture) == date).ToList();
+            }
+
+            var deaths = result.Select(x => new { x.dl.l.Name, x.dl.d.RecordingTime, x.dl.d.StreamTime, x.dl.d.TimeStamp }).OrderBy(x => x.TimeStamp);
+
+            //var gameStatsModels = _context.GameStats
+            //.Where(x => string.IsNullOrEmpty(gameName) || x.GameName == gameName)
+            //.OrderBy(x => x.GameId)
+            //.ToList();
+
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Location", typeof(string));
+            dataTable.Columns.Add("Death stream time", typeof(string));
+            dataTable.Columns.Add("Death recording time", typeof(string));
+            dataTable.Columns.Add("Death Number", typeof(int));
+
+            int deathNumber = 0;
+
+            foreach (var death in deaths)
+            {
+
+                string deahLocStr = death.Name == GLOBALVARS.DEFAULT_LOCATION ? "WORLD" : "LOCATION";
+
+
+                deathNumber++;
+
                 dataTable.Rows.Add(deahLocStr, death.RecordingTime, death.StreamTime, deathNumber);
-            });
+
+            }
+            return dataTable;
         }
 
         private Task<int> ExportToFTStamps(DataTable dt, string exportPath)
@@ -192,7 +240,8 @@ namespace DeathCounterHotkey.Controller.Forms
                 {
                     var deathModels = _context.Deaths
                         .Where(x => x.LocationId == deathLocation.LocationId)
-                        .Where(x => string.IsNullOrEmpty(date) || x.TimeStamp.ToLongDateString() == date)
+                        .AsEnumerable()
+                        .Where(x => string.IsNullOrEmpty(date) || DateOnly.FromDateTime(x.TimeStamp).ToString("d", _culture) == date)
                         .ToList();
 
                     foreach (var death in deathModels)
@@ -205,6 +254,11 @@ namespace DeathCounterHotkey.Controller.Forms
             return dataTable;
         }
 
+
+        /// <summary>
+        /// Gets the available export formats.
+        /// </summary>
+        /// <returns>An array of export format names.</returns>
         internal string[] GetExportFormats()
         {
             return Enum.GetNames(typeof(EXPORTTYPE));
@@ -309,6 +363,7 @@ namespace DeathCounterHotkey.Controller.Forms
                     .Where(x => x.GameId == gameStats.GameId)
                     .Where(x => string.IsNullOrEmpty(date) || DateOnly.FromDateTime(x.TimeStamp).ToString("d", _culture) == date)
                     .Where(x => string.IsNullOrEmpty(session) || x.RecordingSession.ToString() == session)
+                    .OrderBy(x => x.TimeStamp)
                     .ToList();
 
                 foreach (var marker in markers)
