@@ -27,9 +27,9 @@ namespace FallenTally.Controller.Model
         #region Getter
 
 
-        public ResultSet<MarkerModel?> GetItem(int locationID)
+        public ResultSet<MarkerModel?> GetItem(int markerId)
         {
-            MarkerModel? marker = _context?.Markers.Find(locationID);
+            MarkerModel? marker = _context?.Markers.Find(markerId);
 
             if (marker is null)
             {
@@ -58,7 +58,7 @@ namespace FallenTally.Controller.Model
 
         public ResultSet<MarkerModel?> GetItem(MarkerModel filter)
         {
-            return GetItem(filter.LocationId);
+            return GetItem(filter.MarkerId);
         }
 
         public ResultSet<List<MarkerModel>?> GetItems()

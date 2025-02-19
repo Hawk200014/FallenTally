@@ -63,7 +63,7 @@ namespace FallenTally.Controller.Model
             {
                 return new ResultSet<List<DeathLocationModel>?>(RESULT.FAILURE, null, "No locations found");
             }
-            return new ResultSet<List<DeathLocationModel>?>(RESULT.SUCCESS, games);
+            return new ResultSet<List<DeathLocationModel>?>(RESULT.SUCCESS, locations);
         }
 
         public ResultSet<List<DeathLocationModel>?> GetItems(int gameID)
