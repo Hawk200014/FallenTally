@@ -57,9 +57,9 @@
         </Button>
       </Grid>
       <!--Row 2-->
-      <ComboBox Margin="3" Grid.Column="0" Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-
-      </ComboBox>
+      <TextBox Margin="3" Grid.Column="0" Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        
+      </TextBox>
       <Grid Grid.Column="1" Grid.Row="2" >
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="50*" />
