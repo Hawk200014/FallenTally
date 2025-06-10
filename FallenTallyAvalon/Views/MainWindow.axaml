@@ -6,6 +6,8 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="FallenTallyAvalon.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
+        MinHeight="400"
+        MinWidth="600"
         Title="FallenTallyAvalon">
         <views:MainView />
 </Window>

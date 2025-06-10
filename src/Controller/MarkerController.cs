@@ -47,15 +47,6 @@ namespace DeathCounterHotkey.Controller
 
         }
 
-        internal string[] GetLatestMarkers()
-        {
-            return _context.Markers
-                .Where(x => x.TimeStamp.Date == DateTime.Now.Date)
-                .OrderByDescending(x => x.MarkerId)
-                .Select(marker => marker.ToString())
-                .ToArray();
-        }
-
         internal List<MarkerModel> GetMarkerModels(string? gamename = null, DateOnly? date = null, int? recordingSession = null)
         {
             var query = _context.Markers.AsQueryable();
