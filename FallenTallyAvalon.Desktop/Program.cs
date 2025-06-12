@@ -1,6 +1,12 @@
 ﻿using System;
 
 using Avalonia;
+using DeathCounterHotkey.Database;
+using DeathCounterHotkey.Database.Models;
+using FallenTallyAvalon.Controller;
+using FallenTallyAvalon.Dialogue;
+using FallenTallyAvalon.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
@@ -39,6 +45,7 @@ class Program
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
+            ServiceLocator.Provider = _serviceProvider;
 
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
@@ -55,7 +62,18 @@ class Program
     private static void ConfigureServices(IServiceCollection services)
     {
         // Register application services here  
-        //services.AddSingleton<SomeService>();  
+        services.AddDbContext<SQLiteDBContext>();
+
+        services.AddSingleton<GameController>();
+        // Register GameDialog as a singleton with DI for GameController
+        services.AddSingleton<GameDialogWindow>(provider =>
+            new GameDialogWindow(provider.GetRequiredService<GameController>()));
+
+        // Register the interface mapping
+        services.AddSingleton<IDialog<GameStatsModel>>(provider =>
+            provider.GetRequiredService<GameDialogWindow>());
+
+        services.AddTransient<TallyViewModel>();
     }
 
     public static AppBuilder BuildAvaloniaApp()

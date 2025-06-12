@@ -1,0 +1,20 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="FallenTallyAvalon.Dialogue.GameDialogWindow"
+        Title="GameDialogWindow">
+  <DockPanel>
+    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+      <Button Name="btnSave" Width="100" Content="Save" Margin="5" Command="" TextBlock.TextAlignment="Center"/>
+      <Button Name="btnClose" Content="Close" Margin="5" Command=""/>
+    </StackPanel>
+    <Grid ColumnDefinitions="100, *" RowDefinitions="Auto,Auto">
+      <Label Grid.Column="0" Grid.Row="0" Content="Gamename" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" />
+      <TextBox Grid.Column="1" Grid.Row="0" Name="txtGameName"  Margin="5" TextInput="TxtGameName_TextInput" />
+      <Label Grid.Column="0" Grid.Row="1" Content="Game Prefix" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" />
+      <TextBox Grid.Column="1" Grid.Row="1" Name="txtGamePrefix" Margin="5" />
+    </Grid>
+  </DockPanel>
+</Window>

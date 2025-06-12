@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeathCounterHotkey.Controller.Forms
+namespace FallenTallyAvalon.Controller
 {
     public class GameController
     {
@@ -16,7 +16,7 @@ namespace DeathCounterHotkey.Controller.Forms
 
         public GameController(SQLiteDBContext context) 
         {
-            this._context = context;
+            _context = context;
         }
 
         public bool AddGame(string gamename, string prefix)
@@ -49,12 +49,12 @@ namespace DeathCounterHotkey.Controller.Forms
 
         public void SetActiveGame(string gameName)
         {
-            this._activeGame = _context.GameStats.Where(x => x.GameName == gameName).FirstOrDefault();
+            _activeGame = _context.GameStats.Where(x => x.GameName == gameName).FirstOrDefault();
         }
 
         public GameStatsModel? GetActiveGame()
         {
-            return this._activeGame;
+            return _activeGame;
         }
 
         public GameStatsModel? GetGame(string gameName)

@@ -1,30 +1,33 @@
-﻿using DeathCounterHotkey.Database;
+﻿using DeathCounterHotkey.Controller;
+using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
+using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeathCounterHotkey.Controller.Forms
+namespace FallenTallyAvalon.Controller
 {
     public class DeathController
     {
         private SQLiteDBContext _context;
         public DeathController(SQLiteDBContext context) 
         {
-            this._context = context;
+            _context = context;
         }
 
 
 
-        public void AddDeath(int locationId, TimerController streamcontroller, TimerController recordingController)
+        public void AddDeath(DeathLocationModel? locationModel, TimerController streamcontroller, TimerController recordingController)
         {
+            if (locationModel == null) return;
             DeathModel deathModel = new DeathModel();
             deathModel.TimeStamp = DateTime.Now;
-            deathModel.StreamTime = (int)streamcontroller.GetTime();
-            deathModel.RecordingTime = (int)recordingController.GetTime();
-            deathModel.LocationId = locationId;
+            deathModel.StreamTime = streamcontroller.GetTime();
+            deathModel.RecordingTime = recordingController.GetTime();
+            deathModel.LocationId = locationModel.LocationId;
 
             _context.Deaths.Add(deathModel);
             _context.SaveChanges();
@@ -38,9 +41,10 @@ namespace DeathCounterHotkey.Controller.Forms
             _context.SaveChanges();
         }
 
-        public int GetDeaths(int locId)
+        public int GetDeaths(DeathLocationModel? loc)
         {
-            return _context.Deaths.Where(x => x.LocationId == locId).Count();
+            if (loc == null) return 0;
+            return _context.Deaths.Where(x => x.LocationId == loc.LocationId).Count();
         }
     }
 }
