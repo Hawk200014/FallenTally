@@ -2,7 +2,6 @@
 using DeathCounterHotkey.Resources;
 using System;
 using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,8 +18,7 @@ namespace DeathCounterHotkey.Controller.Forms
         private EditController _editController;
         private OptionsController _optionsController;
         private TwitchTokenController _twitchTokenController;
-        private HotkeyController _hotkeyController;
-        private MainForm? _mainForm;
+        //private HotkeyController _hotkeyController;
         private TimerController _streamTimeController;
         private TimerController _recordTimeController;
         private TextController _textController;
@@ -47,11 +45,11 @@ namespace DeathCounterHotkey.Controller.Forms
             this._recordTimeController = recordTimerController;
             this._recordingController = recordingController;
 
-            this._hotkeyController = new HotkeyController(this._optionsController, this, 
-                IncreaseHotkeyPressed, DecreaseHotkeyPressed, SwitchHotkeyPressed, 
-                QuickHotkeyPressed, FinishHotkeyPressed, StartRecordingHotkeyPressed, MarkerNormalHotkeyPressed,
-                MarkerFunnyHotkeyPressed, MarkerGamingHotkeyPressed, MarkerTalkHotkeyPressed, MarkerPauseHotkeyPressed);
-            _hotkeyController.LoadHotkeys();
+            //this._hotkeyController = new HotkeyController(this._optionsController, this, 
+            //    IncreaseHotkeyPressed, DecreaseHotkeyPressed, SwitchHotkeyPressed, 
+            //    QuickHotkeyPressed, FinishHotkeyPressed, StartRecordingHotkeyPressed, MarkerNormalHotkeyPressed,
+            //    MarkerFunnyHotkeyPressed, MarkerGamingHotkeyPressed, MarkerTalkHotkeyPressed, MarkerPauseHotkeyPressed);
+            //_hotkeyController.LoadHotkeys();
 
         }
 
@@ -65,13 +63,13 @@ namespace DeathCounterHotkey.Controller.Forms
         {
             if (_isRecording)
             {
-                _mainForm?.StopRecordTimer();
+                //_mainForm?.StopRecordTimer();
                 _isRecording = false;
                 return;
             }
             _isRecording = true;
             _recordingController.AddRecording(RecordingController.RecordingType.recording);
-            _mainForm?.StartRecordingTimer();
+            //_mainForm?.StartRecordingTimer();
         }
 
         private void MarkerNormalHotkeyPressed()
@@ -79,7 +77,7 @@ namespace DeathCounterHotkey.Controller.Forms
             if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
             {
                 _markerController.SetMark(MarkerController.MARKER.NORMAL, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
-                _mainForm?.UpdateMarkers();
+                //_mainForm?.UpdateMarkers();
             }
         }
 
@@ -88,7 +86,7 @@ namespace DeathCounterHotkey.Controller.Forms
             if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
             {
                 _markerController.SetMark(MarkerController.MARKER.FUNNY, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
-                _mainForm?.UpdateMarkers();
+                //_mainForm?.UpdateMarkers();
             }
         }
 
@@ -97,7 +95,7 @@ namespace DeathCounterHotkey.Controller.Forms
             if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
             {
                 _markerController.SetMark(MarkerController.MARKER.GAME, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
-                _mainForm?.UpdateMarkers();
+                //_mainForm?.UpdateMarkers();
             }
         }
 
@@ -106,7 +104,7 @@ namespace DeathCounterHotkey.Controller.Forms
             if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
             {
                 _markerController.SetMark(MarkerController.MARKER.TALK, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
-                _mainForm?.UpdateMarkers();
+                //_mainForm?.UpdateMarkers();
             }
         }
 
@@ -115,7 +113,7 @@ namespace DeathCounterHotkey.Controller.Forms
             if ((_isRecording || _isStreaming) && _gameController.GetActiveGame() != null)
             {
                 _markerController.SetMark(MarkerController.MARKER.PAUSE, _gameController.GetActiveGame(), _streamTimeController, _recordTimeController);
-                _mainForm?.UpdateMarkers();
+                //_mainForm?.UpdateMarkers();
             }
         }
 
@@ -135,13 +133,13 @@ namespace DeathCounterHotkey.Controller.Forms
         private void IncreaseHotkeyPressed()
         {
             IncreaseDeaths();
-            _mainForm?.UpdateDeaths();
+            //_mainForm?.UpdateDeaths();
         }
 
         private void DecreaseHotkeyPressed()
         {
             DecreaseDeaths();
-            _mainForm?.UpdateDeaths();
+            //_mainForm?.UpdateDeaths();
         }
 
         private int GetIndexOfListWithItemName(List<DeathLocationModel> locations, string? name)
@@ -175,8 +173,8 @@ namespace DeathCounterHotkey.Controller.Forms
             }
             string newLocName = locations[index].Name;
             _locationcontroller.SetActiveLocation(newLocName);
-            _mainForm?.SetLocation(newLocName);
-            _mainForm?.UpdateDeaths();
+            //_mainForm?.SetLocation(newLocName);
+            //_mainForm?.UpdateDeaths();
         }
 
         private void QuickHotkeyPressed()
@@ -249,9 +247,9 @@ namespace DeathCounterHotkey.Controller.Forms
 
         internal void OptionsChangedAction()
         {
-            _hotkeyController.UnregisterHotkeys();
-            _hotkeyController.LoadHotkeys();
-            _mainForm?.UpdateDeaths();
+            //_hotkeyController.UnregisterHotkeys();
+            //_hotkeyController.LoadHotkeys();
+            //_mainForm?.UpdateDeaths();
         }
 
         internal void IncreaseDeaths()
@@ -279,7 +277,7 @@ namespace DeathCounterHotkey.Controller.Forms
 
         internal void UnregisterHotkeys()
         {
-            _hotkeyController.UnregisterHotkeys();
+            //_hotkeyController.UnregisterHotkeys();
         }
 
         internal void LocationChanged(string locationName)
@@ -293,8 +291,8 @@ namespace DeathCounterHotkey.Controller.Forms
             string timestamp = GetTimestamp(DateTime.Now);
             string locationName = "Loc" + timestamp.Substring(timestamp.Length / 2);
             _locationcontroller.AddLocation(locationName);
-            _mainForm?.UpdateLocationList();
-            _mainForm?.SetLocation(locationName);
+            //_mainForm?.UpdateLocationList();
+            //_mainForm?.SetLocation(locationName);
         }
 
         public static String GetTimestamp(DateTime value)
@@ -302,10 +300,10 @@ namespace DeathCounterHotkey.Controller.Forms
             return value.ToString("yyyyMMddHHmmssffff");
         }
 
-        internal void SetForm(MainForm mainForm)
-        {
-            this._mainForm = mainForm;
-        }
+        //internal void SetForm(MainForm mainForm)
+        //{
+            //this._mainForm = mainForm;
+        //}
 
         internal TimerController GetStreamTimeController()
         {

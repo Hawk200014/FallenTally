@@ -4,17 +4,12 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <OutputType>Library</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
-      <AvaloniaXaml Remove="Avalonia\**" />
-      <Compile Remove="Avalonia\**" />
-      <EmbeddedResource Remove="Avalonia\**" />
-      <None Remove="Avalonia\**" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="ClosedXML" Version="0.105.0" />
+      <PackageReference Include="EntityFramework" Version="6.5.1" />
       <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
       <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.6" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.6">
@@ -28,13 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Resources\Icons\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <None Include="appsettings.json" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
     </ItemGroup>
-
-
 
 </Project>

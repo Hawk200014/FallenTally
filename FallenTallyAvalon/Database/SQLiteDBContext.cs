@@ -1,29 +1,27 @@
 ﻿using DeathCounterHotkey.Database.Models;
 using DeathCounterHotkey.Resources;
-using Microsoft.Data.Sqlite;
+using FallenTally.Database.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using System.IO;
 
 namespace DeathCounterHotkey.Database
 {
     public class SQLiteDBContext : DbContext
     {
-        public SQLiteDBContext() 
+        public SQLiteDBContext()
         {
-            //Database.EnsureCreated();
-            Database.Migrate();
+            // Ensure the database is created and apply migrations
+            Database.GetService<IMigrator>().Migrate(); // Replace Database.Migrate() with this
         }
+
         public DbSet<SettingsModel> Settings { get; set; }
         public DbSet<GameStatsModel> GameStats { get; set; }
         public DbSet<DeathModel> Deaths { get; set; }
         public DbSet<DeathLocationModel> Locations { get; set; }
         public DbSet<MarkerModel> Markers { get; set; }
         public DbSet<RecordingModel> Recordings { get; set; }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -53,7 +51,7 @@ namespace DeathCounterHotkey.Database
 
         public void TryMigrate()
         {
-            //Database.Migrate();
+            Database.GetService<IMigrator>().Migrate(); // Replace Database.Migrate() with this
         }
     }
 }

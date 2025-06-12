@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.DirectoryServices.ActiveDirectory;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -143,7 +144,7 @@ namespace DeathCounterHotkey.Controller.Forms
                 _ => "Export failed"
             };
 
-            MessageBox.Show(message, "Export", MessageBoxButtons.OK);
+            //MessageBox.Show(message, "Export", MessageBoxButtons.OK);
             return message;
         }
 
@@ -413,7 +414,7 @@ namespace DeathCounterHotkey.Controller.Forms
                 _ => "Export failed"
             };
 
-            MessageBox.Show(message, "Export", MessageBoxButtons.OK);
+            //MessageBox.Show(message, "Export", MessageBoxButtons.OK);
             return message;
         }
 

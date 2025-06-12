@@ -1,6 +1,7 @@
 ﻿using DeathCounterHotkey.Controller.Forms;
 using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
+using FallenTally.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
