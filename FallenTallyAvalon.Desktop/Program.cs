@@ -69,9 +69,6 @@ class Program
         services.AddSingleton<GameDialogWindow>(provider =>
             new GameDialogWindow(provider.GetRequiredService<GameController>()));
 
-        // Register the interface mapping
-        services.AddSingleton<IDialog<GameStatsModel>>(provider =>
-            provider.GetRequiredService<GameDialogWindow>());
 
         services.AddTransient<TallyViewModel>();
     }

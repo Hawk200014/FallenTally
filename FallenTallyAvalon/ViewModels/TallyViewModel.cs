@@ -1,11 +1,14 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
 using DeathCounterHotkey.Database.Models;
 using FallenTally.Database.Models;
 using FallenTallyAvalon.Controller;
 using FallenTallyAvalon.Dialogue;
+using FallenTallyAvalon.Views;
 
 namespace FallenTallyAvalon.ViewModels
 {
@@ -18,7 +21,6 @@ namespace FallenTallyAvalon.ViewModels
         private string _counterValue = string.Empty;
         private int counterValueInt = 0;
         private ObservableCollection<MarkerModel> _markers = new();
-        private IDialog<GameStatsModel> _addGameDialog;
         private GameController _gameController;
 
         #region RelayCommands
@@ -27,31 +29,43 @@ namespace FallenTallyAvalon.ViewModels
         #endregion
 
         #region Constructors
-        public TallyViewModel(IDialog<GameStatsModel> addGameDialog, GameController gameController)
+        public TallyViewModel( GameController gameController)
         {
-            _addGameDialog = addGameDialog;
             _gameController = gameController;
-            AddGameCommand = new RelayCommand(AddGame);
+            AddGameCommand = new AsyncRelayCommand(AddGameAsync);
+            GameStats = new ObservableCollection<GameStatsModel>(gameController.GetGameStats());
         }
         #endregion
 
         #region RelayFunctions
 
-        private void AddGame()
+        private async Task AddGameAsync()
         {
-            _addGameDialog.Init();
-            _addGameDialog.ShowDialogue();
-            var newGame = _addGameDialog.GetData();
+            var dialog = new GameDialogWindow(_gameController);
+            var newGame = await dialog.ShowDialog<GameStatsModel?>(MainWindow.Instance);
+
             if (newGame != null)
             {
-                _activeGame = newGame;
-                OnPropertyChanged(nameof(_activeGame));
                 GameStats.Add(newGame);
+                ActiveGame = GameStats.FirstOrDefault(x => x.GameName == newGame.GameName);
                 _gameController.AddGame(newGame.GameName, newGame.Prefix);
             }
         }
 
         #endregion
+
+        public GameStatsModel? ActiveGame
+        {
+            get => _activeGame;
+            set
+            {
+                if (_activeGame != value)
+                {
+                    _activeGame = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public ObservableCollection<GameStatsModel> GameStats
         {

@@ -21,9 +21,15 @@
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <!--Row 0-->
-        <ComboBox Margin="3" Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-
-        </ComboBox>
+        <ComboBox Margin="3"
+                  Grid.Column="0"
+                  Grid.Row="0"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  ItemsSource="{Binding GameStats}"
+                  SelectedItem="{Binding ActiveGame, Mode=TwoWay}"
+                  DisplayMemberBinding="{Binding GameName}"
+                  />
         <Grid Grid.Column="1" Grid.Row="0" >
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="33*" />
