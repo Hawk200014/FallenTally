@@ -1,44 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>WinExe</OutputType>
-        <TargetFramework>net8.0-windows</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <UseWindowsForms>true</UseWindowsForms>
         <ImplicitUsings>enable</ImplicitUsings>
+        <OutputType>Library</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
-      <AvaloniaXaml Remove="Avalonia\**" />
-      <Compile Remove="Avalonia\**" />
-      <EmbeddedResource Remove="Avalonia\**" />
-      <None Remove="Avalonia\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Avalonia" Version="11.3.0" />
-      <PackageReference Include="Avalonia.Desktop" Version="11.3.0" />
       <PackageReference Include="ClosedXML" Version="0.105.0" />
+      <PackageReference Include="EntityFramework" Version="6.5.1" />
       <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
-      <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.5" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.5">
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.6" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.6">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.5" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.5" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.6" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.6" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="TwitchLib.Api" Version="3.9.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Resources\Icons\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <None Include="appsettings.json" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
     </ItemGroup>
-
-
 
 </Project>
