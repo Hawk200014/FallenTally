@@ -20,10 +20,30 @@ namespace FallenTallyAvalon.ViewModels
         private GameStatsModel? _activeGame;
         private DeathLocationModel? _activeLocation;
         private string _counterValue = string.Empty;
-        private ObservableCollection<MarkerModel> _markers = new();
+        private ObservableCollection<MarkerModel> _markers = new() { 
+            new MarkerModel { categorie = "cat1", MarkerId = 1, StreamSession = 1 },
+            new MarkerModel { categorie = "cat2", MarkerId = 2, StreamSession = 1},
+                        new MarkerModel { categorie = "cat1", MarkerId = 1, StreamSession = 1 },
+            new MarkerModel { categorie = "cat2", MarkerId = 2, StreamSession = 1},
+                        new MarkerModel { categorie = "cat1", MarkerId = 1, StreamSession = 1 },
+            new MarkerModel { categorie = "cat2", MarkerId = 2, StreamSession = 1},
+            new MarkerModel { categorie = "cat3", MarkerId = 3, StreamSession = 1 }
+        };
         private GameController _gameController;
         private LocationController _locationController;
         private DeathController _deathController;
+
+        #region Enabled Variables
+        public bool GameEditButtonEnabled => ActiveGame != null;
+        public bool GameRemoveButtonEnabled => ActiveGame != null;
+
+        public bool LocationAddButtonEnabled => ActiveGame != null;
+        public bool LocationEditButtonEnabled => ActiveLocation != null;
+        public bool LocationRemoveButtonEnabled => ActiveLocation != null;
+
+        public bool DeathAddButtonEnabled => ActiveLocation != null;
+        public bool DeathRemoveButtonEnabled => ActiveLocation != null;
+        #endregion
 
         #region RelayCommands
         public IRelayCommand AddGameCommand { get; }
@@ -180,6 +200,13 @@ namespace FallenTallyAvalon.ViewModels
                 {
                     _activeGame = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(GameEditButtonEnabled));
+                    OnPropertyChanged(nameof(GameRemoveButtonEnabled));
+                    OnPropertyChanged(nameof(LocationAddButtonEnabled));
+                    OnPropertyChanged(nameof(LocationEditButtonEnabled));
+                    OnPropertyChanged(nameof(LocationRemoveButtonEnabled));
+                    OnPropertyChanged(nameof(DeathAddButtonEnabled));
+                    OnPropertyChanged(nameof(DeathRemoveButtonEnabled));
                     DeathLocations = new ObservableCollection<DeathLocationModel>(_locationController.GetListOfLocations(_activeGame));
                     CounterValue = "0";
                 }
@@ -199,6 +226,10 @@ namespace FallenTallyAvalon.ViewModels
                 {
                     _activeLocation = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(LocationEditButtonEnabled));
+                    OnPropertyChanged(nameof(LocationRemoveButtonEnabled));
+                    OnPropertyChanged(nameof(DeathAddButtonEnabled));
+                    OnPropertyChanged(nameof(DeathRemoveButtonEnabled));
                     if (_activeLocation != null)
                     {
                         CounterValue = _locationController.GetDeathsAtLocation(_activeLocation).ToString();

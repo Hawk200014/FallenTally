@@ -28,44 +28,45 @@
                   HorizontalAlignment="Stretch"
                   ItemsSource="{Binding GameStats}"
                   SelectedItem="{Binding ActiveGame, Mode=TwoWay}"
-                  DisplayMemberBinding="{Binding GameName}"
-                  />
+                  DisplayMemberBinding="{Binding GameName}"/>
         <Grid Grid.Column="1" Grid.Row="0" >
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="33*" />
             <ColumnDefinition Width="34*" />
             <ColumnDefinition Width="33*" />
           </Grid.ColumnDefinitions>
-          <Button Margin="3" 
-                  Grid.Column="0" 
-                  Grid.Row="0" 
-                  VerticalAlignment="Stretch" 
-                  HorizontalAlignment="Stretch" 
+          <Button Margin="3"
+                  Grid.Column="0"
+                  Grid.Row="0"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
                   Command="{Binding AddGameCommand}">
             <PathIcon Data="{StaticResource plus_icon }"/>
           </Button>
-          <Button Margin="3" 
-                  Grid.Column="1" 
-                  Grid.Row="0" 
-                  VerticalAlignment="Stretch" 
+          <Button Margin="3"
+                  Grid.Column="1"
+                  Grid.Row="0"
+                  VerticalAlignment="Stretch"
                   HorizontalAlignment="Stretch"
-                  Command="{Binding EditGameCommand}">
+                  Command="{Binding EditGameCommand}"
+                  IsEnabled="{Binding GameEditButtonEnabled}">
             <PathIcon Data="{StaticResource edit_icon }"/>
           </Button>
-          <Button Margin="3" 
-                  Grid.Column="2" 
-                  Grid.Row="0" 
-                  VerticalAlignment="Stretch" 
+          <Button Margin="3"
+                  Grid.Column="2"
+                  Grid.Row="0"
+                  VerticalAlignment="Stretch"
                   HorizontalAlignment="Stretch"
-                  Command="{Binding RemoveGameCommand}">
+                  Command="{Binding RemoveGameCommand}"
+                  IsEnabled="{Binding GameRemoveButtonEnabled}">
             <PathIcon Data="{StaticResource delete_icon }"/>
           </Button>
         </Grid>
         <!--Row 1-->
-        <ComboBox Margin="3" 
-				  Grid.Column="0" 
-				  Grid.Row="1" 
-				  VerticalAlignment="Stretch" 
+        <ComboBox Margin="3"
+				  Grid.Column="0"
+				  Grid.Row="1"
+				  VerticalAlignment="Stretch"
 				  HorizontalAlignment="Stretch"
 				  ItemsSource="{Binding DeathLocations}"
                   SelectedItem="{Binding ActiveLocation, Mode=TwoWay}"
@@ -76,59 +77,63 @@
             <ColumnDefinition Width="34*" />
             <ColumnDefinition Width="33*" />
           </Grid.ColumnDefinitions>
-          <Button Margin="3" 
-				  Grid.Column="0" 
-				  Grid.Row="0" 
-				  VerticalAlignment="Stretch" 
+          <Button Margin="3"
+				  Grid.Column="0"
+				  Grid.Row="0"
+				  VerticalAlignment="Stretch"
 				  HorizontalAlignment="Stretch"
-				  Command="{Binding AddLocationCommand}">
+				  Command="{Binding AddLocationCommand}"
+          IsEnabled="{Binding LocationAddButtonEnabled}">
             <PathIcon Data="{StaticResource plus_icon }"/>
           </Button>
-          <Button Margin="3" 
-				  Grid.Column="1" 
-				  Grid.Row="0" 
-				  VerticalAlignment="Stretch" 
+          <Button Margin="3"
+				  Grid.Column="1"
+				  Grid.Row="0"
+				  VerticalAlignment="Stretch"
 				  HorizontalAlignment="Stretch"
-				  Command="{Binding EditLocationCommand}">
+				  Command="{Binding EditLocationCommand}"
+          IsEnabled="{Binding LocationEditButtonEnabled}">
             <PathIcon Data="{StaticResource edit_icon }"/>
           </Button>
-          <Button Margin="3" 
-				  Grid.Column="2" 
-				  Grid.Row="0" 
-				  VerticalAlignment="Stretch" 
+          <Button Margin="3"
+				  Grid.Column="2"
+				  Grid.Row="0"
+				  VerticalAlignment="Stretch"
 				  HorizontalAlignment="Stretch"
-				  Command="{Binding RemoveLocationCommand}">
+				  Command="{Binding RemoveLocationCommand}"
+          IsEnabled="{Binding LocationRemoveButtonEnabled}">
             <PathIcon Data="{StaticResource delete_icon }"/>
           </Button>
         </Grid>
         <!--Row 2-->
-        <TextBox Margin="3" 
-				 Grid.Column="0" 
-				 Grid.Row="2" 
-				 VerticalAlignment="Stretch" 
+        <TextBox Margin="3"
+				 Grid.Column="0"
+				 Grid.Row="2"
+				 VerticalAlignment="Stretch"
 				 HorizontalAlignment="Stretch"
-				 Text="{Binding CounterValue}">
-
-        </TextBox>
+				 Text="{Binding CounterValue}"
+         IsReadOnly="True"/>
         <Grid Grid.Column="1" Grid.Row="2" >
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50*" />
             <ColumnDefinition Width="50*" />
           </Grid.ColumnDefinitions>
-          <Button Margin="3" 
-				  Grid.Column="0" 
-				  Grid.Row="0" 
-				  VerticalAlignment="Stretch" 
-				  HorizontalAlignment="Stretch"
-				  Command="{Binding AddDeathCommand}">
+          <Button Margin="3"
+				    Grid.Column="0"
+				    Grid.Row="0"
+				    VerticalAlignment="Stretch"
+				    HorizontalAlignment="Stretch"
+				    Command="{Binding AddDeathCommand}"
+            IsEnabled="{Binding DeathAddButtonEnabled}">
             <PathIcon Data="{StaticResource plus_icon }"/>
           </Button>
-          <Button Margin="3" 
-				  Grid.Column="1" 
-				  Grid.Row="0" 
-				  VerticalAlignment="Stretch" 
-				  HorizontalAlignment="Stretch"
-				  Command="{Binding RemoveDeathCommand}">
+          <Button Margin="3"
+				    Grid.Column="1"
+				    Grid.Row="0"
+				    VerticalAlignment="Stretch"
+				    HorizontalAlignment="Stretch"
+				    Command="{Binding RemoveDeathCommand}"
+            IsEnabled="{Binding DeathRemoveButtonEnabled}">
             <PathIcon Data="{StaticResource minus_icon }"/>
           </Button>
         </Grid>
@@ -144,9 +149,22 @@
           <ColumnDefinition Width="100" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-          <RowDefinition Height="Auto" />
+          <RowDefinition Height="150" />
         </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding Markers}" Margin="3" Grid.Column="0" Grid.Row="0" AutoGenerateColumns="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></DataGrid>
+        
+        <DataGrid ItemsSource="{Binding Markers, Mode=TwoWay}" 
+                  Margin="0,0,3,0"
+                  Grid.Column="0" 
+                  Grid.Row="0" 
+                  AutoGenerateColumns="True" 
+                  VerticalAlignment="Stretch" 
+                  HorizontalAlignment="Stretch"
+                  IsReadOnly="True"
+                  CanUserSortColumns="False"
+                  GridLinesVisibility="All"
+                  BorderThickness="1" 
+                  BorderBrush="Gray"
+                  />
         <StackPanel Grid.Column="1" Orientation="Vertical">
           <Button  Content="General" HorizontalAlignment="Stretch"></Button>
           <Button Content="Funny" HorizontalAlignment="Stretch"></Button>

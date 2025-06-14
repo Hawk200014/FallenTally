@@ -2,7 +2,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="100"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="100"
+        Width="400"
+        Height="100"
+        MinWidth="300"
+        MinHeight="80"
+        Icon="/Assets/Icons/AppIcon.ico"
         x:Class="FallenTallyAvalon.Dialogue.LocationDialogWindow"
         Title="LocationDialogWindow">
 	<DockPanel>

@@ -5,9 +5,12 @@
         xmlns:views="clr-namespace:FallenTallyAvalon.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="FallenTallyAvalon.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/Icons/AppIcon.ico"
         MinHeight="400"
         MinWidth="600"
+        Width="700"
+        Height="500"
+        
         Title="FallenTallyAvalon">
         <views:MainView />
 </Window>
