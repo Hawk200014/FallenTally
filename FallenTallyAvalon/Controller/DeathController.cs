@@ -20,13 +20,13 @@ namespace FallenTallyAvalon.Controller
 
 
 
-        public void AddDeath(DeathLocationModel? locationModel, TimerController streamcontroller, TimerController recordingController)
+        public void AddDeath(DeathLocationModel? locationModel, TimerController? streamcontroller = null, TimerController? recordingController = null)
         {
             if (locationModel == null) return;
             DeathModel deathModel = new DeathModel();
             deathModel.TimeStamp = DateTime.Now;
-            deathModel.StreamTime = streamcontroller.GetTime();
-            deathModel.RecordingTime = recordingController.GetTime();
+            deathModel.StreamTime = streamcontroller?.GetTime() ?? 0;
+            deathModel.RecordingTime = recordingController?.GetTime() ?? 0;
             deathModel.LocationId = locationModel.LocationId;
 
             _context.Deaths.Add(deathModel);

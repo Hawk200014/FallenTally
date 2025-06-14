@@ -1,11 +1,8 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using DeathCounterHotkey.Database.Models;
 using FallenTallyAvalon.Controller;
 using FallenTallyAvalon.Dialogue.ViewModel;
-using FallenTallyAvalon.Views;
-using System.Threading.Tasks;
 
 namespace FallenTallyAvalon.Dialogue;
 

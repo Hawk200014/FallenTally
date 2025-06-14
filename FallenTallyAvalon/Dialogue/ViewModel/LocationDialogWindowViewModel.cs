@@ -1,53 +1,44 @@
-﻿
-using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using DeathCounterHotkey.Database.Models;
+using DocumentFormat.OpenXml.Wordprocessing;
 using FallenTallyAvalon.Controller;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FallenTallyAvalon.Dialogue.ViewModel
 {
-    public class GameDialogWindowViewModel : INotifyPropertyChanged
+    internal class LocationDialogWindowViewModel : INotifyPropertyChanged
     {
-        private string _gameName = string.Empty;
-        private string _gamePrefix = string.Empty;
-        private readonly GameController _gameController;
+        private string _locationName = string.Empty;
+        private readonly LocationController _locationController;
+        private readonly GameStatsModel _activeGame;
         private Action _closeWindow;
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public GameDialogWindowViewModel(GameController gameController, Action closeWindow)
+        public LocationDialogWindowViewModel(LocationController locationController, GameStatsModel activeGame, Action closeWindow)
         {
             _closeWindow = closeWindow;
-            _gameController = gameController;
+            _locationController = locationController;
+            _activeGame = activeGame;
             SaveCommand = new RelayCommand(OnSave, CanSave);
             CloseCommand = new RelayCommand(OnClose);
         }
 
-        public string GameName
+        public string LocationName
         {
-            get => _gameName;
+            get => _locationName;
             set
             {
-                if (_gameName != value)
+                if (_locationName != value)
                 {
-                    _gameName = value;
-                    OnPropertyChanged();
-                    SaveCommand.NotifyCanExecuteChanged();
-                }
-            }
-        }
-
-        public string GamePrefix
-        {
-            get => _gamePrefix;
-            set
-            {
-                if (_gamePrefix != value)
-                {
-                    _gamePrefix = value;
+                    _locationName = value;
                     OnPropertyChanged();
                     SaveCommand.NotifyCanExecuteChanged();
                 }
@@ -57,15 +48,16 @@ namespace FallenTallyAvalon.Dialogue.ViewModel
         public RelayCommand SaveCommand { get; }
         public RelayCommand CloseCommand { get; }
 
-        public GameStatsModel? Result { get; private set; }
+        public DeathLocationModel? Result { get; private set; }
         public bool? DialogResult { get; private set; }
 
         private void OnSave()
         {
-            Result = new GameStatsModel
+            Result = new DeathLocationModel
             {
-                GameName = GameName,
-                Prefix = GamePrefix
+                Name = LocationName,
+                GameID = _activeGame.GameId,
+                Finish = false
             };
             DialogResult = true;
             _closeWindow.Invoke();
@@ -80,9 +72,8 @@ namespace FallenTallyAvalon.Dialogue.ViewModel
 
         private bool CanSave()
         {
-            return !string.IsNullOrWhiteSpace(GameName)
-                && !string.IsNullOrWhiteSpace(GamePrefix)
-                && !_gameController.IsDupeName(GameName);
+            return !string.IsNullOrWhiteSpace(LocationName)
+                && !_locationController.IsDupeName(_activeGame, LocationName);
         }
 
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)

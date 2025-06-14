@@ -5,7 +5,7 @@ using DeathCounterHotkey.Database.Models;
 using FallenTallyAvalon.Controller;
 using FallenTallyAvalon.Dialogue.ViewModel;
 
-namespace FallenTallyAvalon;
+namespace FallenTallyAvalon.Dialogue;
 
 public partial class ConfirmationDialog : Window
 {
@@ -18,10 +18,13 @@ public partial class ConfirmationDialog : Window
         DataContext = _viewModel;
     }
 
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
+    }
+
     public void CloseWindow()
     {
         this.Close(_viewModel.DialogResult);
     }
-
-
 }

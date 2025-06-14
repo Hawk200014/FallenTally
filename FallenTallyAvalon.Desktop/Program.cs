@@ -65,6 +65,8 @@ class Program
         services.AddDbContext<SQLiteDBContext>();
 
         services.AddSingleton<GameController>();
+        services.AddSingleton<LocationController>();
+        services.AddSingleton<DeathController>();
         // Register GameDialog as a singleton with DI for GameController
         services.AddSingleton<GameDialogWindow>(provider =>
             new GameDialogWindow(provider.GetRequiredService<GameController>()));

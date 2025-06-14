@@ -1,0 +1,20 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="100"
+        x:Class="FallenTallyAvalon.Dialogue.LocationDialogWindow"
+        Title="LocationDialogWindow">
+	<DockPanel>
+		<Grid ColumnDefinitions="50*,50*" DockPanel.Dock="Bottom">
+			<Button Grid.Column="0" HorizontalAlignment="Stretch" Content="Save" Margin="5" TextBlock.TextAlignment="Center"
+					Command="{Binding SaveCommand}" IsEnabled="{Binding SaveCommand.CanExecute, Mode=OneWay}"/>
+			<Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Close" Margin="5" TextBlock.TextAlignment="Center"
+					Command="{Binding CloseCommand}"/>
+		</Grid>
+		<Grid ColumnDefinitions="130, *" RowDefinitions="Auto">
+			<Label Grid.Column="0" Grid.Row="0" Content="Location Name" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" />
+			<TextBox Grid.Column="1" Grid.Row="0" Margin="5" Text="{Binding LocationName, UpdateSourceTrigger=PropertyChanged}" />
+		</Grid>
+	</DockPanel>
+</Window>
