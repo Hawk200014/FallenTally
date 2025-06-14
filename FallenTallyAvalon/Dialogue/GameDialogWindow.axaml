@@ -2,16 +2,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
         x:Class="FallenTallyAvalon.Dialogue.GameDialogWindow"
         Title="GameDialogWindow">
   <DockPanel>
-    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
-      <Button Width="100" Content="Save" Margin="5" TextBlock.TextAlignment="Center"
+    <Grid ColumnDefinitions="50*,50*" DockPanel.Dock="Bottom">
+      <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="Save" Margin="5" TextBlock.TextAlignment="Center"
               Command="{Binding SaveCommand}" IsEnabled="{Binding SaveCommand.CanExecute, Mode=OneWay}"/>
-      <Button Width="100" Content="Close" Margin="5" TextBlock.TextAlignment="Center"
+      <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Close" Margin="5" TextBlock.TextAlignment="Center"
               Command="{Binding CloseCommand}"/>
-    </StackPanel>
+    </Grid>
     <Grid ColumnDefinitions="100, *" RowDefinitions="Auto,Auto">
       <Label Grid.Column="0" Grid.Row="0" Content="Gamename" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" />
       <TextBox Grid.Column="1" Grid.Row="0" Margin="5" Text="{Binding GameName, UpdateSourceTrigger=PropertyChanged}" />

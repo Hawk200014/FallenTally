@@ -15,6 +15,7 @@ namespace FallenTallyAvalon.Dialogue.ViewModel
         private readonly GameController _gameController;
         private Action _closeWindow;
 
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public GameDialogWindowViewModel(GameController gameController, Action closeWindow)

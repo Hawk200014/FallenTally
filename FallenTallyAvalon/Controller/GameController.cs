@@ -12,8 +12,6 @@ namespace FallenTallyAvalon.Controller
     {
         private SQLiteDBContext _context;
 
-        private GameStatsModel? _activeGame;
-
         public GameController(SQLiteDBContext context) 
         {
             _context = context;
@@ -32,12 +30,13 @@ namespace FallenTallyAvalon.Controller
             
         }
 
-        public bool EditName(string editText)
+        public bool EditName(GameStatsModel oldGame, GameStatsModel newGame)
         {
-            if (IsDupeName(editText)) return false;
-            GameStatsModel? gameModel = GetActiveGame();
+            if (IsDupeName(newGame.GameName)) return false;
+            GameStatsModel? gameModel = _context.GameStats.Where(x => x.GameName.Equals(oldGame.GameName)).FirstOrDefault();
             if (gameModel == null) return false;
-            gameModel.GameName = editText;
+            gameModel.GameName = newGame.GameName;
+            gameModel.Prefix = newGame.Prefix;
             _context.SaveChanges();
             return true;
         }
@@ -47,15 +46,9 @@ namespace FallenTallyAvalon.Controller
             return _context.GameStats.ToList();
         }
 
-        public void SetActiveGame(string gameName)
-        {
-            _activeGame = _context.GameStats.Where(x => x.GameName == gameName).FirstOrDefault();
-        }
 
-        public GameStatsModel? GetActiveGame()
-        {
-            return _activeGame;
-        }
+
+
 
         public GameStatsModel? GetGame(string gameName)
         {
@@ -67,17 +60,12 @@ namespace FallenTallyAvalon.Controller
             return _context.GameStats.Where(x=>x.GameName == editText).Any();
         }
 
-        internal string GetPrefix()
-        {
-            if (_activeGame == null) return "";
-            return _activeGame.Prefix;
-        }
 
-        internal int GetAllDeaths()
+        internal int GetAllDeaths(GameStatsModel gameStatsModel)
         {
-            if(_activeGame == null) return 0;
+
             int deaths = 0;
-            List<DeathLocationModel> list = _context.Locations.Where(x => x.GameID == _activeGame.GameId).ToList();
+            List<DeathLocationModel> list = _context.Locations.Where(x => x.GameID == gameStatsModel.GameId).ToList();
             foreach(var location in list)
             {
                 deaths += _context.Deaths.Where(x => x.LocationId == location.LocationId).Count();
@@ -90,11 +78,12 @@ namespace FallenTallyAvalon.Controller
             return _context.GameStats.Select(x => x.GameName).ToList();
         }
 
-        internal void RemoveGame()
+        internal void RemoveGame(GameStatsModel gameStatsModel)
         {
-            if(_activeGame == null) return;
-            _context.GameStats.Remove(_activeGame);
-            _activeGame = null;
+            if(gameStatsModel == null) return;
+            GameStatsModel? game = _context.GameStats.FirstOrDefault(x => x.GameName == gameStatsModel.GameName);
+            if(game == null) return;
+            _context.GameStats.Remove(game);
             _context.SaveChanges();
         }
     }

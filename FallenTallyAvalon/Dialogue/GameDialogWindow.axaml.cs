@@ -15,6 +15,7 @@ public partial class GameDialogWindow : Window
     private GameStatsModel? _data;
     private GameController _gameController;
     private GameDialogWindowViewModel _gameDialogWindowViewModel;
+    
 
     public GameDialogWindow()
     {
@@ -25,9 +26,15 @@ public partial class GameDialogWindow : Window
     {
         _gameDialogWindowViewModel = new GameDialogWindowViewModel(gameController, CloseWindow);
         DataContext = _gameDialogWindowViewModel;
-
-
     }
+
+    public GameDialogWindow(GameController gameController, GameStatsModel data) : this(gameController)
+    {
+
+        _gameDialogWindowViewModel.GameName = data.GameName;
+        _gameDialogWindowViewModel.GamePrefix = data.Prefix;
+    }
+
 
     public void CloseWindow()
     {

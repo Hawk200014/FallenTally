@@ -25,6 +25,8 @@ namespace FallenTallyAvalon.ViewModels
 
         #region RelayCommands
         public IRelayCommand AddGameCommand { get; }
+        public IRelayCommand EditGameCommand { get; }
+        public IRelayCommand RemoveGameCommand { get; }
 
         #endregion
 
@@ -33,11 +35,16 @@ namespace FallenTallyAvalon.ViewModels
         {
             _gameController = gameController;
             AddGameCommand = new AsyncRelayCommand(AddGameAsync);
-            GameStats = new ObservableCollection<GameStatsModel>(gameController.GetGameStats());
+            EditGameCommand = new AsyncRelayCommand(EditGameAsync);
+            RemoveGameCommand = new AsyncRelayCommand(RemoveGameAsync);
+            GameStats = new ObservableCollection<GameStatsModel>(_gameController.GetGameStats());
         }
         #endregion
 
         #region RelayFunctions
+
+
+        #region GameStats
 
         private async Task AddGameAsync()
         {
@@ -51,6 +58,36 @@ namespace FallenTallyAvalon.ViewModels
                 _gameController.AddGame(newGame.GameName, newGame.Prefix);
             }
         }
+
+        private async Task EditGameAsync()
+        {
+            if (ActiveGame == null) return;
+            var dialog = new GameDialogWindow(_gameController, ActiveGame);
+            var editedGame = await dialog.ShowDialog<GameStatsModel?>(MainWindow.Instance);
+            if (editedGame != null)
+            {
+                _ = _gameController.EditName(ActiveGame, editedGame);
+                GameStats = new ObservableCollection<GameStatsModel>(_gameController.GetGameStats());
+                ActiveGame = GameStats.FirstOrDefault(x => x.GameName == editedGame.GameName);
+                OnPropertyChanged(nameof(ActiveGame));
+            }
+        }
+
+        private async Task RemoveGameAsync()
+        {
+            if (ActiveGame == null) return;
+            var dialog = new ConfirmationDialog();
+            var yes = await dialog.ShowDialog<bool?>(MainWindow.Instance);
+            if (yes == true)
+            {
+                _gameController.RemoveGame(ActiveGame);
+                GameStats = new ObservableCollection<GameStatsModel>(_gameController.GetGameStats());
+                ActiveGame = null;
+                OnPropertyChanged(nameof(ActiveGame));
+            }
+        }
+
+        #endregion
 
         #endregion
 

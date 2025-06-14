@@ -36,13 +36,28 @@
             <ColumnDefinition Width="34*" />
             <ColumnDefinition Width="33*" />
           </Grid.ColumnDefinitions>
-          <Button Margin="3" Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Command="{Binding AddGameCommand}">
+          <Button Margin="3" 
+                  Grid.Column="0" 
+                  Grid.Row="0" 
+                  VerticalAlignment="Stretch" 
+                  HorizontalAlignment="Stretch" 
+                  Command="{Binding AddGameCommand}">
             <PathIcon Data="{StaticResource plus_icon }"/>
           </Button>
-          <Button Margin="3" Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+          <Button Margin="3" 
+                  Grid.Column="1" 
+                  Grid.Row="0" 
+                  VerticalAlignment="Stretch" 
+                  HorizontalAlignment="Stretch"
+                  Command="{Binding EditGameCommand}">
             <PathIcon Data="{StaticResource edit_icon }"/>
           </Button>
-          <Button Margin="3" Grid.Column="2" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+          <Button Margin="3" 
+                  Grid.Column="2" 
+                  Grid.Row="0" 
+                  VerticalAlignment="Stretch" 
+                  HorizontalAlignment="Stretch"
+                  Command="{Binding RemoveGameCommand}">
             <PathIcon Data="{StaticResource delete_icon }"/>
           </Button>
         </Grid>
