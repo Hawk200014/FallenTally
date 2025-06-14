@@ -5,4 +5,50 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="FallenTallyAvalon.Views.OverlayView">
+  <DockPanel>
+    <Grid ColumnDefinitions="60*, 5, 40*">
+      <TextBox Grid.Column="0"></TextBox>
+      <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeDirection="Columns"/>
+      <ScrollViewer Grid.Column="2" >
+        <Grid Margin="3">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Label Margin="3" Grid.Row="0" Grid.Column="0" Content="Font-Family" VerticalAlignment="Center"/>
+          <Label Margin="3" Grid.Row="1" Grid.Column="0" Content="Font-Size" VerticalAlignment="Center"/>
+          <Label Margin="3" Grid.Row="2" Grid.Column="0" Content="Font-Style" VerticalAlignment="Center"/>
+          <Label Margin="3" Grid.Row="3" Grid.Column="0" Content="Font-Weight" VerticalAlignment="Center"/>
+          <Label Margin="3" Grid.Row="4" Grid.Column="0" Content="Border-Size" VerticalAlignment="Center"/>
+          <Label Margin="3" Grid.Row="5" Grid.Column="0" Content="Shadow-Size" VerticalAlignment="Center"/>
+          <Label Margin="3" Grid.Row="6" Grid.Column="0" Content="Text-Color" VerticalAlignment="Center"/>
+          <Label Margin="3" Grid.Row="7" Grid.Column="0" Content="Outline-Color" VerticalAlignment="Center"/>
+          <Label Margin="3" Grid.Row="8" Grid.Column="0" Content="Shadow-Color" VerticalAlignment="Center"/>
+          <ComboBox Margin="3" Grid.Row="0" HorizontalAlignment="Stretch" Grid.Column="1"></ComboBox>
+          <TextBox Margin="3" Grid.Row="1" Grid.Column="1"></TextBox>
+          <ComboBox Margin="3" Grid.Row="2" HorizontalAlignment="Stretch" Grid.Column="1"></ComboBox>
+          <ComboBox Margin="3" Grid.Row="3" HorizontalAlignment="Stretch" Grid.Column="1"></ComboBox>
+          <TextBox Margin="3" Grid.Row="4" Grid.Column="1"></TextBox>
+          <TextBox Margin="3" Grid.Row="5" Grid.Column="1"></TextBox>
+          <TextBox Margin="3" Grid.Row="6" Grid.Column="1"></TextBox>
+          <TextBox Margin="3" Grid.Row="7" Grid.Column="1"></TextBox>
+          <TextBox Margin="3" Grid.Row="8" Grid.Column="1"></TextBox>
+        </Grid>
+      </ScrollViewer>
+      </Grid>
+  </DockPanel>
 </UserControl>
