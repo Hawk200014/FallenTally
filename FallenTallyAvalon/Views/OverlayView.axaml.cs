@@ -8,8 +8,6 @@ public partial class OverlayView : UserControl
 {
     public OverlayView()
     {
-        WebView.Settings.LogFile = "ceflog.txt";
         InitializeComponent();
-        DataContext = new OverlayViewModel();
     }
 }

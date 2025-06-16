@@ -13,11 +13,11 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <TabControl >
+  <TabControl SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
     <!--Tally-->
     <TabItem Header="Tally">
       <ScrollViewer>
-        <views:TallyView />
+        <views:TallyView DataContext="{Binding TallyViewModel}" />
       </ScrollViewer>
     </TabItem>
     <!--Export-->
@@ -25,8 +25,8 @@
       <views:ExportView/>
     </TabItem>
     <!--Overlay-->
-    <TabItem Header="Overlay">
-      <views:OverlayView />
+    <TabItem Header="Overlay" >
+      <views:OverlayView DataContext="{Binding OverlayViewModel}"/>
     </TabItem>
     <!--Settings-->
     <TabItem Header="Settings">

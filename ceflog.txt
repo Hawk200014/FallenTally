@@ -1352,3 +1352,162 @@ Histogram: Variations.Limits.VariationKeySize.Default recorded 1 samples, mean =
 [0615/203122.657:WARNING:resource_bundle.cc(464)] locale_file_path.empty() for locale 
 [0615/203122.657:ERROR:alloy_main_delegate.cc(716)] Could not load locale pak for en-US
 [0615/203122.695:VERBOSE1:configured_proxy_resolution_service.cc(1096)] Failed configuring with PAC script, falling-back to manual proxy servers.
+[0615/215721.112:WARNING:resource_bundle.cc(464)] locale_file_path.empty() for locale 
+[0615/215721.112:ERROR:alloy_main_delegate.cc(716)] Could not load locale pak for en-US
+[0615/215721.149:VERBOSE1:pref_proxy_config_tracker_impl.cc(191)] 000024080001D400: set chrome proxy config service to 0000240800114900
+[0615/215721.159:VERBOSE1:webrtc_internals.cc(123)] Could not get the download directory.
+[0615/215721.159:VERBOSE1:media_stream_manager.cc(1410)] MSM::InitializeMaybeAsync([this=00002408000C6200])
+[0615/215721.159:VERBOSE1:media_stream_manager.cc(1410)] MDM::MediaDevicesManager()
+[0615/215721.159:VERBOSE1:media_stream_manager.cc(1410)] MSM::MediaStreamManager([this=00002408000C6200]))
+[0615/215721.168:VERBOSE1:device_event_log_impl.cc(194)] [21:57:21.167] Display: EVENT: screen_win.cc:828 Displays updated, count: 3
+[0615/215721.168:VERBOSE1:device_event_log_impl.cc(194)] [21:57:21.169] Display: EVENT: screen_win.cc:830 Display[2528732444] bounds=[0,0 2048x1152], workarea=[0,0 2048x1104], scale=1.25, rotation=0, panel_rotation=0 external detected
+[0615/215721.168:VERBOSE1:device_event_log_impl.cc(194)] [21:57:21.169] Display: EVENT: screen_win.cc:830 Display[2480450848] bounds=[-1080,0 1080x1920], workarea=[-1080,0 1080x1872], scale=1, rotation=90, panel_rotation=90 external detected
+[0615/215721.168:VERBOSE1:device_event_log_impl.cc(194)] [21:57:21.169] Display: EVENT: screen_win.cc:830 Display[2841568472] bounds=[-1084,-1080 1920x1080], workarea=[-1084,-1080 1920x1032], scale=1, rotation=180, panel_rotation=180 external detected
+[0615/215721.169:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.169:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.169:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.169:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.169:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.169:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.169:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.170:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.351:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.351:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.351:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.351:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.351:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.351:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0615/215721.363:VERBOSE1:component_installer.cc(428)] StartRegistration for Widevine Content Decryption Module
+[0615/215721.370:VERBOSE1:component_installer.cc(499)] FinishRegistration for Widevine Content Decryption Module
+[0615/215721.370:VERBOSE1:component_updater_service.cc(151)] CrxUpdateService starting up. First update attempt will take place in 60 s seconds. Next update attempt will take place in 18000 s seconds. 
+[0615/215726.941:WARNING:resource_bundle.cc(464)] locale_file_path.empty() for locale 
+[0615/215726.941:ERROR:alloy_main_delegate.cc(716)] Could not load locale pak for en-US
+[0615/215727.163:WARNING:resource_bundle.cc(464)] locale_file_path.empty() for locale 
+[0615/215727.163:ERROR:alloy_main_delegate.cc(716)] Could not load locale pak for en-US
+[0615/215727.203:VERBOSE1:configured_proxy_resolution_service.cc(1096)] Failed configuring with PAC script, falling-back to manual proxy servers.
+[0615/215732.175:VERBOSE1:network_delegate.cc(35)] NetworkDelegate::NotifyBeforeURLRequest: https://dns.google/dns-query?dns=AAABAAABAAAAAAABA3d3dwdnc3RhdGljA2NvbQAAAQABAAApEAAAAAAAAFQADABQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+[0615/215821.374:VERBOSE1:network_delegate.cc(35)] NetworkDelegate::NotifyBeforeURLRequest: https://update.googleapis.com/service/update2/json?cup2key=13:k3D9B2LlgL7JsaH304-q2-C4-h-NlFkxnVQzoNjaRno&cup2hreq=385100c18ca58d7dcace58716f5f5957b6ac4e5c46e2aad9c3240dc983e420be
+[0615/215821.375:VERBOSE1:network_delegate.cc(35)] NetworkDelegate::NotifyBeforeURLRequest: https://dns.google/dns-query?dns=AAABAAABAAAAAAABBnVwZGF0ZQpnb29nbGVhcGlzA2NvbQAAHAABAAApEAAAAAAAAE4ADABKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+[0615/215821.375:VERBOSE1:network_delegate.cc(35)] NetworkDelegate::NotifyBeforeURLRequest: https://dns.google/dns-query?dns=AAABAAABAAAAAAABBnVwZGF0ZQpnb29nbGVhcGlzA2NvbQAAAQABAAApEAAAAAAAAE4ADABKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+[0615/215821.375:VERBOSE1:network_delegate.cc(35)] NetworkDelegate::NotifyBeforeURLRequest: https://dns.google/dns-query?dns=AAABAAABAAAAAAABBnVwZGF0ZQpnb29nbGVhcGlzA2NvbQAAQQABAAApEAAAAAAAAE4ADABKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+[0615/215821.375:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0615/215821.410:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0615/215821.417:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0615/215821.418:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0615/215821.418:VERBOSE1:tls_client_handshaker.cc(516)] Client: handshake finished
+[0615/215821.514:VERBOSE1:request_sender.cc(181)] Request completed from url: https://update.googleapis.com/service/update2/json?cup2key=13:k3D9B2LlgL7JsaH304-q2-C4-h-NlFkxnVQzoNjaRno&cup2hreq=385100c18ca58d7dcace58716f5f5957b6ac4e5c46e2aad9c3240dc983e420be
+[0615/215825.742:VERBOSE1:background_downloader_win.cc(475)] Starting BITS download for: http://edgedl.me.gvt1.com/edgedl/release2/chrome_component/acccxbt6wwsvpxzpob4hojndwkqq_4.10.2830.0/oimompecagnajdejgnnjijobebaeigek_4.10.2830.0_win64_dldxogwi36sxwpr57ta4lg57z4.crx3
+[0615/215837.214:VERBOSE1:media_stream_manager.cc(1410)] video capture: VideoCaptureManager::OnScreenLocked
+[0616/205451.656:WARNING:dns_config_service_win.cc(584)] Failed to read DnsConfig.
+[0616/205451.708:WARNING:dns_config_service_win.cc(584)] Failed to read DnsConfig.
+[0616/205451.742:VERBOSE1:logging_network_change_observer.cc(90)] Observed a change to the network IP addresses
+[0616/205451.743:VERBOSE1:logging_network_change_observer.cc(90)] Observed a change to the network IP addresses
+[0616/205452.574:VERBOSE1:media_stream_manager.cc(1410)] MSPL::OnSuspend([this=00002408000C6328])
+[0616/205452.723:VERBOSE1:media_stream_manager.cc(1410)] MSPL::OnResume([this=00002408000C6328])
+[0616/205452.752:VERBOSE1:logging_network_change_observer.cc(100)] Observed a change to network connectivity state CONNECTION_NONE
+[0616/205452.912:WARNING:resource_bundle.cc(464)] locale_file_path.empty() for locale 
+[0616/205452.912:ERROR:alloy_main_delegate.cc(716)] Could not load locale pak for en-US
+[0616/205453.079:VERBOSE1:network_delegate.cc(35)] NetworkDelegate::NotifyBeforeURLRequest: https://dns.google/dns-query?dns=AAABAAABAAAAAAABA3d3dwdnc3RhdGljA2NvbQAAAQABAAApEAAAAAAAAFQADABQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+[0616/205453.102:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0616/205453.132:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0616/205453.133:VERBOSE1:tls_handshaker.cc(121)] TlsClient: SSL_do_handshake returned when entering early data. After retry, rv=-1, SSL_in_early_data=1
+[0616/205453.133:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0616/205453.133:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0616/205453.133:VERBOSE1:tls_client_handshaker.cc(516)] Client: handshake finished
+[0616/205453.763:VERBOSE1:configured_proxy_resolution_service.cc(1096)] Failed configuring with PAC script, falling-back to manual proxy servers.
+[0616/205454.264:VERBOSE1:logging_network_change_observer.cc(113)] Observed a network change to state CONNECTION_NONE
+[0616/205456.415:VERBOSE1:logging_network_change_observer.cc(90)] Observed a change to the network IP addresses
+[0616/205456.425:VERBOSE1:network_delegate.cc(35)] NetworkDelegate::NotifyBeforeURLRequest: https://dns.google/dns-query?dns=AAABAAABAAAAAAABA3d3dwdnc3RhdGljA2NvbQAAAQABAAApEAAAAAAAAFQADABQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+[0616/205456.833:VERBOSE1:background_downloader_win.cc(475)] Starting BITS download for: https://edgedl.me.gvt1.com/edgedl/release2/chrome_component/acccxbt6wwsvpxzpob4hojndwkqq_4.10.2830.0/oimompecagnajdejgnnjijobebaeigek_4.10.2830.0_win64_dldxogwi36sxwpr57ta4lg57z4.crx3
+[0616/205457.141:VERBOSE1:media_stream_manager.cc(1410)] video capture: VideoCaptureManager::OnScreenUnlocked
+[0616/205457.400:VERBOSE1:logging_network_change_observer.cc(90)] Observed a change to the network IP addresses
+[0616/205458.414:VERBOSE1:logging_network_change_observer.cc(100)] Observed a change to network connectivity state CONNECTION_ETHERNET
+[0616/205459.421:VERBOSE1:configured_proxy_resolution_service.cc(1096)] Failed configuring with PAC script, falling-back to manual proxy servers.
+[0616/205459.924:VERBOSE1:logging_network_change_observer.cc(113)] Observed a network change to state CONNECTION_NONE
+[0616/205459.924:VERBOSE1:logging_network_change_observer.cc(113)] Observed a network change to state CONNECTION_ETHERNET
+[0616/205509.791:VERBOSE1:media_stream_manager.cc(1410)] MSPL::OnSpeedLimitChange({this=00002408000C6328}, {new_limit=56})
+[0616/205510.792:VERBOSE1:media_stream_manager.cc(1410)] MSPL::OnSpeedLimitChange({this=00002408000C6328}, {new_limit=100})
+[0616/205526.371:VERBOSE1:puffin_component_unpacker.cc(71)] Verifying component: C:\Users\Damien\AppData\Local\Temp\chrome_BITS_23272_1662250699\oimompecagnajdejgnnjijobebaeigek_4.10.2830.0_win64_dldxogwi36sxwpr57ta4lg57z4.crx3
+[0616/205526.408:VERBOSE1:puffin_component_unpacker.cc(100)] Unpacking in: C:\Users\Damien\AppData\Local\Temp\chrome_PuffinComponentUnpacker_BeginUnzipping23272_20062445
+[0616/205526.408:WARNING:resource_bundle.cc(1199)] locale resources are not loaded
+[0616/205526.408:ERROR:alloy_content_client.cc(110)] No localized string available for id 37223
+[0616/205526.468:WARNING:resource_bundle.cc(464)] locale_file_path.empty() for locale 
+[0616/205526.468:ERROR:alloy_main_delegate.cc(716)] Could not load locale pak for en-US
+[0616/205526.520:VERBOSE1:statistics_recorder.cc(647)] Collections of all histograms
+Histogram: Memory.PartitionAlloc.PartitionRoot.ExtrasSize recorded 1 samples, mean = 4.0 (flags = 0x1)
+0  ... 
+4  -O                                                                        (1 = 100.0%) {0.0%}
+5  ... 
+
+Histogram: UMA.ChildProcess.Ping.SharedMemorySetUp recorded 1 samples, mean = 1.0 (flags = 0x1)
+0  O                                                                         (0 = 0.0%)
+1  -O                                                                        (1 = 100.0%) {0.0%}
+2  ... 
+
+Histogram: UMA.LocalHistogram recorded 1 samples, mean = 1.0
+0  O                                                                         (0 = 0.0%)
+1  -O                                                                        (1 = 100.0%) {0.0%}
+2  O                                                                         (0 = 0.0%) {100.0%}
+
+Histogram: V8.Initializer.OpenV8File.Result recorded 1 samples, mean = 0.0 (flags = 0x1)
+0  -O                                                                        (1 = 100.0%)
+1  ... 
+
+Histogram: Variations.Limits.VariationKeySize.Default recorded 1 samples, mean = 0.0 (flags = 0x1)
+0  -O                                                                        (1 = 100.0%)
+1  ... 
+
+
+[0616/205526.525:VERBOSE1:component_installer.cc(133)] Install: version=4.10.2830.0 current version=0.0.0.0
+[0616/205526.525:VERBOSE1:component_installer.cc(149)] unpack_path=C:\Users\Damien\AppData\Local\Temp\chrome_PuffinComponentUnpacker_BeginUnzipping23272_20062445 install_path=C:\Users\Damien\AppData\Local\Temp\WebViewf7069790dec645cf937d2cea4cc59f72638856142410563367\WidevineCdm\4.10.2830.0
+[0616/205526.527:VERBOSE1:component_installer.cc(536)] Component ready, version 4.10.2830.0 in C:\Users\Damien\AppData\Local\Temp\WebViewf7069790dec645cf937d2cea4cc59f72638856142410563367\WidevineCdm\4.10.2830.0
+[0616/205526.527:VERBOSE1:widevine_cdm_component_installer.cc(98)] Registering Widevine CDM 4.10.2830.0 with Chrome
+[0616/205526.527:VERBOSE1:network_delegate.cc(35)] NetworkDelegate::NotifyBeforeURLRequest: https://update.googleapis.com/service/update2/json
+[0616/205526.528:VERBOSE1:network_delegate.cc(35)] NetworkDelegate::NotifyBeforeURLRequest: https://dns.google/dns-query?dns=AAABAAABAAAAAAABBnVwZGF0ZQpnb29nbGVhcGlzA2NvbQAAHAABAAApEAAAAAAAAE4ADABKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+[0616/205526.529:VERBOSE1:network_delegate.cc(35)] NetworkDelegate::NotifyBeforeURLRequest: https://dns.google/dns-query?dns=AAABAAABAAAAAAABBnVwZGF0ZQpnb29nbGVhcGlzA2NvbQAAAQABAAApEAAAAAAAAE4ADABKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+[0616/205526.529:VERBOSE1:network_delegate.cc(35)] NetworkDelegate::NotifyBeforeURLRequest: https://dns.google/dns-query?dns=AAABAAABAAAAAAABBnVwZGF0ZQpnb29nbGVhcGlzA2NvbQAAQQABAAApEAAAAAAAAE4ADABKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+[0616/205526.573:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0616/205526.574:VERBOSE1:tls_handshaker.cc(121)] TlsClient: SSL_do_handshake returned when entering early data. After retry, rv=-1, SSL_in_early_data=1
+[0616/205526.611:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0616/205526.611:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0616/205526.611:VERBOSE1:tls_client_handshaker.cc(516)] Client: handshake finished
+[0616/205526.639:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0616/205526.672:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0616/205526.673:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0616/205526.673:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0616/205526.702:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0616/205526.702:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0616/205526.703:VERBOSE1:tls_handshaker.cc(100)] TlsClient: Continuing handshake
+[0616/205526.703:VERBOSE1:tls_client_handshaker.cc(516)] Client: handshake finished
+[0616/205526.738:VERBOSE1:request_sender.cc(181)] Request completed from url: https://update.googleapis.com/service/update2/json
+[0616/205526.738:VERBOSE1:component_updater_service.cc(451)] Update completed with error 0
+[0616/205526.751:VERBOSE1:network_delegate.cc(35)] NetworkDelegate::NotifyBeforeURLRequest: https://update.googleapis.com/service/update2/json?cup2key=13:XlRK8T1dM5abN4NrgAjUaMdEXLFbqojVkcsy_V0OOo8&cup2hreq=87aace22122262cdd42e3fbb09bb13f57647fc3900e55bffaedcb4dbc618efab
+[0616/205526.791:VERBOSE1:request_sender.cc(181)] Request completed from url: https://update.googleapis.com/service/update2/json?cup2key=13:XlRK8T1dM5abN4NrgAjUaMdEXLFbqojVkcsy_V0OOo8&cup2hreq=87aace22122262cdd42e3fbb09bb13f57647fc3900e55bffaedcb4dbc618efab
+[0616/205526.792:VERBOSE1:component_updater_service.cc(451)] Update completed with error 0

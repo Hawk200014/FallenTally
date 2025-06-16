@@ -70,9 +70,11 @@ class Program
         // Register GameDialog as a singleton with DI for GameController
         services.AddSingleton<GameDialogWindow>(provider =>
             new GameDialogWindow(provider.GetRequiredService<GameController>()));
+        services.AddSingleton<TallyViewModel>();
+        services.AddSingleton<OverlayViewModel>();
 
 
-        services.AddTransient<TallyViewModel>();
+
     }
 
     public static AppBuilder BuildAvaloniaApp()
