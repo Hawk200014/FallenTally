@@ -1,89 +1,96 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DeathCounterHotkey.Controller;
 using DeathCounterHotkey.Database.Models;
-using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using FallenTally.Database.Models;
 using FallenTallyAvalon.Controller;
+using FallenTallyAvalon.Controller.Timer;
 using FallenTallyAvalon.Dialogue;
 using FallenTallyAvalon.Views;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace FallenTallyAvalon.ViewModels
 {
-    public class TallyViewModel : INotifyPropertyChanged
+    public partial class TallyViewModel : ObservableObject
     {
-        private ObservableCollection<GameStatsModel> _gameStats = new();
-        private ObservableCollection<DeathLocationModel> _deathLocations = new();
-        private GameStatsModel? _activeGame;
-        private DeathLocationModel? _activeLocation;
-        private string _counterValue = string.Empty;
-        private ObservableCollection<MarkerModel> _markers = new() { 
+        private readonly GameController _gameController;
+        private readonly LocationController _locationController;
+        private readonly DeathController _deathController;
+        private readonly StreamingController _streamingController;
+        private readonly RecordingController _recordingController;
+
+        [ObservableProperty]
+        private ObservableCollection<GameStatsModel> gameStats = new();
+
+        [ObservableProperty]
+        private ObservableCollection<DeathLocationModel> deathLocations = new();
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(GameEditButtonEnabled))]
+        [NotifyPropertyChangedFor(nameof(GameRemoveButtonEnabled))]
+        [NotifyPropertyChangedFor(nameof(LocationAddButtonEnabled))]
+        private GameStatsModel? activeGame;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(LocationEditButtonEnabled))]
+        [NotifyPropertyChangedFor(nameof(LocationRemoveButtonEnabled))]
+        [NotifyPropertyChangedFor(nameof(DeathAddButtonEnabled))]
+        [NotifyPropertyChangedFor(nameof(DeathRemoveButtonEnabled))]
+        private DeathLocationModel? activeLocation;
+
+        [ObservableProperty]
+        private string counterValue = string.Empty;
+
+        [ObservableProperty]
+        private ObservableCollection<MarkerModel> markers = new()
+        {
             new MarkerModel { categorie = "cat1", MarkerId = 1, StreamSession = 1 },
-            new MarkerModel { categorie = "cat2", MarkerId = 2, StreamSession = 1},
-                        new MarkerModel { categorie = "cat1", MarkerId = 1, StreamSession = 1 },
-            new MarkerModel { categorie = "cat2", MarkerId = 2, StreamSession = 1},
-                        new MarkerModel { categorie = "cat1", MarkerId = 1, StreamSession = 1 },
-            new MarkerModel { categorie = "cat2", MarkerId = 2, StreamSession = 1},
+            new MarkerModel { categorie = "cat2", MarkerId = 2, StreamSession = 1 },
             new MarkerModel { categorie = "cat3", MarkerId = 3, StreamSession = 1 }
         };
-        private GameController _gameController;
-        private LocationController _locationController;
-        private DeathController _deathController;
 
-        #region Enabled Variables
-        public bool GameEditButtonEnabled => ActiveGame != null;
-        public bool GameRemoveButtonEnabled => ActiveGame != null;
+        [ObservableProperty]
+        private string streamTime = "00:00:00";
 
+        [ObservableProperty]
+        private string recordingTime = "00:00:00";
+
+        [ObservableProperty]
+        private bool isStreamRunning = false;
+
+        [ObservableProperty]
+        private bool isRecordingRunning = false;
+
+        // Enabled properties for buttons
+        public bool GameAddButtonEnabled => true;
+        public bool GameEditButtonEnabled => true;
+        public bool GameRemoveButtonEnabled => true;
         public bool LocationAddButtonEnabled => ActiveGame != null;
         public bool LocationEditButtonEnabled => ActiveLocation != null;
         public bool LocationRemoveButtonEnabled => ActiveLocation != null;
-
         public bool DeathAddButtonEnabled => ActiveLocation != null;
         public bool DeathRemoveButtonEnabled => ActiveLocation != null;
-        #endregion
 
-        #region RelayCommands
-        public IRelayCommand AddGameCommand { get; }
-        public IRelayCommand EditGameCommand { get; }
-        public IRelayCommand RemoveGameCommand { get; }
-
-        public IRelayCommand AddLocationCommand { get; }
-        public IRelayCommand EditLocationCommand { get; }
-        public IRelayCommand RemoveLocationCommand { get; }
-
-        public IRelayCommand AddDeathCommand { get; }
-        public IRelayCommand RemoveDeathCommand { get; }
-
-        #endregion
-
-        #region Constructors
-        public TallyViewModel(GameController gameController, LocationController locationController, DeathController deathController)
+        public TallyViewModel(
+            GameController gameController,
+            LocationController locationController,
+            DeathController deathController,
+            StreamingController streamingController,
+            RecordingController recordingController)
         {
             _gameController = gameController;
             _locationController = locationController;
             _deathController = deathController;
-
-            AddGameCommand = new AsyncRelayCommand(AddGameAsync);
-            EditGameCommand = new AsyncRelayCommand(EditGameAsync);
-            RemoveGameCommand = new AsyncRelayCommand(RemoveGameAsync);
-
-            AddLocationCommand = new AsyncRelayCommand(AddLocationAsync);
-            EditLocationCommand = new AsyncRelayCommand(EditLocationAsync);
-            RemoveLocationCommand = new AsyncRelayCommand(RemoveLocationAsync);
-
-            AddDeathCommand = new AsyncRelayCommand(AddDeathAsync);
-            RemoveDeathCommand = new AsyncRelayCommand(RemoveDeathAsync);
+            _streamingController = streamingController;
+            _recordingController = recordingController;
 
             GameStats = new ObservableCollection<GameStatsModel>(_gameController.GetGameStats());
         }
-        #endregion
 
-        #region RelayFunctions
-        #region GameStats
-
+        // Game commands
+        [RelayCommand]
         private async Task AddGameAsync()
         {
             var dialog = new GameDialogWindow(_gameController);
@@ -97,6 +104,7 @@ namespace FallenTallyAvalon.ViewModels
             }
         }
 
+        [RelayCommand]
         private async Task EditGameAsync()
         {
             if (ActiveGame == null) return;
@@ -107,10 +115,10 @@ namespace FallenTallyAvalon.ViewModels
                 _ = _gameController.EditName(ActiveGame, editedGame);
                 GameStats = new ObservableCollection<GameStatsModel>(_gameController.GetGameStats());
                 ActiveGame = GameStats.FirstOrDefault(x => x.GameName == editedGame.GameName);
-                OnPropertyChanged(nameof(ActiveGame));
             }
         }
 
+        [RelayCommand]
         private async Task RemoveGameAsync()
         {
             if (ActiveGame == null) return;
@@ -121,13 +129,11 @@ namespace FallenTallyAvalon.ViewModels
                 _gameController.RemoveGame(ActiveGame);
                 GameStats = new ObservableCollection<GameStatsModel>(_gameController.GetGameStats());
                 ActiveGame = null;
-                OnPropertyChanged(nameof(ActiveGame));
             }
         }
 
-        #endregion
-
-        #region DeathLocations
+        // Location commands
+        [RelayCommand]
         private async Task AddLocationAsync()
         {
             if (ActiveGame == null) return;
@@ -137,11 +143,11 @@ namespace FallenTallyAvalon.ViewModels
             {
                 DeathLocations.Add(newLocation);
                 _locationController.AddLocation(ActiveGame, newLocation.Name);
-                OnPropertyChanged(nameof(DeathLocations));
                 ActiveLocation = DeathLocations.FirstOrDefault(x => x.Name == newLocation.Name);
             }
         }
 
+        [RelayCommand]
         private async Task EditLocationAsync()
         {
             if (ActiveLocation == null) return;
@@ -151,11 +157,11 @@ namespace FallenTallyAvalon.ViewModels
             {
                 _locationController.EditName(ActiveGame, ActiveLocation, editedLocation.Name);
                 DeathLocations = new ObservableCollection<DeathLocationModel>(_locationController.GetListOfLocations(ActiveGame));
-                OnPropertyChanged(nameof(DeathLocations));
                 ActiveLocation = DeathLocations.FirstOrDefault(x => x.Name == editedLocation.Name);
             }
         }
 
+        [RelayCommand]  
         private async Task RemoveLocationAsync()
         {
             if (ActiveLocation == null) return;
@@ -165,14 +171,12 @@ namespace FallenTallyAvalon.ViewModels
             {
                 _locationController.RemoveLocation(ActiveLocation);
                 DeathLocations = new ObservableCollection<DeathLocationModel>(_locationController.GetListOfLocations(ActiveGame));
-                OnPropertyChanged(nameof(DeathLocations));
                 ActiveLocation = null;
             }
         }
-        #endregion
 
-        #region Deaths
-
+        // Death commands
+        [RelayCommand]
         private async Task AddDeathAsync()
         {
             if (ActiveLocation == null) return;
@@ -180,6 +184,7 @@ namespace FallenTallyAvalon.ViewModels
             CounterValue = _locationController.GetDeathsAtLocation(ActiveLocation).ToString();
         }
 
+        [RelayCommand]
         private async Task RemoveDeathAsync()
         {
             if (ActiveLocation == null) return;
@@ -187,92 +192,67 @@ namespace FallenTallyAvalon.ViewModels
             CounterValue = _locationController.GetDeathsAtLocation(ActiveLocation).ToString();
         }
 
-        #endregion
-
-        #endregion
-
-        public GameStatsModel? ActiveGame
+        // Timer commands
+        [RelayCommand]
+        public void StartStream()
         {
-            get => _activeGame;
-            set
+            _streamingController.StartTimer();
+            StreamTime = _streamingController.GetFormattedTime();
+            _streamingController.Tick += (timer) =>
             {
-                if (_activeGame != value)
-                {
-                    _activeGame = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(GameEditButtonEnabled));
-                    OnPropertyChanged(nameof(GameRemoveButtonEnabled));
-                    OnPropertyChanged(nameof(LocationAddButtonEnabled));
-                    OnPropertyChanged(nameof(LocationEditButtonEnabled));
-                    OnPropertyChanged(nameof(LocationRemoveButtonEnabled));
-                    OnPropertyChanged(nameof(DeathAddButtonEnabled));
-                    OnPropertyChanged(nameof(DeathRemoveButtonEnabled));
-                    DeathLocations = new ObservableCollection<DeathLocationModel>(_locationController.GetListOfLocations(_activeGame));
-                    CounterValue = "0";
-                }
-                else
-                {
-                    CounterValue = "0";
-                }
-            }
+                StreamTime = _streamingController.GetFormattedTime();
+            };
+            IsStreamRunning = true;
         }
 
-        public DeathLocationModel? ActiveLocation
+        [RelayCommand]
+        public void StopStream()
         {
-            get => _activeLocation;
-            set
-            {
-                if (_activeLocation != value)
-                {
-                    _activeLocation = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(LocationEditButtonEnabled));
-                    OnPropertyChanged(nameof(LocationRemoveButtonEnabled));
-                    OnPropertyChanged(nameof(DeathAddButtonEnabled));
-                    OnPropertyChanged(nameof(DeathRemoveButtonEnabled));
-                    if (_activeLocation != null)
-                    {
-                        CounterValue = _locationController.GetDeathsAtLocation(_activeLocation).ToString();
-                    }
-                }
-                else
-                {
-                    CounterValue = "0";
-                }
-            }
+            _streamingController.StopTimer();
+            IsStreamRunning = false;
+            StreamTime = "00:00:00";
         }
 
-
-        public ObservableCollection<GameStatsModel> GameStats
+        [RelayCommand]
+        public void StartRecording()
         {
-            get => _gameStats;
-            set { _gameStats = value; OnPropertyChanged(); }
+            _recordingController.StartTimer();
+            RecordingTime = _recordingController.GetFormattedTime();
+            _recordingController.Tick += (timer) => RecordingTime = _recordingController.GetFormattedTime();
+            IsRecordingRunning = true;
         }
 
-        public ObservableCollection<DeathLocationModel> DeathLocations
+        [RelayCommand]
+        public void StopRecording()
         {
-            get => _deathLocations;
-            set { _deathLocations = value; OnPropertyChanged(); }
+            _recordingController.StopTimer();
+            IsRecordingRunning = false;
+            RecordingTime = "00:00:00";
         }
 
-
-        public string CounterValue
+        // Partial methods for enabled state updates
+        partial void OnActiveGameChanged(GameStatsModel? value)
         {
-            get => _counterValue;
-            set { _counterValue = value; OnPropertyChanged(); }
+            OnPropertyChanged(nameof(GameEditButtonEnabled));
+            OnPropertyChanged(nameof(GameRemoveButtonEnabled));
+            OnPropertyChanged(nameof(LocationAddButtonEnabled));
+            OnPropertyChanged(nameof(LocationEditButtonEnabled));
+            OnPropertyChanged(nameof(LocationRemoveButtonEnabled));
+            OnPropertyChanged(nameof(DeathAddButtonEnabled));
+            OnPropertyChanged(nameof(DeathRemoveButtonEnabled));
+            DeathLocations = new ObservableCollection<DeathLocationModel>(_locationController.GetListOfLocations(value));
+            CounterValue = "0";
         }
 
-        public ObservableCollection<MarkerModel> Markers
+        partial void OnActiveLocationChanged(DeathLocationModel? value)
         {
-            get => _markers;
-            set { _markers = value; OnPropertyChanged(); }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            OnPropertyChanged(nameof(LocationEditButtonEnabled));
+            OnPropertyChanged(nameof(LocationRemoveButtonEnabled));
+            OnPropertyChanged(nameof(DeathAddButtonEnabled));
+            OnPropertyChanged(nameof(DeathRemoveButtonEnabled));
+            CounterValue = value != null
+                ? _locationController.GetDeathsAtLocation(value).ToString()
+                : "0";
         }
     }
 }

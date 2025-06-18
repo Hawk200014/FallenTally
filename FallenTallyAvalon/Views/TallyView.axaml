@@ -8,6 +8,74 @@
   <StackPanel Orientation="Vertical">
     <Expander VerticalAlignment="Top" IsExpanded="True" HorizontalAlignment="Stretch">
       <Expander.Header>
+        Timer
+      </Expander.Header>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="50" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="50" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!--Row 0-->
+        <Button Margin="3"
+                Grid.Column="0"
+                Grid.Row="0"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                Command="{Binding StartStreamCommand}">
+          <PathIcon Data="{StaticResource start_timer_icon }"/>
+        </Button>
+        <StackPanel Margin="3" 
+                    Spacing="1"
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch">
+          <Label Content="Stream" HorizontalAlignment="Center" FontSize="10" />
+          <Label Content="{Binding StreamTime, Mode=TwoWay}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <Button Margin="3"
+                Grid.Column="2"
+                Grid.Row="0"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                Command="{Binding StopStreamCommand}">
+          <PathIcon Data="{StaticResource reset_timer_icon }"/>
+        </Button>
+        <!--Row 1-->
+        <Button Margin="3"
+                Grid.Column="0"
+                Grid.Row="1"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                Command="{Binding StartRecordingCommand}">
+          <PathIcon Data="{StaticResource start_timer_icon }"/>
+        </Button>
+        <StackPanel Margin="3"
+                    Spacing="1"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch">
+          <Label Content="Recording" HorizontalAlignment="Center" FontSize="10" />
+          <Label Content="{Binding RecordingTime, Mode=TwoWay}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <Button Margin="3"
+                Grid.Column="2"
+                Grid.Row="1"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                Command="{Binding StopRecordingCommand}">
+          <PathIcon Data="{StaticResource reset_timer_icon }"/>
+        </Button>
+      </Grid>
+    </Expander>
+    <Expander VerticalAlignment="Top" IsExpanded="True" HorizontalAlignment="Stretch">
+      <Expander.Header>
         Counter
       </Expander.Header>
       <Grid>
@@ -40,7 +108,8 @@
                   Grid.Row="0"
                   VerticalAlignment="Stretch"
                   HorizontalAlignment="Stretch"
-                  Command="{Binding AddGameCommand}">
+                  Command="{Binding AddGameAsyncCommand}"
+                  IsEnabled="{Binding GameAddButtonEnabled}">
             <PathIcon Data="{StaticResource plus_icon }"/>
           </Button>
           <Button Margin="3"
@@ -123,7 +192,7 @@
 				    Grid.Row="0"
 				    VerticalAlignment="Stretch"
 				    HorizontalAlignment="Stretch"
-				    Command="{Binding AddDeathCommand}"
+				    Command="{Binding AddDeathAsyncCommand}"
             IsEnabled="{Binding DeathAddButtonEnabled}">
             <PathIcon Data="{StaticResource plus_icon }"/>
           </Button>
@@ -132,7 +201,7 @@
 				    Grid.Row="0"
 				    VerticalAlignment="Stretch"
 				    HorizontalAlignment="Stretch"
-				    Command="{Binding RemoveDeathCommand}"
+				    Command="{Binding RemoveDeathAsyncCommand}"
             IsEnabled="{Binding DeathRemoveButtonEnabled}">
             <PathIcon Data="{StaticResource minus_icon }"/>
           </Button>
@@ -151,18 +220,18 @@
         <Grid.RowDefinitions>
           <RowDefinition Height="150" />
         </Grid.RowDefinitions>
-        
-        <DataGrid ItemsSource="{Binding Markers, Mode=TwoWay}" 
+
+        <DataGrid ItemsSource="{Binding Markers, Mode=TwoWay}"
                   Margin="0,0,3,0"
-                  Grid.Column="0" 
-                  Grid.Row="0" 
-                  AutoGenerateColumns="True" 
-                  VerticalAlignment="Stretch" 
+                  Grid.Column="0"
+                  Grid.Row="0"
+                  AutoGenerateColumns="True"
+                  VerticalAlignment="Stretch"
                   HorizontalAlignment="Stretch"
                   IsReadOnly="True"
                   CanUserSortColumns="False"
                   GridLinesVisibility="All"
-                  BorderThickness="1" 
+                  BorderThickness="1"
                   BorderBrush="Gray"
                   />
         <StackPanel Grid.Column="1" Orientation="Vertical">

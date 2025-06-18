@@ -2,6 +2,7 @@
 using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
 using FallenTally.Database.Models;
+using FallenTallyAvalon.Controller.Timer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace DeathCounterHotkey.Controller
     {
         private SQLiteDBContext _context;
         private RecordingController _recordingController;
+        private StreamingController _streamingController;
 
         public enum MARKER
         {
@@ -24,10 +26,11 @@ namespace DeathCounterHotkey.Controller
             PAUSE
         }
 
-        public MarkerController(SQLiteDBContext context , RecordingController recordingController) 
+        public MarkerController(SQLiteDBContext context , RecordingController recordingController, StreamingController streamingController) 
         { 
             this._context = context;
             this._recordingController = recordingController;
+            this._streamingController = streamingController;
         }
 
         internal void SetMark(MARKER markerType, GameStatsModel? gameStatsModel, TimerController? streamTimer = null, TimerController? recordController = null)
@@ -40,8 +43,8 @@ namespace DeathCounterHotkey.Controller
                 TimeStamp = DateTime.Now,
                 RecordingTime = recordController?.GetTime() ?? 0,
                 StreamTime = streamTimer?.GetTime() ?? 0,
-                StreamSession = _recordingController.GetRecordingNumber(RecordingController.RecordingType.stream),
-                RecordingSession = _recordingController.GetRecordingNumber(RecordingController.RecordingType.recording)
+                StreamSession = _streamingController.GetStreamingNumber(),
+                RecordingSession = _recordingController.GetRecordingNumber()
             };
             _context.Markers.Add(markerModel);
             _context.SaveChanges();

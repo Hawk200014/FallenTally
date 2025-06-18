@@ -1,4 +1,5 @@
-﻿using DeathCounterHotkey.Database;
+﻿using DeathCounterHotkey.Controller;
+using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
 using System;
 using System.Collections.Generic;
@@ -6,50 +7,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeathCounterHotkey.Controller
+namespace FallenTallyAvalon.Controller.Timer
 {
-    public class RecordingController
+    public class RecordingController : TimerController
     {
-        public enum RecordingType
-        {
-            recording,
-            stream
-        }
         private SQLiteDBContext _context;
 
         public RecordingController(SQLiteDBContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
-        public void AddRecording(RecordingType type)
+        public void AddRecording()
         {
-            if (_context.Recordings.Where(x => x.SessionDate == DateOnly.FromDateTime(DateTime.Now) && x.Type == type.ToString()).Count() == 0)
+            if (_context.Recordings.Where(x => x.SessionDate == DateOnly.FromDateTime(DateTime.Now) && x.Type.Equals("recording")).Count() == 0)
             {
                 _context.Recordings.Add(new RecordingModel
                 {
                     SessionCount = 1,
                     SessionDate = DateOnly.FromDateTime(DateTime.Now),
-                    Type = type.ToString()
+                    Type = "recording"
                 });
             }
             else
             {
-                var recording = _context.Recordings.Where(x => x.SessionDate == DateOnly.FromDateTime(DateTime.Now) && x.Type == type.ToString()).First();
+                var recording = _context.Recordings.Where(x => x.SessionDate == DateOnly.FromDateTime(DateTime.Now) && x.Type.Equals("recording")).First();
                 recording.SessionCount++;
                 _context.Recordings.Update(recording);
             }
             _context.SaveChanges();
         }
 
-        public int GetRecordingNumber(RecordingType type)
+        public int GetRecordingNumber()
         {
             var today = DateOnly.FromDateTime(DateTime.Now);
             var recording = _context.Recordings
-                .Where(x => x.SessionDate == today && x.Type == type.ToString())
+                .Where(x => x.SessionDate == today && x.Type.Equals("recording"))
                 .FirstOrDefault();
 
             return recording?.SessionCount ?? 0;
         }
+
+
     }
 }

@@ -4,6 +4,7 @@ using Avalonia;
 using DeathCounterHotkey.Database;
 using DeathCounterHotkey.Database.Models;
 using FallenTallyAvalon.Controller;
+using FallenTallyAvalon.Controller.Timer;
 using FallenTallyAvalon.Dialogue;
 using FallenTallyAvalon.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -72,6 +73,8 @@ class Program
             new GameDialogWindow(provider.GetRequiredService<GameController>()));
         services.AddSingleton<TallyViewModel>();
         services.AddSingleton<OverlayViewModel>();
+        services.AddSingleton<RecordingController>();
+        services.AddSingleton<StreamingController>();
 
 
 
