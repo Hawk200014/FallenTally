@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using FallenTally.Controller.Forms;
 
 namespace FallenTally.Desktop;
 
@@ -77,6 +78,9 @@ class Program
         services.AddSingleton<RecordingController>();
         services.AddSingleton<StreamingController>();
         services.AddSingleton<MarkerController>();
+        services.AddSingleton<ExportController>();
+
+        services.AddSingleton<ExportViewModel>();
 
 
 

@@ -13,6 +13,8 @@ namespace FallenTally.Controller
         private RecordingController _recordingController;
         private StreamingController _streamingController;
 
+        private IQueryable<MarkerModel>? _searchQuery;
+
         public enum MARKER
         {
             NORMAL,
@@ -27,6 +29,7 @@ namespace FallenTally.Controller
             this._context = context;
             this._recordingController = recordingController;
             this._streamingController = streamingController;
+            this._searchQuery = _context.Markers.AsQueryable();
         }
 
         internal void SetMark(MARKER markerType, GameStatsModel? gameStatsModel)
@@ -47,29 +50,40 @@ namespace FallenTally.Controller
 
         }
 
-        internal List<MarkerModel> GetMarkerModels(string? gamename = null, DateOnly? date = null, int? recordingSession = null)
+        #region Filtering
+        public IQueryable<MarkerModel> InitFilter()
         {
-            var query = _context.Markers.AsQueryable();
+            return _context.Markers.AsQueryable();
+        }
 
-            if (!string.IsNullOrEmpty(gamename))
-            {
-                query = query.Where(marker => marker.GameId == _context.GameStats
-                    .Where(game => game.GameName == gamename)
+        public IQueryable<MarkerModel>? Filter(GameStatsModel gameStatsModel)
+        {
+            _searchQuery = _searchQuery?.Where(marker => marker.GameId == _context.GameStats
+                    .Where(game => game.GameName == gameStatsModel.GameName)
                     .Select(game => game.GameId)
                     .FirstOrDefault());
-            }
+            return _searchQuery;
+        }
 
-            if (date.HasValue)
-            {
-                query = query.Where(marker => DateOnly.FromDateTime(marker.TimeStamp) == date.Value);
-            }
+        public IQueryable<MarkerModel>? Filter(DateOnly date)
+        {
+            _searchQuery = _searchQuery?.Where(marker => DateOnly.FromDateTime(marker.TimeStamp) == date);
+            return _searchQuery;
+        }
 
-            if (recordingSession.HasValue)
-            {
-                query = query.Where(marker => marker.RecordingSession == recordingSession.Value);
-            }
+        public IQueryable<MarkerModel>? Filter(int recordingSession)
+        {
+            _searchQuery = _searchQuery?.Where(marker => marker.RecordingSession == recordingSession);
+            return _searchQuery;
+        }
 
-            return query.OrderByDescending(x => x.MarkerId).ToList();
+        #endregion
+
+
+
+        internal List<MarkerModel> GetAllMarkers()
+        {
+            return _context.Markers.OrderByDescending(x => x.MarkerId).ToList();
         }
     }
 }

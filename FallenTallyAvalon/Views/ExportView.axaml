@@ -5,4 +5,80 @@
               xmlns:views="clr-namespace:FallenTally.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="FallenTally.Views.ExportView">
+	<DockPanel>
+		<TabControl>
+			<TabItem Header="Deaths" FontSize="12" >
+				<DockPanel>
+					<Panel DockPanel.Dock="Bottom" Margin="5">
+						<Button IsEnabled="{Binding DeathExportButtonEnabled}" Command="{Binding ExportDeathCommand}" Content="Export" HorizontalAlignment="Left" Margin="5"></Button>
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+							<Label Content="Entries to Export:" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+							<Label Content="{Binding ActualDeathEntries}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+							<Label Content="/" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+							<Label Content="{Binding MaxDeathEntries}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+						</StackPanel>
+					</Panel>
+					<StackPanel Grid.Column="0" Margin="5" HorizontalAlignment="Stretch" Spacing="5">
+						<Grid ColumnDefinitions="200,*" RowDefinitions="Auto">
+							<Label Grid.Row="0" Grid.Column="0" Content="Game" VerticalAlignment="Center"/>
+							<ComboBox ItemsSource="{Binding DeathGames}" SelectedItem="{Binding SelectedDeathGame, Mode=TwoWay}" DisplayMemberBinding="{Binding GameName}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"></ComboBox>
+						</Grid>
+						<Grid ColumnDefinitions="200,*" RowDefinitions="Auto">
+							<Label Grid.Row="1" Grid.Column="0" Content="Location" VerticalAlignment="Center"/>
+							<ComboBox ItemsSource="{Binding DeathLocations}" SelectedItem="{Binding SelectedDeathLocation,Mode=TwoWay}" DisplayMemberBinding="{Binding Name}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"></ComboBox>
+						</Grid>
+						<Grid ColumnDefinitions="200,*" RowDefinitions="Auto">
+							<Label Grid.Row="2" Grid.Column="0" Content="From" VerticalAlignment="Center"/>
+							<DatePicker SelectedDate="{Binding SelectedDeathFromDate, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch"></DatePicker>
+						</Grid>
+						<Grid ColumnDefinitions="200,*" RowDefinitions="Auto">
+							<Label Grid.Row="2" Grid.Column="0" Content="To" VerticalAlignment="Center"></Label>
+							<DatePicker SelectedDate="{Binding SelectedDeathToDate, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch"></DatePicker>
+						</Grid>
+
+						<Grid ColumnDefinitions="200,*" RowDefinitions="Auto">
+							<Label Grid.Row="3" Grid.Column="0" Content="Export Type" VerticalAlignment="Center"/>
+							<ComboBox ItemsSource="{Binding ExportTypes}" SelectedItem="{Binding SelectedDeathExportType,Mode=TwoWay}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch"></ComboBox>
+						</Grid>
+					</StackPanel>
+				</DockPanel>
+			</TabItem>
+			<TabItem Header="Marker" FontSize="12" >
+				<DockPanel>
+					<Panel DockPanel.Dock="Bottom" Margin="5">
+						<Button IsEnabled="{Binding MarkerExportButtonEnabled}" Command="{Binding ExportMarkerCommand}" Content="Export" HorizontalAlignment="Left" Margin="5"></Button>
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+							<Label Content="Entries to Export:" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+							<Label Content="{Binding ActualMarkerEntries}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+							<Label Content="/" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+							<Label Content="{Binding MaxMarkerEntries}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+						</StackPanel>
+					</Panel>
+					<StackPanel Grid.Column="0" Margin="5" HorizontalAlignment="Stretch" Spacing="5">
+						<Grid ColumnDefinitions="200,*" RowDefinitions="Auto">
+							<Label Grid.Row="0" Grid.Column="0" Content="Game" VerticalAlignment="Center"/>
+							<ComboBox ItemsSource="{Binding MarkerGames}" SelectedItem="{Binding SelecteMarkerGame,Mode=TwoWay}" DisplayMemberBinding="{Binding GameName}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"></ComboBox>
+						</Grid>
+						<Grid ColumnDefinitions="200,*" RowDefinitions="Auto">
+							<Label Grid.Row="1" Grid.Column="0" Content="Marker Type" VerticalAlignment="Center"/>
+							<ComboBox ItemsSource="{Binding MarkerTypes}" SelectedItem="{Binding SelectedMarkerType, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"></ComboBox>
+						</Grid>
+						<Grid ColumnDefinitions="200,*" RowDefinitions="Auto">
+							<Label Grid.Row="2" Grid.Column="0" Content="From" VerticalAlignment="Center"/>
+							<DatePicker SelectedDate="{Binding SelectedMarkerFromDate}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch"></DatePicker>
+						</Grid>
+						<Grid ColumnDefinitions="200,*" RowDefinitions="Auto">
+							<Label Grid.Row="2" Grid.Column="0" Content="To" VerticalAlignment="Center"></Label>
+							<DatePicker SelectedDate="{Binding SelectedMarkerToDate}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch"></DatePicker>
+						</Grid>
+
+						<Grid ColumnDefinitions="200,*" RowDefinitions="Auto">
+							<Label Grid.Row="3" Grid.Column="0" Content="Export Type" VerticalAlignment="Center"/>
+							<ComboBox ItemsSource="{Binding ExportTypes}" SelectedItem="{Binding SelectedMarkerExportType,Mode=TwoWay}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch"></ComboBox>
+						</Grid>
+					</StackPanel>
+				</DockPanel>
+			</TabItem>
+		</TabControl>
+	</DockPanel>
 </UserControl>

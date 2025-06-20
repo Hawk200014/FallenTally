@@ -86,7 +86,7 @@ namespace FallenTally.ViewModels
             _markerController = markerController;
 
             GameStats = new ObservableCollection<GameStatsModel>(_gameController.GetGameStats());
-            Markers = new ObservableCollection<MarkerModel>(_markerController.GetMarkerModels());
+            Markers = new ObservableCollection<MarkerModel>(_markerController.GetAllMarkers());
         }
 
 
@@ -234,35 +234,35 @@ namespace FallenTally.ViewModels
         public void AddGeneralMarker()
         {
             _markerController.SetMark(MarkerController.MARKER.NORMAL, ActiveGame);
-            Markers = new ObservableCollection<MarkerModel>(_markerController.GetMarkerModels());
+            Markers = new ObservableCollection<MarkerModel>(_markerController.GetAllMarkers());
         }
 
         [RelayCommand]
         public void AddFunnyMarker()
         {
             _markerController.SetMark(MarkerController.MARKER.FUNNY, ActiveGame);
-            Markers = new ObservableCollection<MarkerModel>(_markerController.GetMarkerModels());
+            Markers = new ObservableCollection<MarkerModel>(_markerController.GetAllMarkers());
         }
 
         [RelayCommand]
         public void AddTalkMarker()
         {
             _markerController.SetMark(MarkerController.MARKER.TALK, ActiveGame);
-            Markers = new ObservableCollection<MarkerModel>(_markerController.GetMarkerModels());
+            Markers = new ObservableCollection<MarkerModel>(_markerController.GetAllMarkers());
         }
 
         [RelayCommand]
         public void AddGamePlayMarker()
         {
             _markerController.SetMark(MarkerController.MARKER.GAME, ActiveGame);
-            Markers = new ObservableCollection<MarkerModel>(_markerController.GetMarkerModels());
+            Markers = new ObservableCollection<MarkerModel>(_markerController.GetAllMarkers());
         }
 
         [RelayCommand]
         public void AddPauseMarker()
         {
             _markerController.SetMark(MarkerController.MARKER.PAUSE, ActiveGame);
-            Markers = new ObservableCollection<MarkerModel>(_markerController.GetMarkerModels());
+            Markers = new ObservableCollection<MarkerModel>(_markerController.GetAllMarkers());
         }
 
         // Partial methods for enabled state updates

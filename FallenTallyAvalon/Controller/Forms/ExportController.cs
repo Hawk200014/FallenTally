@@ -339,10 +339,22 @@ namespace FallenTally.Controller.Forms
             return Enum.GetNames(typeof(ExportType));
         }
 
-        internal int GetMarkerCount(string? game, int? session, string? date)
+        internal int GetMarkerCount(GameStatsModel? game = null, int? session = null, DateOnly? date = null)
         {
-            DateOnly? dateOnly = string.IsNullOrEmpty(date) ? null : DateOnly.Parse(date);
-            return _markercontroller.GetMarkerModels(game, dateOnly, session).Count;
+            var query = _markercontroller.InitFilter();
+            if (date != null) {
+                //query = _markercontroller.Filter(date);
+            }
+            if (game != null) {
+                query = _markercontroller.Filter(game);
+            }
+            if( session != null) {
+                query = _markercontroller.Filter(session.Value);
+            }
+            if(query == null) {
+                return 0;
+            }
+            return query.Count();
         }
 
         internal string[] GetGameMarkerList()
@@ -355,14 +367,14 @@ namespace FallenTally.Controller.Forms
                 .Select(x => x.GameName).Distinct().ToArray();
         }
 
-        internal string[] GetDistinctMarkerDates(string gamename = "")
+        internal string[] GetDistinctMarkerDates(GameStatsModel? game = null)
         {
             var query = _context.Markers.AsQueryable();
 
-            if (!string.IsNullOrEmpty(gamename))
+            if (game != null)
             {
                 query = query.Where(m => m.GameId == _context.GameStats
-                    .Where(x => x.GameName == gamename)
+                    .Where(x => x.GameName == game.GameName)
                     .Select(x => x.GameId)
                     .FirstOrDefault()
                 );
@@ -372,34 +384,34 @@ namespace FallenTally.Controller.Forms
                   _culture)).Distinct().ToArray();
         }
 
-        internal string[] GetDistinctMarkerSessions(string? gamename = null, string? date = null)
+        internal string[] GetDistinctMarkerSessions(GameStatsModel? game = null, DateOnly? date = null)
         {
             var query = _context.Markers.AsQueryable();
 
-            if (!string.IsNullOrEmpty(gamename))
+            if (game != null)
             {
                 query = query.Where(m => m.GameId == _context.GameStats
-                    .Where(x => x.GameName == gamename)
+                    .Where(x => x.GameName == game.GameName)
                     .Select(x => x.GameId)
                     .FirstOrDefault()
                 );
             }
 
-            if (!string.IsNullOrEmpty(date))
+            if (date != null)
             {
-                query = query.Where(m => DateOnly.FromDateTime(m.TimeStamp) == DateOnly.Parse(date));
+                query = query.Where(m => DateOnly.FromDateTime(m.TimeStamp) == date);
             }
             return query.Select(m => m.RecordingSession.ToString()).Distinct().ToArray();
         }
 
-        internal string ExportMarker(ExportType exportType, string gameName, string date, string session, string fileName)
+        internal string ExportMarker(ExportType exportType, GameStatsModel game, string date, string session, string fileName)
         {
-            DataTable dt = CreateDataTableFromFilterMarker(gameName, date, session);
+            DataTable dt = CreateDataTableFromFilterMarker(game, date, session);
             int result = exportType switch
             {
                 ExportType.CSV => ExportCSV(dt, fileName),
                 ExportType.EXCEL => ExportToExcel(dt, fileName),
-                ExportType.FTSTAMPS => ExportToFTStamps(CreateDataTableFromFilterMarkerFTS(gameName, date, session), fileName),
+                ExportType.FTSTAMPS => ExportToFTStamps(CreateDataTableFromFilterMarkerFTS(game.GameName, date, session), fileName),
                 _ => 0
             };
 
@@ -413,12 +425,17 @@ namespace FallenTally.Controller.Forms
             return message;
         }
 
-        private DataTable CreateDataTableFromFilterMarker(string gameName, string date, string session)
+        private DataTable CreateDataTableFromFilterMarker(GameStatsModel? game, string date, string session)
         {
-            var gameStatsModels = _context.GameStats
-               .Where(x => string.IsNullOrEmpty(gameName) || x.GameName == gameName)
-               .OrderBy(x => x.GameId)
-               .ToList();
+            IQueryable<GameStatsModel> gameStatsModels = _context.GameStats.AsQueryable();
+
+            if (game != null)
+            {
+                gameStatsModels = gameStatsModels.Where(x => x.GameName == game.GameName);
+            }
+
+            gameStatsModels = gameStatsModels
+               .OrderBy(x => x.GameId);
 
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Game", typeof(string));
