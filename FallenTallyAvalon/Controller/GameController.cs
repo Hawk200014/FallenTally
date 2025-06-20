@@ -43,7 +43,8 @@ namespace FallenTally.Controller
 
         public List<GameStatsModel> GetGameStats()
         {
-            return _context.GameStats.ToList();
+                return _context.GameStats.ToList();
+
         }
 
 

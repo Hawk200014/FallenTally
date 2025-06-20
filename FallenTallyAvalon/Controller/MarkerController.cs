@@ -29,7 +29,7 @@ namespace FallenTally.Controller
             this._streamingController = streamingController;
         }
 
-        internal void SetMark(MARKER markerType, GameStatsModel? gameStatsModel, TimerController? streamTimer = null, TimerController? recordController = null)
+        internal void SetMark(MARKER markerType, GameStatsModel? gameStatsModel)
         {
             string categorie = markerType.ToString();
             MarkerModel markerModel = new MarkerModel()
@@ -37,8 +37,8 @@ namespace FallenTally.Controller
                 categorie = categorie,
                 GameId = gameStatsModel?.GameId ?? -1,
                 TimeStamp = DateTime.Now,
-                RecordingTime = recordController?.GetTime() ?? 0,
-                StreamTime = streamTimer?.GetTime() ?? 0,
+                RecordingTime = _recordingController.GetTime(),
+                StreamTime = _streamingController.GetTime(),
                 StreamSession = _streamingController.GetStreamingNumber(),
                 RecordingSession = _recordingController.GetRecordingNumber()
             };

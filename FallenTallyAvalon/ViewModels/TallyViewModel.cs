@@ -96,9 +96,9 @@ namespace FallenTally.ViewModels
 
             if (newGame != null)
             {
-                GameStats.Add(newGame);
-                ActiveGame = GameStats.FirstOrDefault(x => x.GameName == newGame.GameName);
                 _gameController.AddGame(newGame.GameName, newGame.Prefix);
+                GameStats = new ObservableCollection<GameStatsModel>(_gameController.GetGameStats());
+                ActiveGame = GameStats.FirstOrDefault(x => x.GameName == newGame.GameName);
             }
         }
 
@@ -139,8 +139,8 @@ namespace FallenTally.ViewModels
             var newLocation = await dialog.ShowDialog<DeathLocationModel?>(MainWindow.Instance);
             if (newLocation != null)
             {
-                DeathLocations.Add(newLocation);
                 _locationController.AddLocation(ActiveGame, newLocation.Name);
+                DeathLocations = new ObservableCollection<DeathLocationModel>(_locationController.GetListOfLocations(ActiveGame));
                 ActiveLocation = DeathLocations.FirstOrDefault(x => x.Name == newLocation.Name);
             }
         }

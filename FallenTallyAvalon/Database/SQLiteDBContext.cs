@@ -16,6 +16,7 @@ namespace FallenTally.Database
 
         public SQLiteDBContext(DbContextOptions options) : base(options)
         {
+            TryMigrate();
         }
 
         public virtual DbSet<SettingsModel> Settings { get; set; }
@@ -56,7 +57,7 @@ namespace FallenTally.Database
 
         public void TryMigrate()
         {
-            Database?.GetService<IMigrator>()?.Migrate(); // Replace Database.Migrate() with this
+            Database.GetService<IMigrator>().Migrate();
         }
     }
 }
