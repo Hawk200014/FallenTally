@@ -1,12 +1,12 @@
 ﻿using Avalonia.Controls;
-using DeathCounterHotkey.Database.Models;
+using FallenTally.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FallenTallyAvalon.Dialogue
+namespace FallenTally.Dialogue
 {
     public interface IDialog<T> where T : class
     {

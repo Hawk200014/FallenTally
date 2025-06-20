@@ -8,7 +8,7 @@
         MinWidth="300"
         MinHeight="100"
         Icon="/Assets/Icons/AppIcon.ico"
-        x:Class="FallenTallyAvalon.Dialogue.ConfirmationDialog"
+        x:Class="FallenTally.Dialogue.ConfirmationDialog"
         Title="ConfirmationDialog">
   <DockPanel Margin="20">
     <Grid ColumnDefinitions="50*,50*" 

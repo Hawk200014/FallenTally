@@ -1,13 +1,13 @@
-﻿using DeathCounterHotkey.Database.Models;
-using DeathCounterHotkey.Resources;
-using FallenTallyAvalon.Controller;
+﻿using FallenTally.Database.Models;
+using FallenTally.Resources;
+using FallenTally.Controller;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeathCounterHotkey.Controller.Forms
+namespace FallenTally.Controller.Forms
 {
     public class MainController
     {

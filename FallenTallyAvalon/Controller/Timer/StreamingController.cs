@@ -1,13 +1,9 @@
-﻿using DeathCounterHotkey.Controller;
-using DeathCounterHotkey.Database;
-using DeathCounterHotkey.Database.Models;
+﻿using FallenTally.Database;
+using FallenTally.Database.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FallenTallyAvalon.Controller.Timer
+namespace FallenTally.Controller.Timers
 {
     public class StreamingController : TimerController
     {

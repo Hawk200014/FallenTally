@@ -1,10 +1,10 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:views="clr-namespace:FallenTallyAvalon.Views"
+             xmlns:views="clr-namespace:FallenTally.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="FallenTallyAvalon.Views.TallyView">
+             x:Class="FallenTally.Views.TallyView">
   <StackPanel Orientation="Vertical">
     <Expander VerticalAlignment="Top" IsExpanded="True" HorizontalAlignment="Stretch">
       <Expander.Header>
@@ -103,15 +103,14 @@
             <ColumnDefinition Width="34*" />
             <ColumnDefinition Width="33*" />
           </Grid.ColumnDefinitions>
-          <Button Margin="3"
-                  Grid.Column="0"
-                  Grid.Row="0"
-                  VerticalAlignment="Stretch"
-                  HorizontalAlignment="Stretch"
-                  Command="{Binding AddGameAsyncCommand}"
-                  IsEnabled="{Binding GameAddButtonEnabled}">
-            <PathIcon Data="{StaticResource plus_icon }"/>
-          </Button>
+			<Button Margin="3"
+					Grid.Column="0"
+					Grid.Row="0"
+					VerticalAlignment="Stretch"
+					HorizontalAlignment="Stretch"
+				    Command="{Binding AddGameCommand}">
+				<PathIcon Data="{StaticResource plus_icon }"/>
+			</Button>
           <Button Margin="3"
                   Grid.Column="1"
                   Grid.Row="0"
@@ -192,7 +191,7 @@
 				    Grid.Row="0"
 				    VerticalAlignment="Stretch"
 				    HorizontalAlignment="Stretch"
-				    Command="{Binding AddDeathAsyncCommand}"
+				    Command="{Binding AddDeathCommand}"
             IsEnabled="{Binding DeathAddButtonEnabled}">
             <PathIcon Data="{StaticResource plus_icon }"/>
           </Button>
@@ -201,7 +200,7 @@
 				    Grid.Row="0"
 				    VerticalAlignment="Stretch"
 				    HorizontalAlignment="Stretch"
-				    Command="{Binding RemoveDeathAsyncCommand}"
+				    Command="{Binding RemoveDeathCommand}"
             IsEnabled="{Binding DeathRemoveButtonEnabled}">
             <PathIcon Data="{StaticResource minus_icon }"/>
           </Button>

@@ -1,12 +1,13 @@
 ﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using FallenTallyAvalon.ViewModels;
-using FallenTallyAvalon.Views;
+using FallenTally.ViewModels;
+using FallenTally.Views;
+using FallenTally.ViewModels;
 
 
 
-namespace FallenTallyAvalon;
+namespace FallenTally;
 
 public partial class App : Application
 {

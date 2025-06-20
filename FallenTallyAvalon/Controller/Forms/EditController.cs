@@ -1,11 +1,6 @@
-﻿using FallenTallyAvalon.Controller;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FallenTally.Controller;
 
-namespace DeathCounterHotkey.Controller.Forms
+namespace FallenTally.Controller.Forms
 {
     public class EditController
     {

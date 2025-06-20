@@ -1,18 +1,12 @@
-﻿using DeathCounterHotkey.Database.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
+﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace DeathCounterHotkey.Controller
+namespace FallenTally.Controller.Timers
 {
     public class TimerController
     {
         private int timeInSec;
-        private Timer? _timer;
+        private Timer? _timer; // Use System.Threading.Timer instead of ITimer
 
         public event Action<int>? Tick; // Optional: subscribe to get notified every second
 

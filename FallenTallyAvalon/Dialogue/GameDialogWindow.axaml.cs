@@ -1,10 +1,12 @@
 using Avalonia;
 using Avalonia.Controls;
-using DeathCounterHotkey.Database.Models;
-using FallenTallyAvalon.Controller;
-using FallenTallyAvalon.Dialogue.ViewModel;
+using Avalonia.Markup.Xaml;
+using FallenTally.Controller;
+using FallenTally.Database.Models;
+using FallenTally.Dialogue.ViewModel;
+using System;
 
-namespace FallenTallyAvalon.Dialogue;
+namespace FallenTally.Dialogue;
 
 public partial class GameDialogWindow : Window
 {
@@ -17,6 +19,11 @@ public partial class GameDialogWindow : Window
     public GameDialogWindow()
     {
         InitializeComponent();
+    }
+
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
     }
 
     public GameDialogWindow(GameController gameController) : this()

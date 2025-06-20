@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace FallenTallyAvalon.Views;
+namespace FallenTally.Views;
 
 public partial class ExportView : UserControl
 {

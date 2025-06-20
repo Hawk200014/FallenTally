@@ -1,15 +1,11 @@
-﻿using DeathCounterHotkey.Controller.Forms;
-using DeathCounterHotkey.Database;
-using DeathCounterHotkey.Database.Models;
+﻿using FallenTally.Controller.Timers;
+using FallenTally.Database;
 using FallenTally.Database.Models;
-using FallenTallyAvalon.Controller.Timer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DeathCounterHotkey.Controller
+namespace FallenTally.Controller
 {
     public class MarkerController
     {

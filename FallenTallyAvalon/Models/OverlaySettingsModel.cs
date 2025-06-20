@@ -1,6 +1,6 @@
 ﻿using Avalonia.Media;
 
-namespace FallenTallyAvalon.Models
+namespace FallenTally.Models
 {
     public class OverlaySettingsModel
     {

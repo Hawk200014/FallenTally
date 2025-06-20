@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DeathCounterHotkey.Database.Models
+namespace FallenTally.Database.Models
 {
     public class SettingsModel
     {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace DeathCounterHotkey.Migrations
+namespace FallenTally.Migrations
 {
     /// <inheritdoc />
     public partial class AddMarkersAndRecording : Migration

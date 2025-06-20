@@ -1,17 +1,17 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DeathCounterHotkey.Controller;
-using DeathCounterHotkey.Database.Models;
+using FallenTally.Controller;
 using FallenTally.Database.Models;
-using FallenTallyAvalon.Controller;
-using FallenTallyAvalon.Controller.Timer;
-using FallenTallyAvalon.Dialogue;
-using FallenTallyAvalon.Views;
+using FallenTally.Database.Models;
+using FallenTally.Controller;
+using FallenTally.Controller.Timers;
+using FallenTally.Dialogue;
+using FallenTally.Views;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FallenTallyAvalon.ViewModels
+namespace FallenTally.ViewModels
 {
     public partial class TallyViewModel : ObservableObject
     {
@@ -63,10 +63,8 @@ namespace FallenTallyAvalon.ViewModels
         [ObservableProperty]
         private bool isRecordingRunning = false;
 
-        // Enabled properties for buttons
-        public bool GameAddButtonEnabled => true;
-        public bool GameEditButtonEnabled => true;
-        public bool GameRemoveButtonEnabled => true;
+        public bool GameEditButtonEnabled => ActiveGame!= null;
+        public bool GameRemoveButtonEnabled => ActiveGame != null;
         public bool LocationAddButtonEnabled => ActiveGame != null;
         public bool LocationEditButtonEnabled => ActiveLocation != null;
         public bool LocationRemoveButtonEnabled => ActiveLocation != null;
@@ -89,9 +87,9 @@ namespace FallenTallyAvalon.ViewModels
             GameStats = new ObservableCollection<GameStatsModel>(_gameController.GetGameStats());
         }
 
-        // Game commands
+
         [RelayCommand]
-        private async Task AddGameAsync()
+        public async Task AddGame()
         {
             var dialog = new GameDialogWindow(_gameController);
             var newGame = await dialog.ShowDialog<GameStatsModel?>(MainWindow.Instance);
@@ -105,7 +103,7 @@ namespace FallenTallyAvalon.ViewModels
         }
 
         [RelayCommand]
-        private async Task EditGameAsync()
+        public async Task EditGame()
         {
             if (ActiveGame == null) return;
             var dialog = new GameDialogWindow(_gameController, ActiveGame);
@@ -119,7 +117,7 @@ namespace FallenTallyAvalon.ViewModels
         }
 
         [RelayCommand]
-        private async Task RemoveGameAsync()
+        public async Task RemoveGame()
         {
             if (ActiveGame == null) return;
             var dialog = new ConfirmationDialog();
@@ -134,7 +132,7 @@ namespace FallenTallyAvalon.ViewModels
 
         // Location commands
         [RelayCommand]
-        private async Task AddLocationAsync()
+        public async Task AddLocation()
         {
             if (ActiveGame == null) return;
             var dialog = new LocationDialogWindow(_locationController, ActiveGame);
@@ -148,7 +146,7 @@ namespace FallenTallyAvalon.ViewModels
         }
 
         [RelayCommand]
-        private async Task EditLocationAsync()
+        public async Task EditLocation()
         {
             if (ActiveLocation == null) return;
             var dialog = new LocationDialogWindow(_locationController, ActiveGame, ActiveLocation);
@@ -161,8 +159,8 @@ namespace FallenTallyAvalon.ViewModels
             }
         }
 
-        [RelayCommand]  
-        private async Task RemoveLocationAsync()
+        [RelayCommand]
+        public async Task RemoveLocation()
         {
             if (ActiveLocation == null) return;
             var dialog = new ConfirmationDialog();
@@ -177,15 +175,15 @@ namespace FallenTallyAvalon.ViewModels
 
         // Death commands
         [RelayCommand]
-        private async Task AddDeathAsync()
+        public void AddDeath()
         {
             if (ActiveLocation == null) return;
-            _deathController.AddDeath(ActiveLocation);
+            _deathController.AddDeath(ActiveLocation, _streamingController, _recordingController);
             CounterValue = _locationController.GetDeathsAtLocation(ActiveLocation).ToString();
         }
 
         [RelayCommand]
-        private async Task RemoveDeathAsync()
+        public void RemoveDeath()
         {
             if (ActiveLocation == null) return;
             _deathController.RemoveDeath();

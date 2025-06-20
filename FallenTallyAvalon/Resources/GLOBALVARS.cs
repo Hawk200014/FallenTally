@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DeathCounterHotkey.Resources
+namespace FallenTally.Resources
 {
     public class GLOBALVARS
     {

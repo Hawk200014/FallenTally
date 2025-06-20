@@ -1,10 +1,10 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using FallenTallyAvalon.ViewModels;
+using FallenTally.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FallenTallyAvalon.Views;
+namespace FallenTally.Views;
 
 public partial class TallyView : UserControl
 {

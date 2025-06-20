@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace DeathCounterHotkey.Migrations
+namespace FallenTally.Migrations
 {
     /// <inheritdoc />
     public partial class FinishToLocation : Migration

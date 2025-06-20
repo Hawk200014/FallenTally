@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 
-namespace FallenTallyAvalon.Views;
+namespace FallenTally.Views;
 
 public partial class MainWindow : Window
 {

@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using DeathCounterHotkey.Database.Models;
+using FallenTally.Database.Models;
 using DocumentFormat.OpenXml.Wordprocessing;
-using FallenTallyAvalon.Controller;
+using FallenTally.Controller;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FallenTallyAvalon.Dialogue.ViewModel
+namespace FallenTally.Dialogue.ViewModel
 {
     internal class LocationDialogWindowViewModel : INotifyPropertyChanged
     {

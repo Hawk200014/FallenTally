@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text.Json;
 
-namespace FallenTallyAvalon.Services;
+namespace FallenTally.Services;
 
 public static class JsonSettingsService
 {

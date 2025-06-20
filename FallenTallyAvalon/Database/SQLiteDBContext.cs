@@ -1,36 +1,41 @@
-﻿using DeathCounterHotkey.Database.Models;
-using DeathCounterHotkey.Resources;
-using FallenTally.Database.Models;
+﻿using FallenTally.Database.Models;
+using FallenTally.Resources;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System.IO;
 
-namespace DeathCounterHotkey.Database
+namespace FallenTally.Database
 {
     public class SQLiteDBContext : DbContext
     {
         public SQLiteDBContext()
         {
-            // Ensure the database is created and apply migrations
-            Database.GetService<IMigrator>().Migrate(); // Replace Database.Migrate() with this
+            TryMigrate();
         }
 
-        public DbSet<SettingsModel> Settings { get; set; }
-        public DbSet<GameStatsModel> GameStats { get; set; }
-        public DbSet<DeathModel> Deaths { get; set; }
-        public DbSet<DeathLocationModel> Locations { get; set; }
-        public DbSet<MarkerModel> Markers { get; set; }
-        public DbSet<RecordingModel> Recordings { get; set; }
+        public SQLiteDBContext(DbContextOptions options) : base(options)
+        {
+        }
+
+        public virtual DbSet<SettingsModel> Settings { get; set; }
+        public virtual DbSet<GameStatsModel> GameStats { get; set; }
+        public virtual DbSet<DeathModel> Deaths { get; set; }
+        public virtual DbSet<DeathLocationModel> Locations { get; set; }
+        public virtual DbSet<MarkerModel> Markers { get; set; }
+        public virtual DbSet<RecordingModel> Recordings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string pathToDb = GLOBALVARS.PATHTOEXE;
-            pathToDb = Path.Join(pathToDb, "Data");
-            Directory.CreateDirectory(pathToDb);
-            pathToDb = Path.Join(pathToDb, "data.db");
-            if (!File.Exists(pathToDb)) File.Create(pathToDb).Close();
-            optionsBuilder.UseSqlite("Data Source=" + pathToDb);
+            if (!optionsBuilder.IsConfigured)
+            {
+                string pathToDb = GLOBALVARS.PATHTOEXE;
+                pathToDb = Path.Join(pathToDb, "Data");
+                Directory.CreateDirectory(pathToDb);
+                pathToDb = Path.Join(pathToDb, "data.db");
+                if (!File.Exists(pathToDb)) File.Create(pathToDb).Close();
+                optionsBuilder.UseSqlite("Data Source=" + pathToDb);
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -51,7 +56,7 @@ namespace DeathCounterHotkey.Database
 
         public void TryMigrate()
         {
-            Database.GetService<IMigrator>().Migrate(); // Replace Database.Migrate() with this
+            Database?.GetService<IMigrator>()?.Migrate(); // Replace Database.Migrate() with this
         }
     }
 }

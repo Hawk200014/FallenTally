@@ -10,7 +10,7 @@
         MinWidth="150"
         MinHeight="130"
         Icon="/Assets/Icons/AppIcon.ico"
-        x:Class="FallenTallyAvalon.Dialogue.GameDialogWindow"
+        x:Class="FallenTally.Dialogue.GameDialogWindow"
         Title="GameDialogWindow">
   <DockPanel>
     <Grid ColumnDefinitions="50*,50*" DockPanel.Dock="Bottom">

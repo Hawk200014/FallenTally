@@ -1,8 +1,8 @@
 using Avalonia.Controls;
-using FallenTallyAvalon.ViewModels;
+using FallenTally.ViewModels;
 using WebViewControl;
 
-namespace FallenTallyAvalon.Views;
+namespace FallenTally.Views;
 
 public partial class OverlayView : UserControl
 {

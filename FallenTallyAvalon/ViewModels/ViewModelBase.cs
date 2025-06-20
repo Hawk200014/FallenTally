@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace FallenTallyAvalon.ViewModels;
+namespace FallenTally.ViewModels;
 
 public class ViewModelBase : ObservableObject
 {

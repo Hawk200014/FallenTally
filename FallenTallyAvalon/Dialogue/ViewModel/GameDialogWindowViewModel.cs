@@ -3,10 +3,10 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.Input;
-using DeathCounterHotkey.Database.Models;
-using FallenTallyAvalon.Controller;
+using FallenTally.Database.Models;
+using FallenTally.Controller;
 
-namespace FallenTallyAvalon.Dialogue.ViewModel
+namespace FallenTally.Dialogue.ViewModel
 {
     public class GameDialogWindowViewModel : INotifyPropertyChanged
     {

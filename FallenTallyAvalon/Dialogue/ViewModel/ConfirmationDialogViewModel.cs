@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 
-namespace FallenTallyAvalon.Dialogue.ViewModel
+namespace FallenTally.Dialogue.ViewModel
 {
     public class ConfirmationDialogViewModel : INotifyPropertyChanged
     {

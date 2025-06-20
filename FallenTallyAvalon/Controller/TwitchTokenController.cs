@@ -1,12 +1,4 @@
-﻿using DeathCounterHotkey.Controller.Forms;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net.Http;
-using Newtonsoft.Json;
-
-namespace DeathCounterHotkey.Controller
+﻿namespace FallenTally.Controller
 {
     public class TwitchTokenController
     {

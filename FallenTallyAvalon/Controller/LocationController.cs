@@ -1,14 +1,12 @@
-﻿using DeathCounterHotkey.Database;
-using DeathCounterHotkey.Database.Models;
-using DeathCounterHotkey.Resources;
+﻿using FallenTally.Database;
+using FallenTally.Database.Models;
+using FallenTally.Resources;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FallenTallyAvalon.Controller
+namespace FallenTally.Controller
 {
     public class LocationController
     {

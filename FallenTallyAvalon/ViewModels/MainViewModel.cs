@@ -1,7 +1,7 @@
-﻿using FallenTallyAvalon.Controller;
+﻿using FallenTally.Controller;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace FallenTallyAvalon.ViewModels;
+namespace FallenTally.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {

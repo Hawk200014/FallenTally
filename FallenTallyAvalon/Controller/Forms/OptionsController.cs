@@ -1,12 +1,8 @@
-﻿using DeathCounterHotkey.Database;
-using DeathCounterHotkey.Database.Models;
-using System;
-using System.Collections.Generic;
+﻿using FallenTally.Database;
+using FallenTally.Database.Models;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DeathCounterHotkey.Controller.Forms
+namespace FallenTally.Controller.Forms
 {
     public class OptionsController
     {

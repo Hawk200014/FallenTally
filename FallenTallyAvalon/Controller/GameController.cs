@@ -1,12 +1,12 @@
-﻿using DeathCounterHotkey.Database;
-using DeathCounterHotkey.Database.Models;
+﻿using FallenTally.Database;
+using FallenTally.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FallenTallyAvalon.Controller
+namespace FallenTally.Controller
 {
     public class GameController
     {
@@ -61,7 +61,7 @@ namespace FallenTallyAvalon.Controller
         }
 
 
-        internal int GetAllDeaths(GameStatsModel gameStatsModel)
+        public int GetAllDeaths(GameStatsModel gameStatsModel)
         {
 
             int deaths = 0;
@@ -73,12 +73,12 @@ namespace FallenTallyAvalon.Controller
             return deaths;
         }
 
-        internal List<string> GetAllGameNames()
+        public List<string> GetAllGameNames()
         {
             return _context.GameStats.Select(x => x.GameName).ToList();
         }
 
-        internal void RemoveGame(GameStatsModel gameStatsModel)
+        public void RemoveGame(GameStatsModel gameStatsModel)
         {
             if(gameStatsModel == null) return;
             GameStatsModel? game = _context.GameStats.FirstOrDefault(x => x.GameName == gameStatsModel.GameName);

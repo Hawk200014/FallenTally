@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 
-namespace FallenTallyAvalon.Views;
+namespace FallenTally.Views;
 
 public partial class MainView : UserControl
 {

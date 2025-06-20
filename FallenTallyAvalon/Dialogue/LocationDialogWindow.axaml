@@ -8,7 +8,7 @@
         MinWidth="300"
         MinHeight="80"
         Icon="/Assets/Icons/AppIcon.ico"
-        x:Class="FallenTallyAvalon.Dialogue.LocationDialogWindow"
+        x:Class="FallenTally.Dialogue.LocationDialogWindow"
         Title="LocationDialogWindow">
 	<DockPanel>
 		<Grid ColumnDefinitions="50*,50*" DockPanel.Dock="Bottom">

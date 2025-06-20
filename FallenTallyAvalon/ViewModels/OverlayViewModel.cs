@@ -1,7 +1,7 @@
 ﻿using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
-using FallenTallyAvalon.Models;
-using FallenTallyAvalon.Services;
+using FallenTally.Models;
+using FallenTally.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 
-namespace FallenTallyAvalon.ViewModels
+namespace FallenTally.ViewModels
 {
     public partial class OverlayViewModel : ObservableObject
     {

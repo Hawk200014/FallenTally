@@ -1,15 +1,10 @@
-﻿using DeathCounterHotkey.Controller.Forms;
-using DeathCounterHotkey.Resources;
-using System;
+﻿using FallenTally.Controller.Forms;
+using FallenTally.Resources;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DeathCounterHotkey.Controller
+namespace FallenTally.Controller
 {
     public class TextController
     {

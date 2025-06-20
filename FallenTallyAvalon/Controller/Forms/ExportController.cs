@@ -1,21 +1,16 @@
 ﻿using ClosedXML.Excel;
-using DeathCounterHotkey.Database;
-using DeathCounterHotkey.Database.Models;
-using DeathCounterHotkey.Resources;
-using DocumentFormat.OpenXml.InkML;
-using DocumentFormat.OpenXml.Wordprocessing;
+using FallenTally.Controller.Timers;
+using FallenTally.Database;
+using FallenTally.Database.Models;
+using FallenTally.Resources;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.DirectoryServices.ActiveDirectory;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DeathCounterHotkey.Controller.Forms
+namespace FallenTally.Controller.Forms
 {
     public class ExportController
     {

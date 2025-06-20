@@ -1,11 +1,11 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using DeathCounterHotkey.Database.Models;
-using FallenTallyAvalon.Controller;
-using FallenTallyAvalon.Dialogue.ViewModel;
+using FallenTally.Database.Models;
+using FallenTally.Controller;
+using FallenTally.Dialogue.ViewModel;
 
-namespace FallenTallyAvalon.Dialogue;
+namespace FallenTally.Dialogue;
 
 public partial class ConfirmationDialog : Window
 {

@@ -1,19 +1,19 @@
 ﻿using System;
 
 using Avalonia;
-using DeathCounterHotkey.Database;
-using DeathCounterHotkey.Database.Models;
-using FallenTallyAvalon.Controller;
-using FallenTallyAvalon.Controller.Timer;
-using FallenTallyAvalon.Dialogue;
-using FallenTallyAvalon.ViewModels;
+using FallenTally.Database;
+using FallenTally.Database.Models;
+using FallenTally.Controller;
+using FallenTally.Controller.Timers;
+using FallenTally.Dialogue;
+using FallenTally.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace FallenTallyAvalon.Desktop;
+namespace FallenTally.Desktop;
 
 class Program
 {

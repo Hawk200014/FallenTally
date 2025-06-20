@@ -1,6 +1,7 @@
-﻿using DeathCounterHotkey.Controller;
-using DeathCounterHotkey.Database;
-using DeathCounterHotkey.Database.Models;
+﻿using FallenTally.Controller;
+using FallenTally.Controller.Timers;
+using FallenTally.Database;
+using FallenTally.Database.Models;
 using SQLitePCL;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FallenTallyAvalon.Controller
+namespace FallenTally.Controller
 {
     public class DeathController
     {
