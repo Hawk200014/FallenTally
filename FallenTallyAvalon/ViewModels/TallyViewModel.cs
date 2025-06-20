@@ -20,7 +20,7 @@ namespace FallenTally.ViewModels
         private readonly DeathController _deathController;
         private readonly StreamingController _streamingController;
         private readonly RecordingController _recordingController;
-
+        private readonly MarkerController _markerController;
         [ObservableProperty]
         private ObservableCollection<GameStatsModel> gameStats = new();
 
@@ -44,12 +44,7 @@ namespace FallenTally.ViewModels
         private string counterValue = string.Empty;
 
         [ObservableProperty]
-        private ObservableCollection<MarkerModel> markers = new()
-        {
-            new MarkerModel { categorie = "cat1", MarkerId = 1, StreamSession = 1 },
-            new MarkerModel { categorie = "cat2", MarkerId = 2, StreamSession = 1 },
-            new MarkerModel { categorie = "cat3", MarkerId = 3, StreamSession = 1 }
-        };
+        private ObservableCollection<MarkerModel> markers = new();
 
         [ObservableProperty]
         private string streamTime = "00:00:00";
@@ -63,28 +58,35 @@ namespace FallenTally.ViewModels
         [ObservableProperty]
         private bool isRecordingRunning = false;
 
-        public bool GameEditButtonEnabled => ActiveGame!= null;
+        public bool GameEditButtonEnabled => ActiveGame != null;
         public bool GameRemoveButtonEnabled => ActiveGame != null;
         public bool LocationAddButtonEnabled => ActiveGame != null;
         public bool LocationEditButtonEnabled => ActiveLocation != null;
         public bool LocationRemoveButtonEnabled => ActiveLocation != null;
         public bool DeathAddButtonEnabled => ActiveLocation != null;
         public bool DeathRemoveButtonEnabled => ActiveLocation != null;
+        public bool StartStreamButtonEnabled => !IsStreamRunning;
+        public bool StopStreamButtonEnabled => IsStreamRunning;
+        public bool StartRecordingButtonEnabled => !IsRecordingRunning;
+        public bool StopRecordingButtonEnabled => IsRecordingRunning;
 
         public TallyViewModel(
             GameController gameController,
             LocationController locationController,
             DeathController deathController,
             StreamingController streamingController,
-            RecordingController recordingController)
+            RecordingController recordingController,
+            MarkerController markerController)
         {
             _gameController = gameController;
             _locationController = locationController;
             _deathController = deathController;
             _streamingController = streamingController;
             _recordingController = recordingController;
+            _markerController = markerController;
 
             GameStats = new ObservableCollection<GameStatsModel>(_gameController.GetGameStats());
+            Markers = new ObservableCollection<MarkerModel>(_markerController.GetMarkerModels());
         }
 
 
@@ -226,6 +228,41 @@ namespace FallenTally.ViewModels
             _recordingController.StopTimer();
             IsRecordingRunning = false;
             RecordingTime = "00:00:00";
+        }
+
+        [RelayCommand]
+        public void AddGeneralMarker()
+        {
+            _markerController.SetMark(MarkerController.MARKER.NORMAL, ActiveGame);
+            Markers = new ObservableCollection<MarkerModel>(_markerController.GetMarkerModels());
+        }
+
+        [RelayCommand]
+        public void AddFunnyMarker()
+        {
+            _markerController.SetMark(MarkerController.MARKER.FUNNY, ActiveGame);
+            Markers = new ObservableCollection<MarkerModel>(_markerController.GetMarkerModels());
+        }
+
+        [RelayCommand]
+        public void AddTalkMarker()
+        {
+            _markerController.SetMark(MarkerController.MARKER.TALK, ActiveGame);
+            Markers = new ObservableCollection<MarkerModel>(_markerController.GetMarkerModels());
+        }
+
+        [RelayCommand]
+        public void AddGamePlayMarker()
+        {
+            _markerController.SetMark(MarkerController.MARKER.GAME, ActiveGame);
+            Markers = new ObservableCollection<MarkerModel>(_markerController.GetMarkerModels());
+        }
+
+        [RelayCommand]
+        public void AddPauseMarker()
+        {
+            _markerController.SetMark(MarkerController.MARKER.PAUSE, ActiveGame);
+            Markers = new ObservableCollection<MarkerModel>(_markerController.GetMarkerModels());
         }
 
         // Partial methods for enabled state updates

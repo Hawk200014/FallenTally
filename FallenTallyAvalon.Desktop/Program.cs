@@ -76,6 +76,7 @@ class Program
         services.AddSingleton<OverlayViewModel>();
         services.AddSingleton<RecordingController>();
         services.AddSingleton<StreamingController>();
+        services.AddSingleton<MarkerController>();
 
 
 

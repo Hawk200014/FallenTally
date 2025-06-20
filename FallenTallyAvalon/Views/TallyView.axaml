@@ -26,6 +26,7 @@
                 Grid.Row="0"
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Stretch"
+				IsEnabled="{Binding StartStreamButtonEnabled}"
                 Command="{Binding StartStreamCommand}">
           <PathIcon Data="{StaticResource start_timer_icon }"/>
         </Button>
@@ -43,6 +44,7 @@
                 Grid.Row="0"
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Stretch"
+				IsEnabled="{Binding StopStreamButtonEnabled}"
                 Command="{Binding StopStreamCommand}">
           <PathIcon Data="{StaticResource reset_timer_icon }"/>
         </Button>
@@ -52,6 +54,7 @@
                 Grid.Row="1"
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Stretch"
+				IsEnabled="{Binding StartRecordingButtonEnabled}"
                 Command="{Binding StartRecordingCommand}">
           <PathIcon Data="{StaticResource start_timer_icon }"/>
         </Button>
@@ -69,6 +72,7 @@
                 Grid.Row="1"
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Stretch"
+				IsEnabled="{Binding StopRecordingButtonEnabled}"
                 Command="{Binding StopRecordingCommand}">
           <PathIcon Data="{StaticResource reset_timer_icon }"/>
         </Button>
@@ -217,7 +221,7 @@
           <ColumnDefinition Width="100" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-          <RowDefinition Height="150" />
+          <RowDefinition Height="200" />
         </Grid.RowDefinitions>
 
         <DataGrid ItemsSource="{Binding Markers, Mode=TwoWay}"
@@ -228,17 +232,28 @@
                   VerticalAlignment="Stretch"
                   HorizontalAlignment="Stretch"
                   IsReadOnly="True"
-                  CanUserSortColumns="False"
+                  CanUserSortColumns="True"
+				  CanUserReorderColumns="True"
                   GridLinesVisibility="All"
                   BorderThickness="1"
                   BorderBrush="Gray"
                   />
         <StackPanel Grid.Column="1" Orientation="Vertical">
-          <Button  Content="General" HorizontalAlignment="Stretch"></Button>
-          <Button Content="Funny" HorizontalAlignment="Stretch"></Button>
-          <Button Content="Gameplay" HorizontalAlignment="Stretch"></Button>
-          <Button Content="Talk" HorizontalAlignment="Stretch"></Button>
-          <Button Content="Pause" HorizontalAlignment="Stretch"></Button>
+          <Button  Content="General" 
+				   HorizontalAlignment="Stretch"
+				   Command="{Binding AddGeneralMarkerCommand}"></Button>
+          <Button Content="Funny" 
+				  HorizontalAlignment="Stretch"
+				  Command="{Binding AddFunnyMarkerCommand}"></Button>
+          <Button Content="Gameplay" 
+				  HorizontalAlignment="Stretch"
+				  Command="{Binding AddGamePlayMarkerCommand}"></Button>
+          <Button Content="Talk" 
+				  HorizontalAlignment="Stretch"
+				  Command="{Binding AddTalkMarkerCommand}"></Button>
+          <Button Content="Pause" 
+				  HorizontalAlignment="Stretch"
+				  Command="{Binding AddPauseMarkerCommand}"></Button>
         </StackPanel>
       </Grid>
     </Expander>

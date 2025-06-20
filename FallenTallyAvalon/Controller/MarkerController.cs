@@ -69,7 +69,7 @@ namespace FallenTally.Controller
                 query = query.Where(marker => marker.RecordingSession == recordingSession.Value);
             }
 
-            return query.ToList();
+            return query.OrderByDescending(x => x.MarkerId).ToList();
         }
     }
 }
