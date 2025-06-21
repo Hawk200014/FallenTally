@@ -45,9 +45,9 @@ namespace FallenTally.Controller
         }
 
 
-        public List<DeathLocationModel> GetListOfLocations(GameStatsModel? gameStatsModel)
+        public List<DeathLocationModel> GetListOfLocations(GameStatsModel? gameStatsModel = null)
         {
-            if (gameStatsModel == null) return new List<DeathLocationModel>();
+            if (gameStatsModel == null) return _context.Locations.ToList();
             return _context.Locations.Where(x => x.GameID == gameStatsModel.GameId).ToList();
         }
 
@@ -67,13 +67,6 @@ namespace FallenTally.Controller
             _context.Locations.Remove(locationModel);
             _context.SaveChanges();
             return true;
-        }
-
-
-        internal int GetDeathsAtLocation(DeathLocationModel? locationModel)
-        {
-            if(locationModel == null) return 0;
-            return _context.Deaths.Where(x => x.LocationId == locationModel.LocationId).Count();
         }
 
 

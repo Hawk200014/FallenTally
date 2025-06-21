@@ -47,5 +47,58 @@ namespace FallenTally.Controller
             if (loc == null) return 0;
             return _context.Deaths.Where(x => x.LocationId == loc.LocationId).Count();
         }
+
+        #region Filter
+
+        private IQueryable<DeathModel> _filterQuery;
+
+        public IQueryable<DeathModel> InitFilter()
+        {
+            _filterQuery = _context.Deaths;
+            return _filterQuery;
+        }
+
+        public IQueryable<DeathModel> Filter(GameStatsModel game)
+        {
+            // Join Deaths with Locations, filter by game.GameId, select deaths for those locations
+            _filterQuery = from death in _filterQuery
+                           join location in _context.Locations
+                           on death.LocationId equals location.LocationId
+                           where location.GameID == game.GameId
+                           select death;
+            return _filterQuery;
+        }
+
+        public IQueryable<DeathModel> Filter(DeathLocationModel location)
+        {
+            _filterQuery = _filterQuery.Where(x => x.LocationId == location.LocationId);
+            return _filterQuery;
+        }
+
+        public IQueryable<DeathModel> Filter(DateOnly? fromDate = null, DateOnly? toDate = null)
+        {
+            if (fromDate != null)
+            {
+                // Convert DateOnly? to DateTime for comparison
+                DateTime fromDateTime = fromDate.Value.ToDateTime(TimeOnly.MinValue);
+                _filterQuery = _filterQuery.Where(x => x.TimeStamp >= fromDateTime);
+            }
+
+            if (toDate != null)
+            {
+                // Convert DateOnly? to DateTime for comparison
+                DateTime toDateTime = toDate.Value.ToDateTime(TimeOnly.MaxValue);
+                _filterQuery = _filterQuery.Where(x => x.TimeStamp <= toDateTime);
+            }
+
+            return _filterQuery;
+        }
+
+        public IQueryable<DeathModel> GetFilter()
+        {
+            return _filterQuery;
+        }
+
+        #endregion
     }
 }

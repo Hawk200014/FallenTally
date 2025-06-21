@@ -13,7 +13,7 @@ namespace FallenTally.Controller
         private RecordingController _recordingController;
         private StreamingController _streamingController;
 
-        private IQueryable<MarkerModel>? _searchQuery;
+        private IQueryable<MarkerModel> _filterQuery;
 
         public enum MARKER
         {
@@ -29,7 +29,7 @@ namespace FallenTally.Controller
             this._context = context;
             this._recordingController = recordingController;
             this._streamingController = streamingController;
-            this._searchQuery = _context.Markers.AsQueryable();
+            this._filterQuery = _context.Markers.AsQueryable();
         }
 
         internal void SetMark(MARKER markerType, GameStatsModel? gameStatsModel)
@@ -53,28 +53,49 @@ namespace FallenTally.Controller
         #region Filtering
         public IQueryable<MarkerModel> InitFilter()
         {
-            return _context.Markers.AsQueryable();
+            _filterQuery = _context.Markers;
+            return _filterQuery;
         }
 
-        public IQueryable<MarkerModel>? Filter(GameStatsModel gameStatsModel)
+        public IQueryable<MarkerModel> Filter(GameStatsModel gameStatsModel)
         {
-            _searchQuery = _searchQuery?.Where(marker => marker.GameId == _context.GameStats
-                    .Where(game => game.GameName == gameStatsModel.GameName)
-                    .Select(game => game.GameId)
-                    .FirstOrDefault());
-            return _searchQuery;
+            _filterQuery = _filterQuery.Where(marker => marker.GameId == gameStatsModel.GameId);
+            return _filterQuery;
         }
 
-        public IQueryable<MarkerModel>? Filter(DateOnly date)
+        public IQueryable<MarkerModel> Filter(DateOnly? fromDate = null, DateOnly? toDate = null)
         {
-            _searchQuery = _searchQuery?.Where(marker => DateOnly.FromDateTime(marker.TimeStamp) == date);
-            return _searchQuery;
+            if (fromDate != null)
+            {
+                // Convert DateOnly? to DateTime for comparison
+                DateTime fromDateTime = fromDate.Value.ToDateTime(TimeOnly.MinValue);
+                _filterQuery = _filterQuery.Where(x => x.TimeStamp >= fromDateTime);
+            }
+
+            if (toDate != null)
+            {
+                // Convert DateOnly? to DateTime for comparison
+                DateTime toDateTime = toDate.Value.ToDateTime(TimeOnly.MaxValue);
+                _filterQuery = _filterQuery.Where(x => x.TimeStamp <= toDateTime);
+            }
+            return _filterQuery;
         }
 
-        public IQueryable<MarkerModel>? Filter(int recordingSession)
+        public IQueryable<MarkerModel> Filter(int recordingSession)
         {
-            _searchQuery = _searchQuery?.Where(marker => marker.RecordingSession == recordingSession);
-            return _searchQuery;
+            _filterQuery = _filterQuery.Where(marker => marker.RecordingSession == recordingSession);
+            return _filterQuery;
+        }
+
+        public IQueryable<MarkerModel> Filter(string markerType)
+        {
+            _filterQuery = _filterQuery.Where(marker => marker.categorie == markerType);
+            return _filterQuery;
+        }
+
+        public IQueryable<MarkerModel> GetFilter()
+        {
+            return _filterQuery;
         }
 
         #endregion

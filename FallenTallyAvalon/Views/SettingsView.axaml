@@ -5,4 +5,64 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="FallenTally.Views.SettingsView">
+	<DockPanel>
+		<TabControl>
+			<TabItem Header="General" FontSize="12">
+			</TabItem>
+			<TabItem Header="Hotkeys" FontSize="12" x:Name="TI">
+				<ScrollViewer >
+					<StackPanel Orientation="Vertical" Spacing="5">
+						<Expander Header="Tally Hotkeys" HorizontalAlignment="Stretch" >
+							<StackPanel Orientation="Vertical" Spacing="3">
+								<Grid ColumnDefinitions="200,*">
+									<Label Content="Add Death" VerticalAlignment="Center" Grid.Column="0"/>
+									<TextBox x:Name="AddDeathHK" Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+								</Grid>
+								<Grid ColumnDefinitions="200,*">
+									<Label Content="Remove Death" VerticalAlignment="Center" Grid.Column="0"/>
+									<TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+								</Grid>
+								<Grid ColumnDefinitions="200,*">
+									<Label Content="Quick Add Location" VerticalAlignment="Center" Grid.Column="0"/>
+									<TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+								</Grid>
+								<Grid ColumnDefinitions="200,*">
+									<Label Content="Switch Location" VerticalAlignment="Center" Grid.Column="0"/>
+									<TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+								</Grid>
+								<Grid ColumnDefinitions="200,*">
+									<Label Content="Finish Location" VerticalAlignment="Center" Grid.Column="0"/>
+									<TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+								</Grid>
+							</StackPanel>
+						</Expander>
+						<Expander Header="Marker Hotkeys" HorizontalAlignment="Stretch">
+							<StackPanel Orientation="Vertical" Spacing="3">
+								<Grid ColumnDefinitions="200,*">
+									<Label Content="General Marker" VerticalAlignment="Center" Grid.Column="0"/>
+									<TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+								</Grid>
+								<Grid ColumnDefinitions="200,*">
+									<Label Content="Funny Marker" VerticalAlignment="Center" Grid.Column="0"/>
+									<TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+								</Grid>
+								<Grid ColumnDefinitions="200,*">
+									<Label Content="Talk Marker" VerticalAlignment="Center" Grid.Column="0"/>
+									<TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+								</Grid>
+								<Grid ColumnDefinitions="200,*">
+									<Label Content="Gameplay Marker" VerticalAlignment="Center" Grid.Column="0"/>
+									<TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+								</Grid>
+								<Grid ColumnDefinitions="200,*">
+									<Label Content="Pause Marker" VerticalAlignment="Center" Grid.Column="0"/>
+									<TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+								</Grid>
+							</StackPanel>
+						</Expander>
+					</StackPanel>
+				</ScrollViewer>
+			</TabItem>
+		</TabControl>
+	</DockPanel>
 </UserControl>

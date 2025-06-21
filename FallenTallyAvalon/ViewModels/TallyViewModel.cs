@@ -181,7 +181,7 @@ namespace FallenTally.ViewModels
         {
             if (ActiveLocation == null) return;
             _deathController.AddDeath(ActiveLocation, _streamingController, _recordingController);
-            CounterValue = _locationController.GetDeathsAtLocation(ActiveLocation).ToString();
+            CounterValue = _deathController.GetDeaths(ActiveLocation).ToString();
         }
 
         [RelayCommand]
@@ -189,7 +189,7 @@ namespace FallenTally.ViewModels
         {
             if (ActiveLocation == null) return;
             _deathController.RemoveDeath();
-            CounterValue = _locationController.GetDeathsAtLocation(ActiveLocation).ToString();
+            CounterValue = _deathController.GetDeaths(ActiveLocation).ToString();
         }
 
         // Timer commands
@@ -286,7 +286,7 @@ namespace FallenTally.ViewModels
             OnPropertyChanged(nameof(DeathAddButtonEnabled));
             OnPropertyChanged(nameof(DeathRemoveButtonEnabled));
             CounterValue = value != null
-                ? _locationController.GetDeathsAtLocation(value).ToString()
+                ? _deathController.GetDeaths(value).ToString()
                 : "0";
         }
     }

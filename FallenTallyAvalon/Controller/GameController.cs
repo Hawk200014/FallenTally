@@ -1,4 +1,5 @@
-﻿using FallenTally.Database;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using FallenTally.Database;
 using FallenTally.Database.Models;
 using System;
 using System.Collections.Generic;
@@ -87,5 +88,7 @@ namespace FallenTally.Controller
             _context.GameStats.Remove(game);
             _context.SaveChanges();
         }
+
+
     }
 }

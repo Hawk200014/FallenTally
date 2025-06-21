@@ -122,14 +122,14 @@ namespace FallenTally.Controller.Forms
         /// <param name="date">The date to filter by.</param>
         /// <param name="exportPath">The path to save the exported file.</param>
         /// <returns>A message indicating the result of the export.</returns>
-        internal string Export(ExportType exportType, string gameName, string locationName, string date, string exportPath)
+        internal string Export(ExportType exportType, string exportPath, string gameName = "", string locationName = "", DateOnly? fromDate = null, DateOnly? toDate = null)
         {
-            DataTable dt = CreateDataTableFromFilter(gameName, locationName, date);
+            DataTable dt = CreateDataTableFromFilter(gameName, locationName, fromDate, toDate);
             int result = exportType switch
             {
                 ExportType.CSV => ExportCSV(dt, exportPath),
                 ExportType.EXCEL => ExportToExcel(dt, exportPath),
-                ExportType.FTSTAMPS => ExportToFTStamps(CreateDataTableFromFilterForFTS(gameName, locationName, date), exportPath), // Not implemented
+                ExportType.FTSTAMPS => ExportToFTStamps(CreateDataTableFromFilterForFTS(gameName, locationName, fromDate, toDate), exportPath), // Not implemented
                 _ => 0
             };
 
@@ -143,7 +143,7 @@ namespace FallenTally.Controller.Forms
             return message;
         }
 
-        private DataTable CreateDataTableFromFilterForFTS(string gameName, string locationName, string date)
+        private DataTable CreateDataTableFromFilterForFTS(string gameName, string locationName, DateOnly? fromDate, DateOnly? toDate)
         {
             var query = _context.Deaths
                 .Join(_context.Locations, d => d.LocationId, l => l.LocationId, (d, l) => new { d, l })
@@ -160,10 +160,11 @@ namespace FallenTally.Controller.Forms
             }
             var result = query.ToList();
 
-            if (!string.IsNullOrEmpty(date))
-            {
-                result = result.Where(x => string.IsNullOrEmpty(date) || DateOnly.FromDateTime(x.dl.d.TimeStamp).ToString("d", _culture) == date).ToList();
-            }
+
+            result = result
+                .Where(x => (fromDate is null) || DateOnly.FromDateTime(x.dl.d.TimeStamp) >= fromDate)
+                .Where(x => (toDate is null) || DateOnly.FromDateTime(x.dl.d.TimeStamp) <= toDate).ToList();
+
 
             var deaths = result.Select(x => new { x.dl.l.Name, x.dl.d.RecordingTime, x.dl.d.StreamTime, x.dl.d.TimeStamp }).OrderBy(x => x.TimeStamp);
 
@@ -284,7 +285,7 @@ namespace FallenTally.Controller.Forms
         /// <param name="locationName">The name of the location.</param>
         /// <param name="date">The date to filter by.</param>
         /// <returns>A DataTable containing the filtered data.</returns>
-        private DataTable CreateDataTableFromFilter(string gameName, string locationName, string date)
+        private DataTable CreateDataTableFromFilter(string gameName, string locationName, DateOnly? fromDate, DateOnly? toDate)
         {
             var gameStatsModels = _context.GameStats
                 .Where(x => string.IsNullOrEmpty(gameName) || x.GameName == gameName)
@@ -315,7 +316,8 @@ namespace FallenTally.Controller.Forms
                     var deathModels = _context.Deaths
                         .Where(x => x.LocationId == deathLocation.LocationId)
                         .AsEnumerable()
-                        .Where(x => string.IsNullOrEmpty(date) || DateOnly.FromDateTime(x.TimeStamp).ToString("d", _culture) == date)
+                        .Where(x => fromDate is null || DateOnly.FromDateTime(x.TimeStamp) >= fromDate)
+                        .Where(x => toDate is null || DateOnly.FromDateTime(x.TimeStamp) <= toDate)
                         .ToList();
 
                     foreach (var death in deathModels)
@@ -342,16 +344,20 @@ namespace FallenTally.Controller.Forms
         internal int GetMarkerCount(GameStatsModel? game = null, int? session = null, DateOnly? date = null)
         {
             var query = _markercontroller.InitFilter();
-            if (date != null) {
+            if (date != null)
+            {
                 //query = _markercontroller.Filter(date);
             }
-            if (game != null) {
+            if (game != null)
+            {
                 query = _markercontroller.Filter(game);
             }
-            if( session != null) {
+            if (session != null)
+            {
                 query = _markercontroller.Filter(session.Value);
             }
-            if(query == null) {
+            if (query == null)
+            {
                 return 0;
             }
             return query.Count();
@@ -404,14 +410,14 @@ namespace FallenTally.Controller.Forms
             return query.Select(m => m.RecordingSession.ToString()).Distinct().ToArray();
         }
 
-        internal string ExportMarker(ExportType exportType, GameStatsModel game, string date, string session, string fileName)
+        internal string ExportMarker(ExportType exportType, string fileName, string game = "", string markertype = "", DateOnly? fromDate = null, DateOnly? toDate = null, string session = "" )
         {
-            DataTable dt = CreateDataTableFromFilterMarker(game, date, session);
+            DataTable dt = CreateDataTableFromFilterMarker(game, markertype, fromDate, toDate, session);
             int result = exportType switch
             {
                 ExportType.CSV => ExportCSV(dt, fileName),
                 ExportType.EXCEL => ExportToExcel(dt, fileName),
-                ExportType.FTSTAMPS => ExportToFTStamps(CreateDataTableFromFilterMarkerFTS(game.GameName, date, session), fileName),
+                ExportType.FTSTAMPS => ExportToFTStamps(CreateDataTableFromFilterMarkerFTS(game, markertype, fromDate, toDate, session), fileName),
                 _ => 0
             };
 
@@ -425,13 +431,13 @@ namespace FallenTally.Controller.Forms
             return message;
         }
 
-        private DataTable CreateDataTableFromFilterMarker(GameStatsModel? game, string date, string session)
+        private DataTable CreateDataTableFromFilterMarker(string game, string markertype, DateOnly? fromDate, DateOnly? toDate, string session)
         {
             IQueryable<GameStatsModel> gameStatsModels = _context.GameStats.AsQueryable();
 
-            if (game != null)
+            if (!string.IsNullOrEmpty(game))
             {
-                gameStatsModels = gameStatsModels.Where(x => x.GameName == game.GameName);
+                gameStatsModels = gameStatsModels.Where(x => x.GameName == game);
             }
 
             gameStatsModels = gameStatsModels
@@ -448,9 +454,11 @@ namespace FallenTally.Controller.Forms
 
             foreach (var gameStats in gameStatsModels)
             {
-                var markers = _context.Markers
+                var markers = _context.Markers.AsEnumerable()
                     .Where(x => x.GameId == gameStats.GameId)
-                    .Where(x => string.IsNullOrEmpty(date) || DateOnly.FromDateTime(x.TimeStamp).ToString("d", _culture) == date)
+                    .Where(x => string.IsNullOrEmpty(markertype) || x.categorie == markertype)
+                    .Where(x => (fromDate is null) || DateOnly.FromDateTime(x.TimeStamp) >= fromDate)
+                    .Where(x => (toDate is null) || DateOnly.FromDateTime(x.TimeStamp) <= toDate)
                     .Where(x => string.IsNullOrEmpty(session) || x.RecordingSession.ToString() == session)
                     .ToList();
                 foreach (var marker in markers)
@@ -462,7 +470,7 @@ namespace FallenTally.Controller.Forms
             return dataTable;
         }
 
-        private DataTable CreateDataTableFromFilterMarkerFTS(string gameName, string date, string session)
+        private DataTable CreateDataTableFromFilterMarkerFTS(string gameName, string markertype, DateOnly? fromDate, DateOnly? toDate, string session)
         {
             var gameStatsModels = _context.GameStats
                .Where(x => string.IsNullOrEmpty(gameName) || x.GameName == gameName)
@@ -479,9 +487,11 @@ namespace FallenTally.Controller.Forms
 
             foreach (var gameStats in gameStatsModels)
             {
-                var markers = _context.Markers
+                var markers = _context.Markers.AsEnumerable()
                     .Where(x => x.GameId == gameStats.GameId)
-                    .Where(x => string.IsNullOrEmpty(date) || DateOnly.FromDateTime(x.TimeStamp).ToString("d", _culture) == date)
+                    .Where(x => string.IsNullOrEmpty(markertype) || x.categorie == markertype)
+                    .Where(x => (toDate is null) || DateOnly.FromDateTime(x.TimeStamp) >= toDate)
+                    .Where(x => (fromDate is null) || DateOnly.FromDateTime(x.TimeStamp) <= fromDate)
                     .Where(x => string.IsNullOrEmpty(session) || x.RecordingSession.ToString() == session)
                     .OrderBy(x => x.TimeStamp)
                     .ToList();
