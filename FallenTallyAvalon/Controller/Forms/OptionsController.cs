@@ -13,62 +13,54 @@ namespace FallenTally.Controller.Forms
 
         }
 
-        public bool SetSetting(string key, string value)
+        public bool SetSetting(OPTIONS key, string value)
         {
-            if (string.IsNullOrEmpty(key)) return false;
             if (IsDupeEntry(key)) return false;
             _context.Settings.Add(new SettingsModel()
             {
-                SettingsName = key,
+                SettingsName = nameof(key),
                 SettingsValue = value
             });
             _context.SaveChanges();
             return true;
         }
 
-        public bool SetOrEditSetting(string key, string value)
+        public bool SetOrEditSetting(OPTIONS key, string value)
         {
             if (SetSetting(key, value)) return true;
             if (EditSetting(key, value)) return true;
             return false;
         }
 
-        public bool EditSetting(string key, string value)
+        public bool EditSetting(OPTIONS key, string value)
         {
-            if (string.IsNullOrEmpty(key)) return false;
-            SettingsModel? model = _context.Settings.Where(x => x.SettingsName.Equals(key)).FirstOrDefault();
+            SettingsModel? model = _context.Settings.Where(x => x.SettingsName.Equals(nameof(key))).FirstOrDefault();
             if (model == null) return false;
             model.SettingsValue = value;
             _context.SaveChanges();
             return true;
         }
 
-        public bool IsDupeEntry(string key)
+        public bool IsDupeEntry(OPTIONS key)
         {
-            if (string.IsNullOrEmpty(key)) return false;
-            return _context.Settings.AsEnumerable().Where(x => x.SettingsName.Equals(key)).Any();
+            return _context.Settings.AsEnumerable().Where(x => x.SettingsName.Equals(nameof(key))).Any();
         }
 
         public enum OPTIONS
         {
             LANGUAGE,
-            INCREASE_HOTKEY,
-            DECREASE_HOTKEY,
-            SWITCH_LOCATION_HOTKEY,
-            QUICKADD_LOCATION_HOTKEY,
+
             TWITCH_NAME,
             WORLD_AS_ALL,
-            FONTFAMILY,
-            FONTSIZE,
-            FONTSTYLE,
-            FONTWEIGHT,
-            BORDERSIZE,
-            SHADOWSIZE,
-            TEXTCOLOR,
-            SHADOWCOLOR,
-            BORDERCOLOR,
-            FINISH_LOCATION_HOTKEY,
-            START_RECORDING_TIMER,
+            TALLY_INCREASE_HOTKEY,
+            TALLY_DECREASE_HOTKEY,
+            TALLY_SWITCH_LOCATION_HOTKEY,
+            TALLY_QUICKADD_LOCATION_HOTKEY,
+            TALLY_FINISH_LOCATION_HOTKEY,
+            TIMER_START_RECORDING_HOTKEY,
+            TIMER_START_STREAM_HOTKEY,
+            TIMER_STOP_RECORDING_HOTKEY,
+            TIMER_STOP_STREAM_HOTKEY,
             MARKER_NORMAL_HOTKEY,
             MARKER_FUNNY_HOTKEY,
             MARKER_GAMING_HOTKEY,
@@ -76,9 +68,9 @@ namespace FallenTally.Controller.Forms
             MARKER_PAUSE_HOTKEY
         }
 
-        public string GetSetting(string key)
+        public string GetSetting(OPTIONS key)
         {
-            return _context.Settings.AsEnumerable().Where(x => x.SettingsName.Equals(key)).FirstOrDefault()?.SettingsValue ?? "";
+            return _context.Settings.AsEnumerable().Where(x => x.SettingsName.Equals(nameof(key))).FirstOrDefault()?.SettingsValue ?? "";
         }
 
         internal string GetLanguage()

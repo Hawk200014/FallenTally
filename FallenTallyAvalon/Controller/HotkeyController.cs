@@ -71,17 +71,6 @@ namespace FallenTally.Controller
 
         public void ReloadKeysFromOptions()
         {
-            _increaseHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.INCREASE_HOTKEY));
-            _decreaseHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.DECREASE_HOTKEY));
-            _switchHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.SWITCH_LOCATION_HOTKEY));
-            _quickAddHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.QUICKADD_LOCATION_HOTKEY));
-            _finishHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FINISH_LOCATION_HOTKEY));
-            _recordingStartHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.START_RECORDING_TIMER));
-            _markerNormalHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.MARKER_NORMAL_HOTKEY));
-            _markerFunnyHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.MARKER_FUNNY_HOTKEY));
-            _markerGameHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.MARKER_GAMING_HOTKEY));
-            _markerTalkHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.MARKER_TALK_HOTKEY));
-            _markerPauseHKStr = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.MARKER_PAUSE_HOTKEY));
         }
 
         public void LoadHotkeys()
