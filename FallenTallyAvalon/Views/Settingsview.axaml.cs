@@ -1,7 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using FallenTally.ViewModels;
 using FallenTallyAvalon.Helper;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FallenTally.Views;
 
@@ -12,6 +14,7 @@ public partial class SettingsView : UserControl
     public SettingsView()
     {
         InitializeComponent();
+        DataContext = ServiceLocator.Provider.GetRequiredService<SettingsViewModel>();
     }
 
     private void TextBox_KeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
@@ -64,6 +67,7 @@ public partial class SettingsView : UserControl
         }
         TextBox tb = (TextBox)sender;
         tb.Text = _hotkeyHelper?.ToString();
+
         _hotkeyHelper = null;
         waitingForInput = false;
 

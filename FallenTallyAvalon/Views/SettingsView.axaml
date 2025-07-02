@@ -18,8 +18,12 @@
             <TextBox Grid.Column="1" VerticalAlignment="Center"/>
           </Grid>
           <Grid ColumnDefinitions="200,*">
-            <Label Content="Twitch Name" VerticalAlignment="Center" Grid.Column="0"/>
-            <TextBox Grid.Column="1" VerticalAlignment="Center" />
+            <Label Content="Connect to Twitch" VerticalAlignment="Center" Grid.Column="0"/>
+            <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Content="{Binding TwitchConnectButtonText}" Command="{Binding ConnectToTwitchCommand}" />
+          </Grid>
+          <Grid ColumnDefinitions="200,*">
+            <Label Content="Twitch Channel Name" VerticalAlignment="Center" Grid.Column="0"/>
+            <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding TwitchChannelName}"/>
           </Grid>
         </StackPanel>
       </TabItem>

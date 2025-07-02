@@ -1,13 +1,10 @@
 ﻿using System;
-
 using Avalonia;
 using FallenTally.Database;
-using FallenTally.Database.Models;
 using FallenTally.Controller;
 using FallenTally.Controller.Timers;
 using FallenTally.Dialogue;
 using FallenTally.ViewModels;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
@@ -81,6 +78,8 @@ class Program
         services.AddSingleton<ExportController>();
 
         services.AddSingleton<ExportViewModel>();
+        services.AddSingleton<TwitchAuthController>();
+        services.AddSingleton<SettingsViewModel>();
 
 
 
