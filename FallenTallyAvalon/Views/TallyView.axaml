@@ -1,0 +1,261 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:FallenTally.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="FallenTally.Views.TallyView">
+  <StackPanel Orientation="Vertical">
+    <Expander VerticalAlignment="Top" IsExpanded="True" HorizontalAlignment="Stretch">
+      <Expander.Header>
+        Timer
+      </Expander.Header>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="50" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="50" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!--Row 0-->
+        <Button Margin="3"
+                Grid.Column="0"
+                Grid.Row="0"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+				IsEnabled="{Binding StartStreamButtonEnabled}"
+                Command="{Binding StartStreamCommand}">
+          <PathIcon Data="{StaticResource start_timer_icon }"/>
+        </Button>
+        <StackPanel Margin="3" 
+                    Spacing="1"
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch">
+          <Label Content="Stream" HorizontalAlignment="Center" FontSize="10" />
+          <Label Content="{Binding StreamTime, Mode=TwoWay}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <Button Margin="3"
+                Grid.Column="2"
+                Grid.Row="0"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+				IsEnabled="{Binding StopStreamButtonEnabled}"
+                Command="{Binding StopStreamCommand}">
+          <PathIcon Data="{StaticResource reset_timer_icon }"/>
+        </Button>
+        <!--Row 1-->
+        <Button Margin="3"
+                Grid.Column="0"
+                Grid.Row="1"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+				IsEnabled="{Binding StartRecordingButtonEnabled}"
+                Command="{Binding StartRecordingCommand}">
+          <PathIcon Data="{StaticResource start_timer_icon }"/>
+        </Button>
+        <StackPanel Margin="3"
+                    Spacing="1"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch">
+          <Label Content="Recording" HorizontalAlignment="Center" FontSize="10" />
+          <Label Content="{Binding RecordingTime, Mode=TwoWay}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <Button Margin="3"
+                Grid.Column="2"
+                Grid.Row="1"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+				IsEnabled="{Binding StopRecordingButtonEnabled}"
+                Command="{Binding StopRecordingCommand}">
+          <PathIcon Data="{StaticResource reset_timer_icon }"/>
+        </Button>
+      </Grid>
+    </Expander>
+    <Expander VerticalAlignment="Top" IsExpanded="True" HorizontalAlignment="Stretch">
+      <Expander.Header>
+        Counter
+      </Expander.Header>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="250" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!--Row 0-->
+        <ComboBox Margin="3"
+                  Grid.Column="0"
+                  Grid.Row="0"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  ItemsSource="{Binding GameStats}"
+                  SelectedItem="{Binding ActiveGame, Mode=TwoWay}"
+                  DisplayMemberBinding="{Binding GameName}"/>
+        <Grid Grid.Column="1" Grid.Row="0" >
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="33*" />
+            <ColumnDefinition Width="34*" />
+            <ColumnDefinition Width="33*" />
+          </Grid.ColumnDefinitions>
+			<Button Margin="3"
+					Grid.Column="0"
+					Grid.Row="0"
+					VerticalAlignment="Stretch"
+					HorizontalAlignment="Stretch"
+				    Command="{Binding AddGameCommand}">
+				<PathIcon Data="{StaticResource plus_icon }"/>
+			</Button>
+          <Button Margin="3"
+                  Grid.Column="1"
+                  Grid.Row="0"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  Command="{Binding EditGameCommand}"
+                  IsEnabled="{Binding GameEditButtonEnabled}">
+            <PathIcon Data="{StaticResource edit_icon }"/>
+          </Button>
+          <Button Margin="3"
+                  Grid.Column="2"
+                  Grid.Row="0"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  Command="{Binding RemoveGameCommand}"
+                  IsEnabled="{Binding GameRemoveButtonEnabled}">
+            <PathIcon Data="{StaticResource delete_icon }"/>
+          </Button>
+        </Grid>
+        <!--Row 1-->
+        <ComboBox Margin="3"
+				  Grid.Column="0"
+				  Grid.Row="1"
+				  VerticalAlignment="Stretch"
+				  HorizontalAlignment="Stretch"
+				  ItemsSource="{Binding DeathLocations}"
+                  SelectedItem="{Binding ActiveLocation, Mode=TwoWay}"
+                  DisplayMemberBinding="{Binding Name}"/>
+        <Grid Grid.Column="1" Grid.Row="1" >
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="33*" />
+            <ColumnDefinition Width="34*" />
+            <ColumnDefinition Width="33*" />
+          </Grid.ColumnDefinitions>
+          <Button Margin="3"
+				  Grid.Column="0"
+				  Grid.Row="0"
+				  VerticalAlignment="Stretch"
+				  HorizontalAlignment="Stretch"
+				  Command="{Binding AddLocationCommand}"
+          IsEnabled="{Binding LocationAddButtonEnabled}">
+            <PathIcon Data="{StaticResource plus_icon }"/>
+          </Button>
+          <Button Margin="3"
+				  Grid.Column="1"
+				  Grid.Row="0"
+				  VerticalAlignment="Stretch"
+				  HorizontalAlignment="Stretch"
+				  Command="{Binding EditLocationCommand}"
+          IsEnabled="{Binding LocationEditButtonEnabled}">
+            <PathIcon Data="{StaticResource edit_icon }"/>
+          </Button>
+          <Button Margin="3"
+				  Grid.Column="2"
+				  Grid.Row="0"
+				  VerticalAlignment="Stretch"
+				  HorizontalAlignment="Stretch"
+				  Command="{Binding RemoveLocationCommand}"
+          IsEnabled="{Binding LocationRemoveButtonEnabled}">
+            <PathIcon Data="{StaticResource delete_icon }"/>
+          </Button>
+        </Grid>
+        <!--Row 2-->
+        <TextBox Margin="3"
+				 Grid.Column="0"
+				 Grid.Row="2"
+				 VerticalAlignment="Stretch"
+				 HorizontalAlignment="Stretch"
+				 Text="{Binding CounterValue}"
+         IsReadOnly="True"/>
+        <Grid Grid.Column="1" Grid.Row="2" >
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50*" />
+            <ColumnDefinition Width="50*" />
+          </Grid.ColumnDefinitions>
+          <Button Margin="3"
+				    Grid.Column="0"
+				    Grid.Row="0"
+				    VerticalAlignment="Stretch"
+				    HorizontalAlignment="Stretch"
+				    Command="{Binding AddDeathCommand}"
+            IsEnabled="{Binding DeathAddButtonEnabled}">
+            <PathIcon Data="{StaticResource plus_icon }"/>
+          </Button>
+          <Button Margin="3"
+				    Grid.Column="1"
+				    Grid.Row="0"
+				    VerticalAlignment="Stretch"
+				    HorizontalAlignment="Stretch"
+				    Command="{Binding RemoveDeathCommand}"
+            IsEnabled="{Binding DeathRemoveButtonEnabled}">
+            <PathIcon Data="{StaticResource minus_icon }"/>
+          </Button>
+        </Grid>
+      </Grid>
+    </Expander>
+    <Expander VerticalAlignment="Top" IsExpanded="True" HorizontalAlignment="Stretch" Margin="0,5,0,0">
+      <Expander.Header>
+        Marker
+      </Expander.Header>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="100" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="200" />
+        </Grid.RowDefinitions>
+
+        <DataGrid ItemsSource="{Binding Markers, Mode=TwoWay}"
+                  Margin="0,0,3,0"
+                  Grid.Column="0"
+                  Grid.Row="0"
+                  AutoGenerateColumns="True"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  IsReadOnly="True"
+                  CanUserSortColumns="True"
+				  CanUserReorderColumns="True"
+                  GridLinesVisibility="All"
+                  BorderThickness="1"
+                  BorderBrush="Gray"
+                  />
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+          <Button  Content="General" 
+				   HorizontalAlignment="Stretch"
+				   Command="{Binding AddGeneralMarkerCommand}"></Button>
+          <Button Content="Funny" 
+				  HorizontalAlignment="Stretch"
+				  Command="{Binding AddFunnyMarkerCommand}"></Button>
+          <Button Content="Gameplay" 
+				  HorizontalAlignment="Stretch"
+				  Command="{Binding AddGamePlayMarkerCommand}"></Button>
+          <Button Content="Talk" 
+				  HorizontalAlignment="Stretch"
+				  Command="{Binding AddTalkMarkerCommand}"></Button>
+          <Button Content="Pause" 
+				  HorizontalAlignment="Stretch"
+				  Command="{Binding AddPauseMarkerCommand}"></Button>
+        </StackPanel>
+      </Grid>
+    </Expander>
+  </StackPanel>
+</UserControl>

@@ -1,0 +1,49 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <!-- Add Controls for Previewer Here -->
+      <StackPanel>
+        <Button Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <Path Data="{DynamicResource plus_icon}" Fill="Black" />
+        </Button>
+        <Button Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <Path Data="{DynamicResource minus_icon}" Fill="Black" />
+        </Button>
+        <Button Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <Path Data="{DynamicResource export_icon}" Fill="Black" />
+        </Button>
+        <Button Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <Path Data="{DynamicResource edit_icon}" Fill="Black" />
+        </Button>
+        <Button Width="50" Height="50" >
+          <Path HorizontalAlignment="Center" VerticalAlignment="Center" Data="{DynamicResource bookmark_icon}" Fill="Black" />
+        </Button>
+        <Button Width="50" Height="50" >
+          <Path HorizontalAlignment="Center" VerticalAlignment="Center" Data="{DynamicResource delete_icon}" Fill="Black" />
+        </Button>
+        <Button Width="50" Height="50" >
+          <Path HorizontalAlignment="Center" VerticalAlignment="Center" Data="{DynamicResource start_timer_icon}" Fill="Black" />
+        </Button>
+        <Button Width="50" Height="50" >
+          <Path HorizontalAlignment="Center" VerticalAlignment="Center" Data="{DynamicResource reset_timer_icon}" Fill="Black" />
+        </Button>
+      </StackPanel>
+    </Border>
+  </Design.PreviewWith>
+
+  <!-- Add Styles Here -->
+  <Styles>
+    <Styles.Resources>
+      <StreamGeometry x:Key="plus_icon">M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z</StreamGeometry>
+      <StreamGeometry x:Key="minus_icon">M19,13H5a1,1,0,0,1,0-2H19a1,1,0,0,1,0,2Z</StreamGeometry>
+      <StreamGeometry x:Key="export_icon">M18,9H16a1,1,0,0,0,0,2h2v9H6V11H8A1,1,0,0,0,8,9H6a2,2,0,0,0-2,2v9a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2V11A2,2,0,0,0,18,9Z,M8.71,6.71,11,4.41V15a1,1,0,0,0,2,0V4.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-4-4h0a1.15,1.15,0,0,0-.33-.21.94.94,0,0,0-.76,0,1.15,1.15,0,0,0-.33.21h0l-4,4A1,1,0,1,0,8.71,6.71Z</StreamGeometry>
+      <StreamGeometry x:Key="edit_icon">M20.71,3.29a2.91,2.91,0,0,0-2.2-.84,3.25,3.25,0,0,0-2.17,1L7.46,12.29s0,0,0,0a.62.62,0,0,0-.11.17,1,1,0,0,0-.1.18l0,0L6,16.72A1,1,0,0,0,7,18a.9.9,0,0,0,.28,0l4-1.17,0,0,.18-.1a.62.62,0,0,0,.17-.11l0,0,8.87-8.88a3.25,3.25,0,0,0,1-2.17A2.91,2.91,0,0,0,20.71,3.29Z,M21,22H3a1,1,0,0,1,0-2H21a1,1,0,0,1,0,2Z</StreamGeometry>
+      <StreamGeometry x:Key="bookmark_icon">M18,2H6A2,2,0,0,0,4,4V21a1,1,0,0,0,.5.86,1,1,0,0,0,1,0L12,18.15l6.5,3.72A1,1,0,0,0,19,22a.9.9,0,0,0,.5-.14A1,1,0,0,0,20,21V4A2,2,0,0,0,18,2Z</StreamGeometry>
+      <StreamGeometry x:Key="delete_icon">M17,4V5H15V4H9V5H7V4A2,2,0,0,1,9,2h6A2,2,0,0,1,17,4Z,M20,6H4A1,1,0,0,0,4,8H5V20a2,2,0,0,0,2,2H17a2,2,0,0,0,2-2V8h1a1,1,0,0,0,0-2Z</StreamGeometry>
+      <StreamGeometry x:Key="start_timer_icon">M19.91,11.62s0-.07,0-.11l-5-9A1,1,0,0,0,14,2H5a1,1,0,0,0-.86.49,1,1,0,0,0,0,1L8.86,12,4.13,20.51a1,1,0,0,0,0,1A1,1,0,0,0,5,22h9a1,1,0,0,0,.87-.51l5-9s0-.07,0-.11a1.39,1.39,0,0,0,.06-.19.91.91,0,0,0,0-.38A1.39,1.39,0,0,0,19.91,11.62Z</StreamGeometry>
+      <StreamGeometry x:Key="reset_timer_icon">M21.37,5.07a1,1,0,0,0-1.3.56l-1,2.45A9,9,0,1,0,17.75,18a1,1,0,0,0-.09-1.41,1,1,0,0,0-1.41.09,7,7,0,1,1,1.21-7.32L14.37,8.07a1,1,0,1,0-.74,1.86l4.84,1.94.16.06a1.32,1.32,0,0,0,.26.05L19,12h.07a1,1,0,0,0,.86-.62l2-5A1,1,0,0,0,21.37,5.07Z</StreamGeometry>
+    </Styles.Resources>
+    
+  </Styles>
+</Styles>

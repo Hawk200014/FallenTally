@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="150"
+        Height="150"
+        Width="400"
+        MinWidth="300"
+        MinHeight="100"
+        Icon="/Assets/Icons/AppIcon.ico"
+        x:Class="FallenTally.Dialogue.ConfirmationDialog"
+        Title="ConfirmationDialog">
+  <DockPanel Margin="20">
+    <Grid ColumnDefinitions="50*,50*" 
+          RowDefinitions="Auto" 
+          DockPanel.Dock="Bottom">
+      <Button Grid.Column="0" HorizontalAlignment="Stretch" TextBlock.TextAlignment="Center" Content="Yes" Margin="5" Command="{Binding YesCommand}"/>
+      <Button Grid.Column="1" HorizontalAlignment="Stretch" TextBlock.TextAlignment="Center" Content="No" Margin="5" Command="{Binding NoCommand}"/>
+    </Grid>
+    <TextBlock Text="Are you sure you want to proceed?" Margin="5"/>
+  </DockPanel>
+</Window>

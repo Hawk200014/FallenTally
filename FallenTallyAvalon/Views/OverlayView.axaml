@@ -1,0 +1,76 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:FallenTally.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:webview="clr-namespace:WebViewControl;assembly=WebViewControl.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="FallenTally.Views.OverlayView">
+  <DockPanel>
+
+    <Grid ColumnDefinitions="60*, 5, 40*">
+      <ScrollViewer Grid.Column="0">
+
+        <webview:WebView x:Name="webview" Focusable="True" Address="{Binding Adresse}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+      </ScrollViewer>
+      <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeDirection="Columns"/>
+      <ScrollViewer Grid.Column="2" >
+        <Grid RowDefinitions="60*,5,40*">
+          <ScrollViewer Grid.Row="0">
+            <StackPanel Orientation="Vertical">
+              <Grid ColumnDefinitions="120,*">
+                <Label Margin="3" Grid.Column="0" Content="Font-Family" VerticalAlignment="Center"/>
+                <ComboBox Margin="3" HorizontalAlignment="Stretch" Grid.Column="1"
+                        ItemsSource="{Binding FontFamilies}" SelectedItem="{Binding SelectedFontFamily, Mode=TwoWay}" />
+              </Grid>
+              <Grid ColumnDefinitions="120,*">
+                <Label Margin="3" Grid.Column="0" Content="Font-Size" VerticalAlignment="Center"/>
+                <NumericUpDown Margin="3" Grid.Column="1"
+                   Value="{Binding FontSize, Mode=TwoWay}" Minimum="0" Maximum="1000"  Increment="1"/>
+              </Grid>
+              <Grid ColumnDefinitions="120,*">
+                <Label Margin="3" Grid.Column="0" Content="Font-Style" VerticalAlignment="Center"/>
+                <ComboBox Margin="3"  HorizontalAlignment="Stretch" Grid.Column="1"
+                        ItemsSource="{Binding FontStyles}" SelectedItem="{Binding SelectedFontStyle, Mode=TwoWay}" />
+              </Grid>
+              <Grid ColumnDefinitions="120,*">
+                <Label Margin="3" Grid.Row="3" Grid.Column="0" Content="Font-Weight" VerticalAlignment="Center"/>
+                <ComboBox Margin="3" Grid.Row="3" HorizontalAlignment="Stretch" Grid.Column="1"
+                        ItemsSource="{Binding FontWeights}" SelectedItem="{Binding SelectedFontWeight, Mode=TwoWay}" />
+              </Grid>
+              <Grid ColumnDefinitions="120,*">
+                <Label Margin="3" Grid.Column="0" Content="Border-Size" VerticalAlignment="Center"/>
+                <NumericUpDown Margin="3" Grid.Column="1"
+                   Value="{Binding BorderSize, Mode=TwoWay}" Minimum="0" Maximum="100" Increment="0.01"/>
+              </Grid>
+              <Grid ColumnDefinitions="120,*">
+                <Label Margin="3" Grid.Column="0" Content="Shadow-Size" VerticalAlignment="Center"/>
+                <NumericUpDown Margin="3" Grid.Column="1"
+                   Value="{Binding ShadowSize, Mode=TwoWay}" Minimum="0" Maximum="100" Increment="0.01"/>
+              </Grid>
+              <Grid ColumnDefinitions="120,*">
+                <Label Margin="3" Grid.Column="0" Content="Text-Color" VerticalAlignment="Center"/>
+                <ColorPicker HorizontalAlignment="Stretch" Margin="3" Grid.Column="1"
+                  Color="{Binding TextColor, Mode=TwoWay}" ColorModel="Rgba" />
+              </Grid>
+              <Grid ColumnDefinitions="120,*">
+                <Label Margin="3" Grid.Column="0" Content="Outline-Color" VerticalAlignment="Center"/>
+                <ColorPicker HorizontalAlignment="Stretch" Margin="3" Grid.Column="1"
+                           Color="{Binding OutlineColor, Mode=TwoWay}" ColorModel="Rgba" />
+              </Grid>
+              <Grid ColumnDefinitions="120,*">
+                <Label Margin="3" Grid.Column="0" Content="Shadow-Color" VerticalAlignment="Center"/>
+                <ColorPicker HorizontalAlignment="Stretch" Margin="3" Grid.Column="1"
+                             Color="{Binding ShadowColor, Mode=TwoWay}" ColorModel="Rgba" />
+              </Grid>
+            </StackPanel>
+          </ScrollViewer>
+          <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeDirection="Rows" />
+          <TextBox Margin="3" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding TemplateText, Mode=TwoWay}" AcceptsReturn="True"/>
+        </Grid>
+
+      </ScrollViewer>
+    </Grid>
+  </DockPanel>
+</UserControl>
