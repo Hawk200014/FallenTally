@@ -50,7 +50,7 @@ namespace FallenTally.Controller.Timers
 
         public void StartTimer()
         {
-            StopTimer(); // Ensure no duplicate timers
+            StopTimer(false); // Ensure no duplicate timers
             _timer = new Timer(_ =>
             {
                 timeInSec++;
@@ -58,11 +58,12 @@ namespace FallenTally.Controller.Timers
             }, null, 1000, 1000); // Start after 1s, repeat every 1s
         }
 
-        public void StopTimer()
+        public void StopTimer(bool resetTime = true)
         {
             _timer?.Dispose();
             _timer = null;
-            timeInSec = 0;
+            if(resetTime)
+                timeInSec = 0;
         }
     }
 }
