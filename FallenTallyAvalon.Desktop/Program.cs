@@ -75,11 +75,13 @@ class Program
         services.AddSingleton<RecordingController>();
         services.AddSingleton<StreamingController>();
         services.AddSingleton<MarkerController>();
+        services.AddSingleton<HotkeyController>();
         services.AddSingleton<ExportController>();
 
         services.AddSingleton<ExportViewModel>();
         services.AddSingleton<TwitchAuthController>();
         services.AddSingleton<SettingsViewModel>();
+        
 
 
 

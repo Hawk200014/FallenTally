@@ -8,10 +8,10 @@ namespace FallenTallyAvalon.Helper
 {
     public class HotkeyHelper
     {
-        private bool _altKey = false;
-        private bool _strgKey = false;
-        private Avalonia.Input.Key _key;
-        public string Name;
+        public bool _altKey { get; set; } = false;
+        public bool _strgKey { get; set; } = false;
+        public Avalonia.Input.Key _key { get; set; }
+        public string Name { get; set; }
 
         public HotkeyHelper(string name)
         {

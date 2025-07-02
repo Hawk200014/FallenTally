@@ -1,205 +1,135 @@
-﻿using FallenTally.Controller.Forms;
+﻿using Avalonia.Input;
+using FallenTally.Services;
+using FallenTally.ViewModels;
+using FallenTallyAvalon.Helper;
 using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+
+#if WINDOWS
+using AnyHook;
+#endif
 
 namespace FallenTally.Controller
 {
-    public class HotkeyController
+    public class HotkeyController : IDisposable
     {
-        private OptionsController _optionsController;
-        private MainController _mainController;
-        private Action _increaseAction;
-        private Action _decreaseAction;
-        private Action _switchAction;
-        private Action _quickAction;
-        private Action _finishAction;
-        private Action _recordingStartAction;
-        private Action _markerNormalAction;
-        private Action _markerFunnyAction;
-        private Action _markerGameAction;
-        private Action _markerTalkAction;
-        private Action _markerPlayAction;
-        //private KeyboardHook _hotkeysHook;
-        //EventHandler<KeyPressedEventArgs> keyPressedEventHandler;
-        private string _increaseHKStr = "";
-        private string _decreaseHKStr = "";
-        private string _switchHKStr = "";
-        private string _quickAddHKStr = "";
-        private string _finishHKStr = "";
-        private string _recordingStartHKStr = "";
-        private string _markerNormalHKStr = "";
-        private string _markerFunnyHKStr = "";
-        private string _markerGameHKStr = "";
-        private string _markerTalkHKStr = "";
-        private string _markerPauseHKStr = "";
+#if WINDOWS
+        private readonly List<GlobalHotkey> _registeredHotKeys = new();
+        private readonly Dictionary<GlobalHotkey, HotkeyHelper> _hotkeyMap = new();
+        private readonly IGlobalHotkeyManager _hotkeyManager;
+#endif
 
-        public HotkeyController(OptionsController optionsController, MainController mainController,
-            Action increaseAction,
-            Action decreaseAction,
-            Action switchAction,
-            Action quickAction,
-            Action finishAction, 
-            Action recordingAction, 
-            Action markerNormal,
-            Action markerfunny,
-            Action markerGame,
-            Action markerTalk,
-            Action markerPause
-            )
+        public event Action<HotkeyHelper>? HotkeyPressed;
+
+        public HotkeyController()
         {
-            this._optionsController = optionsController;
-            this._mainController = mainController;
-            this._increaseAction = increaseAction;
-            this._decreaseAction = decreaseAction;
-            this._switchAction = switchAction;
-            this._quickAction = quickAction;
-            this._finishAction = finishAction;
-            this._recordingStartAction = recordingAction;
-            this._markerNormalAction = markerNormal;
-            this._markerFunnyAction = markerfunny;
-            this._markerGameAction = markerGame;
-            this._markerTalkAction = markerTalk;
-            this._markerPlayAction = markerPause;
-
-
-            //keyPressedEventHandler = new EventHandler<KeyPressedEventArgs>(HotkeyPressedEvent);
-            ////_hotkeysHook = new KeyboardHook();
-            //_hotkeysHook.KeyPressed += keyPressedEventHandler;
-
+#if WINDOWS
+            _hotkeyManager = GlobalHotkeyManager.Create();
             ReloadKeysFromOptions();
-
+#endif
         }
 
+        /// <summary>
+        /// Unregisters all hotkeys, loads the hotkey list from settings, and registers them again.
+        /// </summary>
         public void ReloadKeysFromOptions()
         {
+#if WINDOWS
+            // Unregister all current hotkeys
+            foreach (var hotkey in _registeredHotKeys)
+            {
+                _hotkeyManager.Unregister(hotkey);
+                hotkey.Dispose();
+            }
+            _registeredHotKeys.Clear();
+            _hotkeyMap.Clear();
+
+            // Load hotkeys from settings
+            var hotkeyHelpers = JsonSettingsService.Load<List<HotkeyHelper>>(SettingsViewModel.HotkeyFileName) ?? new List<HotkeyHelper>();
+
+            foreach (var helper in hotkeyHelpers)
+            {
+                if (TryCreateHotKey(helper, out var hotkey))
+                {
+                    hotkey.Pressed += (s, e) => {
+                        Console.WriteLine(e)
+                        HotkeyPressed?.Invoke(helper);
+                    }
+                    _hotkeyManager.Register(hotkey);
+                    _registeredHotKeys.Add(hotkey);
+                    _hotkeyMap[hotkey] = helper;
+                }
+            }
+#endif
         }
 
-        public void LoadHotkeys()
+#if WINDOWS
+        private static bool TryCreateHotKey(HotkeyHelper helper, out GlobalHotkey hotkey)
         {
-            //    if (!string.IsNullOrEmpty(_increaseHKStr))
-            //    {
-            //        Enum.TryParse(_increaseHKStr, out Keys hotkey);
-            //        _hotkeysHook.RegisterHotKey(hotkey);
-            //    }
+            hotkey = null!;
+            try
+            {
+                var modifiers = AnyHook.ModifierKeys.None;
+                if (helper._altKey)
+                    modifiers |= AnyHook.ModifierKeys.Alt;
+                if (helper._strgKey)
+                    modifiers |= AnyHook.ModifierKeys.Control;
+                // Add shift/win if needed
 
-            //    if (!string.IsNullOrEmpty(_decreaseHKStr))
-            //    {
-            //        Enum.TryParse(_decreaseHKStr, out Keys hotkey);
-            //        _hotkeysHook.RegisterHotKey(hotkey);
-            //    }
+                // Convert Avalonia.Input.Key to System.Windows.Forms.Keys
+                var key = AvaloniaKeyToWinFormsKey(helper._key);
 
-            //    if (!string.IsNullOrEmpty(_switchHKStr))
-            //    {
-            //        Enum.TryParse(_switchHKStr, out Keys hotkey);
-            //        _hotkeysHook.RegisterHotKey(hotkey);
-            //    }
-
-            //    if (!string.IsNullOrEmpty(_quickAddHKStr))
-            //    {
-            //        Enum.TryParse(_quickAddHKStr, out Keys hotkey);
-            //        _hotkeysHook.RegisterHotKey(hotkey);
-            //    }
-
-            //    if (!string.IsNullOrEmpty(_quickAddHKStr))
-            //    {
-            //        Enum.TryParse(_finishHKStr, out Keys hotkey);
-            //        _hotkeysHook.RegisterHotKey(hotkey);
-            //    }
-
-            //    if (!string.IsNullOrEmpty(_recordingStartHKStr))
-            //    {
-            //        Enum.TryParse(_recordingStartHKStr, out Keys hotkey);
-            //        _hotkeysHook.RegisterHotKey(hotkey);
-            //    }
-
-            //    if (!string.IsNullOrEmpty(_markerNormalHKStr))
-            //    {
-            //        Enum.TryParse(_markerNormalHKStr, out Keys hotkey);
-            //        _hotkeysHook.RegisterHotKey(hotkey);
-            //    }
-
-            //    if (!string.IsNullOrEmpty(_markerFunnyHKStr))
-            //    {
-            //        Enum.TryParse(_markerFunnyHKStr, out Keys hotkey);
-            //        _hotkeysHook.RegisterHotKey(hotkey);
-            //    }
-
-            //    if (!string.IsNullOrEmpty(_markerGameHKStr))
-            //    {
-            //        Enum.TryParse(_markerGameHKStr, out Keys hotkey);
-            //        _hotkeysHook.RegisterHotKey(hotkey);
-            //    }
-
-            //    if (!string.IsNullOrEmpty(_markerTalkHKStr))
-            //    {
-            //        Enum.TryParse(_markerTalkHKStr, out Keys hotkey);
-            //        _hotkeysHook.RegisterHotKey(hotkey);
-            //    }
-
-            //    if (!string.IsNullOrEmpty(_markerPauseHKStr))
-            //    {
-            //        Enum.TryParse(_markerPauseHKStr, out Keys hotkey);
-            //        _hotkeysHook.RegisterHotKey(hotkey);
-            //    }
+                hotkey = new GlobalHotkey(modifiers, key);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        //private void HotkeyPressedEvent(object? sender, KeyPressedEventArgs e)
-        //{
-        //    string keyname = e.Key.ToString();
-
-        //    if (_increaseHKStr.Equals(keyname))
-        //    {
-        //        _increaseAction.Invoke();
-        //    }
-        //    else if (_decreaseHKStr.Equals(keyname))
-        //    {
-        //        _decreaseAction.Invoke();
-        //    }
-        //    else if (_switchHKStr.Equals(keyname))
-        //    {
-        //        _switchAction.Invoke();
-        //    }
-        //    else if (_quickAddHKStr.Equals(keyname))
-        //    {
-        //        _quickAction.Invoke();
-        //    }
-        //    else if (_finishHKStr.Equals(keyname))
-        //    {
-        //        _finishAction.Invoke();
-        //    }
-        //    else if (_recordingStartHKStr.Equals(keyname))
-        //    {
-        //        _recordingStartAction.Invoke();
-        //    }
-        //    else if (_markerNormalHKStr.Equals(keyname))
-        //    {
-        //        _markerNormalAction.Invoke();
-        //    }
-        //    else if (_markerFunnyHKStr.Equals(keyname))
-        //    {
-        //        _markerFunnyAction.Invoke();
-        //    }
-        //    else if (_markerGameHKStr.Equals(keyname))
-        //    {
-        //        _markerGameAction.Invoke();
-        //    }
-        //    else if (_markerTalkHKStr.Equals(keyname))
-        //    {
-        //        _markerTalkAction.Invoke();
-        //    }
-        //    else if (_markerPauseHKStr.Equals(keyname))
-        //    {
-        //        _markerPlayAction.Invoke();
-        //    }
-        //}
-
-
-
-        internal void UnregisterHotkeys()
+        // Helper to convert Avalonia.Input.Key to System.Windows.Forms.Keys
+        private static System.Windows.Forms.Keys AvaloniaKeyToWinFormsKey(Key key)
         {
-            //_hotkeysHook.KeyPressed -= keyPressedEventHandler;
-            //_hotkeysHook.Dispose();
-            //_hotkeysHook = new KeyboardHook();
-            //_hotkeysHook.KeyPressed += keyPressedEventHandler;
+            // Letters
+            if (key >= Key.A && key <= Key.Z)
+                return System.Windows.Forms.Keys.A + (key - Key.A);
+            // Digits
+            if (key >= Key.D0 && key <= Key.D9)
+                return System.Windows.Forms.Keys.D0 + (key - Key.D0);
+            // Function keys
+            if (key >= Key.F1 && key <= Key.F24)
+                return System.Windows.Forms.Keys.F1 + (key - Key.F1);
+            // Common keys
+            return key switch
+            {
+                Key.Escape => System.Windows.Forms.Keys.Escape,
+                Key.Space => System.Windows.Forms.Keys.Space,
+                Key.Enter => System.Windows.Forms.Keys.Enter,
+                Key.Tab => System.Windows.Forms.Keys.Tab,
+                Key.Left => System.Windows.Forms.Keys.Left,
+                Key.Up => System.Windows.Forms.Keys.Up,
+                Key.Right => System.Windows.Forms.Keys.Right,
+                Key.Down => System.Windows.Forms.Keys.Down,
+                Key.Delete => System.Windows.Forms.Keys.Delete,
+                Key.Back => System.Windows.Forms.Keys.Back,
+                _ => (System.Windows.Forms.Keys)((int)key)
+            };
+        }
+#endif
+
+        public void Dispose()
+        {
+#if WINDOWS
+            foreach (var hotkey in _registeredHotKeys)
+            {
+                _hotkeyManager.Unregister(hotkey);
+                hotkey.Dispose();
+            }
+            _registeredHotKeys.Clear();
+            _hotkeyMap.Clear();
+#endif
         }
     }
 }

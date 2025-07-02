@@ -19,7 +19,8 @@ namespace FallenTally.ViewModels
         private const string CONNECTEDTEXT = "Connected";
         private List<HotkeyHelper> _hotkeyHelpers;
         private TwitchAuthController _twitchAuthController;
-        private const string _hotkeyFileName = "hotkeys.json";
+        private HotkeyController _hotkeyController;
+        public static string HotkeyFileName = "hotkeys.json";
         private const string _twitchFileName = "twitch.json";
         private TwitchInfoModel _twitchInfoModel;
 
@@ -31,10 +32,11 @@ namespace FallenTally.ViewModels
 
 
 
-        public SettingsViewModel(TwitchAuthController twitchAuthController)
+        public SettingsViewModel(TwitchAuthController twitchAuthController, HotkeyController hotkeyController)
         {
-            _hotkeyHelpers = JsonSettingsService.Load<List<HotkeyHelper>>(_hotkeyFileName) ?? new List<HotkeyHelper>();
+            _hotkeyHelpers = JsonSettingsService.Load<List<HotkeyHelper>>(HotkeyFileName) ?? new List<HotkeyHelper>();
             _twitchAuthController = twitchAuthController;
+            _hotkeyController = hotkeyController;
             TwitchConnectButtonText = CONNECTTEXT;
             LoadTwitchModel();
         }
@@ -102,7 +104,8 @@ namespace FallenTally.ViewModels
                 _hotkeyHelpers.Remove(existing);
             }
             _hotkeyHelpers.Add(hotkeyHelper);
-            JsonSettingsService.Save(_hotkeyHelpers, _hotkeyFileName);
+            JsonSettingsService.Save(_hotkeyHelpers, HotkeyFileName);
+            _hotkeyController.ReloadKeysFromOptions();
         }
 
     }

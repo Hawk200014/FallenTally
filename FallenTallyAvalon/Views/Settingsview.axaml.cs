@@ -11,10 +11,12 @@ public partial class SettingsView : UserControl
 {
     private bool waitingForInput = false;
     private HotkeyHelper? _hotkeyHelper;
+    private SettingsViewModel? _viewModel;
     public SettingsView()
     {
         InitializeComponent();
-        DataContext = ServiceLocator.Provider.GetRequiredService<SettingsViewModel>();
+        _viewModel = ServiceLocator.Provider.GetRequiredService<SettingsViewModel>();
+        DataContext = _viewModel;
     }
 
     private void TextBox_KeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
@@ -67,7 +69,7 @@ public partial class SettingsView : UserControl
         }
         TextBox tb = (TextBox)sender;
         tb.Text = _hotkeyHelper?.ToString();
-
+        _viewModel?.AddHotkey(_hotkeyHelper!);
         _hotkeyHelper = null;
         waitingForInput = false;
 
