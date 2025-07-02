@@ -73,7 +73,8 @@ namespace FallenTally.Controller
                 if (data.GetArrayLength() == 0)
                     return null;
 
-                return data[0];
+                // Clone the JsonElement so it is not tied to the disposed JsonDocument
+                return data[0].Clone();
             }
             catch
             {

@@ -17,14 +17,6 @@
             <Label Content="Count World As Total Deaths" VerticalAlignment="Center" Grid.Column="0"/>
             <TextBox Grid.Column="1" VerticalAlignment="Center"/>
           </Grid>
-          <Grid ColumnDefinitions="200,*">
-            <Label Content="Connect to Twitch" VerticalAlignment="Center" Grid.Column="0"/>
-            <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Content="{Binding TwitchConnectButtonText}" Command="{Binding ConnectToTwitchCommand}" />
-          </Grid>
-          <Grid ColumnDefinitions="200,*">
-            <Label Content="Twitch Channel Name" VerticalAlignment="Center" Grid.Column="0"/>
-            <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding TwitchChannelName}"/>
-          </Grid>
         </StackPanel>
       </TabItem>
       <TabItem Header="Hotkeys" FontSize="12" x:Name="TI">
@@ -100,6 +92,18 @@
             </Expander>
           </StackPanel>
         </ScrollViewer>
+      </TabItem>
+      <TabItem Header="Twitch" FontSize="12">
+        <StackPanel Orientation="Vertical" Spacing="3">
+          <Grid ColumnDefinitions="200,*">
+            <Label Content="Connect to Twitch" VerticalAlignment="Center" Grid.Column="0"/>
+            <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Content="{Binding TwitchConnectButtonText}" Command="{Binding ConnectToTwitchCommand}" />
+          </Grid>
+          <Grid ColumnDefinitions="200,*">
+            <Label Content="Twitch Channel Name" VerticalAlignment="Center" Grid.Column="0"/>
+            <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding TwitchChannelName}"/>
+          </Grid>
+        </StackPanel>
       </TabItem>
     </TabControl>
   </DockPanel>
