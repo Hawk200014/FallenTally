@@ -10,6 +10,7 @@ using FallenTally.Views;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace FallenTally.ViewModels
 {
@@ -53,10 +54,15 @@ namespace FallenTally.ViewModels
         private string recordingTime = "00:00:00";
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(StartStreamButtonEnabled))]
+        [NotifyPropertyChangedFor(nameof(StopStreamButtonEnabled))]
         private bool isStreamRunning = false;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(StartRecordingButtonEnabled))]
+        [NotifyPropertyChangedFor(nameof(StopRecordingButtonEnabled))]
         private bool isRecordingRunning = false;
+        
 
         public bool GameEditButtonEnabled => ActiveGame != null;
         public bool GameRemoveButtonEnabled => ActiveGame != null;
@@ -69,6 +75,7 @@ namespace FallenTally.ViewModels
         public bool StopStreamButtonEnabled => IsStreamRunning;
         public bool StartRecordingButtonEnabled => !IsRecordingRunning;
         public bool StopRecordingButtonEnabled => IsRecordingRunning;
+        private Action<int, string> _showTempMessageDialog;
 
         public TallyViewModel(
             GameController gameController,
@@ -194,15 +201,50 @@ namespace FallenTally.ViewModels
 
         // Timer commands
         [RelayCommand]
-        public void StartStream()
+        public async Task StartStream()
         {
-            _streamingController.StartTimer();
-            StreamTime = _streamingController.GetFormattedTime();
-            _streamingController.Tick += (timer) =>
+            int result = await TwitchInfoController.GetCurrentLiveTimeSecondsAsync();
+            if (result < 0)
             {
+                switch (result)
+                {
+                    case -1:
+                        _showTempMessageDialog(3, "Twitch access token is missing or invalid.");
+                        break;
+                    case -2:
+                        _showTempMessageDialog(3, "Twitch access token is missing or invalid.");
+                        break;
+                    case -3:
+                        _showTempMessageDialog(3, "Twitch channel name is not set.");
+                        break;
+                    case -4:
+                        _showTempMessageDialog(3, "Failed to retrieve stream information.");
+                        break;
+                    case -5:
+                        _showTempMessageDialog(3, "Stream is not live.");
+                        break;
+                }
+            }
+            else
+            {
+                _streamingController.SetTime(result);
+                _streamingController.StartTimer();
+                _streamingController.StreamWentOffline += () =>
+                {
+                    Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+                    {
+                        _showTempMessageDialog(3, "Stream has gone offline.");
+                        StopStream();
+                    });
+                };
+                _streamingController.StartStreamStatusMonitor();
                 StreamTime = _streamingController.GetFormattedTime();
-            };
-            IsStreamRunning = true;
+                _streamingController.Tick += (timer) =>
+                {
+                    StreamTime = _streamingController.GetFormattedTime();
+                };
+                IsStreamRunning = true;
+            }
         }
 
         [RelayCommand]
@@ -288,6 +330,11 @@ namespace FallenTally.ViewModels
             CounterValue = value != null
                 ? _deathController.GetDeaths(value).ToString()
                 : "0";
+        }
+
+        internal void SetShowTempMessageDialogAction(Action<int, string> showTempMessageDialog)
+        {
+            this._showTempMessageDialog = showTempMessageDialog;
         }
     }
 }
