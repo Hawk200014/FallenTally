@@ -3,11 +3,12 @@ using FallenTally.Services;
 using FallenTallyAvalon.Helper;
 using SharpHook;
 using SharpHook.Reactive;
-using SharpHook.Native;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Linq;
+using FallenTally.ViewModels;
+using System.Reactive.Concurrency;
+using SharpHook.Data;
 
 namespace FallenTally.Controller
 {
@@ -15,12 +16,31 @@ namespace FallenTally.Controller
     {
         private IReactiveGlobalHook? _globalHook;
         private List<HotkeyHelper> _hotkeys = new();
-        public event Action<HotkeyHelper>? HotkeyTriggered;
 
-        public HotkeyController()
+        private HotkeyHelper? _currentHotkey;
+        private TallyViewModel _tallyViewModel;
+
+        public HotkeyController(TallyViewModel tallyViewModel)
         {
+            _tallyViewModel = tallyViewModel;
             ReloadKeysFromOptions();
             StartGlobalHook();
+        }
+
+        public void StopHotkeys()
+        {
+            if (_globalHook?.IsRunning ?? false)
+            {
+                _globalHook.Stop();
+            }
+        }
+
+        public void StartHotkeys()
+        {
+            if (_globalHook?.IsRunning ?? true)
+            {
+                _globalHook.RunAsync();
+            }
         }
 
         public void ReloadKeysFromOptions()
@@ -31,7 +51,7 @@ namespace FallenTally.Controller
 
         private void StartGlobalHook()
         {
-            _globalHook = new SimpleReactiveGlobalHook();
+            _globalHook = new SimpleReactiveGlobalHook(defaultScheduler: TaskPoolScheduler.Default);
             _globalHook.KeyPressed
                 .Subscribe(OnGlobalKeyPressed);
             _globalHook.RunAsync();
@@ -40,32 +60,50 @@ namespace FallenTally.Controller
         private void OnGlobalKeyPressed(KeyboardHookEventArgs e)
         {
             // Map SharpHook key/modifiers to Avalonia.Input.Key/KeyModifiers
-            var key = (Key)e.Data.KeyCode;
-            var modifiers = MapModifiers(e.Data.Modifiers);
+            
+            
+            if(_currentHotkey == null)
+            {
+                _currentHotkey = new HotkeyHelper();
+                _currentHotkey.Name = "Current Hotkey"; // Default name, can be changed later
+            }
+
+            bool checkHotkey = false;
+            KeyCode key = e.Data.KeyCode;
+            switch (key)
+            {
+                case KeyCode.VcLeftControl:
+                case KeyCode.VcRightControl:
+                    // Handle Control key
+                    _currentHotkey._strgKey = true;
+                    break;
+                case KeyCode.VcLeftAlt:
+                case KeyCode.VcRightAlt:
+                    _currentHotkey._altKey = true;
+                    // Handle Alt key
+                    break;
+                default:
+                    _currentHotkey.SetKey( key );
+                    checkHotkey = true;
+                    break;
+
+            }
+
+            if (!checkHotkey) return;
 
             foreach (var hotkey in _hotkeys)
             {
-                if (hotkey._key == key &&
-                    hotkey._altKey == modifiers.HasFlag(KeyModifiers.Alt) &&
-                    hotkey._strgKey == modifiers.HasFlag(KeyModifiers.Control))
+                if(hotkey.Equals(_currentHotkey) )
                 {
-                    HotkeyTriggered?.Invoke(hotkey);
-                    break;
+                    TallyViewModel.HotkeysActions.TryGetValue(hotkey.Name, out Action? action);
+                    action?.Invoke();
+                    _currentHotkey = null; // Reset after triggering
+                    return;
                 }
             }
         }
 
-        private KeyModifiers MapModifiers(Modifier mask)
-        {
-            KeyModifiers modifiers = KeyModifiers.None;
-            if (mask.HasFlag(ModifierMask.Alt))
-                modifiers |= KeyModifiers.Alt;
-            if (mask.HasFlag(ModifierMask.Control))
-                modifiers |= KeyModifiers.Control;
-            if (mask.HasFlag(ModifierMask.Shift))
-                modifiers |= KeyModifiers.Shift;
-            return modifiers;
-        }
+
 
         public void Dispose()
         {

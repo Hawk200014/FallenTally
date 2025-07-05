@@ -26,23 +26,23 @@
               <StackPanel Orientation="Vertical" Spacing="3">
                 <Grid ColumnDefinitions="200,*">
                   <Label Content="Add Death" VerticalAlignment="Center" Grid.Column="0"/>
-                  <TextBox x:Name="AddDeathHK" Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                  <TextBox x:Name="AddDeathHK" Grid.Column="1" VerticalAlignment="Center" GotFocus="TextBox_GotFocus" IsReadOnly="True" />
                 </Grid>
                 <Grid ColumnDefinitions="200,*">
                   <Label Content="Remove Death" VerticalAlignment="Center" Grid.Column="0"/>
-                  <TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                  <TextBox x:Name="RemoveDeathHK" Grid.Column="1" VerticalAlignment="Center" GotFocus="TextBox_GotFocus" IsReadOnly="True" />
                 </Grid>
                 <Grid ColumnDefinitions="200,*">
                   <Label Content="Quick Add Location" VerticalAlignment="Center" Grid.Column="0"/>
-                  <TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                  <TextBox x:Name="QuickAddLocationHK" Grid.Column="1" VerticalAlignment="Center"  GotFocus="TextBox_GotFocus" IsReadOnly="True" />
                 </Grid>
                 <Grid ColumnDefinitions="200,*">
                   <Label Content="Switch Location" VerticalAlignment="Center" Grid.Column="0"/>
-                  <TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                  <TextBox x:Name="SwitchLocationHK" Grid.Column="1" VerticalAlignment="Center"  GotFocus="TextBox_GotFocus" IsReadOnly="True" />
                 </Grid>
                 <Grid ColumnDefinitions="200,*">
                   <Label Content="Finish Location" VerticalAlignment="Center" Grid.Column="0"/>
-                  <TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                  <TextBox x:Name="FinishLocationHK" Grid.Column="1" VerticalAlignment="Center"  GotFocus="TextBox_GotFocus" IsReadOnly="True" />
                 </Grid>
               </StackPanel>
             </Expander>
@@ -50,23 +50,23 @@
               <StackPanel Orientation="Vertical" Spacing="3">
                 <Grid ColumnDefinitions="200,*">
                   <Label Content="General Marker" VerticalAlignment="Center" Grid.Column="0"/>
-                  <TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                  <TextBox x:Name="GeneralMarkerHK" Grid.Column="1" VerticalAlignment="Center"  GotFocus="TextBox_GotFocus" IsReadOnly="True" />
                 </Grid>
                 <Grid ColumnDefinitions="200,*">
                   <Label Content="Funny Marker" VerticalAlignment="Center" Grid.Column="0"/>
-                  <TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                  <TextBox x:Name="FunnyMarkerHK" Grid.Column="1" VerticalAlignment="Center"  GotFocus="TextBox_GotFocus" IsReadOnly="True" />
                 </Grid>
                 <Grid ColumnDefinitions="200,*">
                   <Label Content="Talk Marker" VerticalAlignment="Center" Grid.Column="0"/>
-                  <TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                  <TextBox x:Name="TalkMarkerHK" Grid.Column="1" VerticalAlignment="Center"  GotFocus="TextBox_GotFocus" IsReadOnly="True" />
                 </Grid>
                 <Grid ColumnDefinitions="200,*">
                   <Label Content="Gameplay Marker" VerticalAlignment="Center" Grid.Column="0"/>
-                  <TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                  <TextBox x:Name="GameplayMarkerHK" Grid.Column="1" VerticalAlignment="Center"  GotFocus="TextBox_GotFocus" IsReadOnly="True" />
                 </Grid>
                 <Grid ColumnDefinitions="200,*">
                   <Label Content="Pause Marker" VerticalAlignment="Center" Grid.Column="0"/>
-                  <TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                  <TextBox x:Name="PauseMarkerHK" Grid.Column="1" VerticalAlignment="Center"  GotFocus="TextBox_GotFocus" IsReadOnly="True" />
                 </Grid>
               </StackPanel>
             </Expander>
@@ -74,19 +74,19 @@
               <StackPanel Orientation="Vertical" Spacing="3">
                 <Grid ColumnDefinitions="200,*">
                   <Label Content="Start Recording" VerticalAlignment="Center" Grid.Column="0"/>
-                  <TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                  <TextBox x:Name="StartRecordingHK" Grid.Column="1" VerticalAlignment="Center"  GotFocus="TextBox_GotFocus" IsReadOnly="True" />
                 </Grid>
                 <Grid ColumnDefinitions="200,*">
                   <Label Content="Stop Recording" VerticalAlignment="Center" Grid.Column="0"/>
-                  <TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                  <TextBox x:Name="StopRecordingHK" Grid.Column="1" VerticalAlignment="Center"  GotFocus="TextBox_GotFocus" IsReadOnly="True" />
                 </Grid>
                 <Grid ColumnDefinitions="200,*">
                   <Label Content="Start Stream" VerticalAlignment="Center" Grid.Column="0"/>
-                  <TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                  <TextBox x:Name="StartStreamHK" Grid.Column="1" VerticalAlignment="Center"  GotFocus="TextBox_GotFocus" IsReadOnly="True" />
                 </Grid>
                 <Grid ColumnDefinitions="200,*">
                   <Label Content="Stop Stream" VerticalAlignment="Center" Grid.Column="0"/>
-                  <TextBox Grid.Column="1" VerticalAlignment="Center" KeyDown="TextBox_KeyDown" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                  <TextBox x:Name="StopStreamHK" Grid.Column="1" VerticalAlignment="Center"  GotFocus="TextBox_GotFocus" IsReadOnly="True" />
                 </Grid>
               </StackPanel>
             </Expander>

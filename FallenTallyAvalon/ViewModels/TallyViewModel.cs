@@ -1,27 +1,49 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FallenTally.Controller;
-using FallenTally.Database.Models;
-using FallenTally.Database.Models;
-using FallenTally.Controller;
 using FallenTally.Controller.Timers;
+using FallenTally.Database.Models;
 using FallenTally.Dialogue;
 using FallenTally.Views;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
 
 namespace FallenTally.ViewModels
 {
     public partial class TallyViewModel : ObservableObject
     {
+        public static Dictionary<string, Action> HotkeysActions = new Dictionary<string, Action>
+        {
+            { "AddDeathHK", () => { } },
+            { "RemoveDeathHK", () => { } },
+            { "QuickAddLocationHK", () => { } },
+            { "SwitchLocationHK", () => { } },
+            { "FinishLocationHK", () => { } },
+
+            { "GeneralMarkerHK", () => { } },
+            { "FunnyMarkerHK", () => { } },
+            { "TalkMarkerHK", () => { } },
+            { "GameplayMarkerHK", () => { } },
+            { "PauseMarkerHK", () => { } },
+
+            { "StartRecordingHK", () => { } },
+            { "StopRecordingHK", () => { } },
+            { "StartStreamHK", () => { } },
+            { "StopStreamHK", () => { } }
+        };
+
+
+
         private readonly GameController _gameController;
         private readonly LocationController _locationController;
         private readonly DeathController _deathController;
         private readonly StreamingController _streamingController;
         private readonly RecordingController _recordingController;
         private readonly MarkerController _markerController;
+
         [ObservableProperty]
         private ObservableCollection<GameStatsModel> gameStats = new();
 
@@ -94,7 +116,31 @@ namespace FallenTally.ViewModels
 
             GameStats = new ObservableCollection<GameStatsModel>(_gameController.GetGameStats());
             Markers = new ObservableCollection<MarkerModel>(_markerController.GetAllMarkers());
+            SetHotkeyActions();
         }
+
+        private void SetHotkeyActions()
+        {
+            HotkeysActions["AddDeathHK"] = AddDeath;
+            HotkeysActions["RemoveDeathHK"] = RemoveDeath;
+
+            HotkeysActions["QuickAddLocationHK"] = AddLocationHK;
+            HotkeysActions["SwitchLocationHK"] = SwitchLocationHK;
+
+            HotkeysActions["FinishLocationHK"] = FinishLocationHK;
+
+            HotkeysActions["GeneralMarkerHK"] = AddGeneralMarker;
+            HotkeysActions["FunnyMarkerHK"] = AddFunnyMarker;
+            HotkeysActions["TalkMarkerHK"] = AddTalkMarker;
+            HotkeysActions["GameplayMarkerHK"] = AddGamePlayMarker;
+            HotkeysActions["PauseMarkerHK"] = AddPauseMarker;
+
+            HotkeysActions["StartRecordingHK"] = StartRecording;
+            HotkeysActions["StopRecordingHK"] = StopRecording;
+            HotkeysActions["StartStreamHK"] = StartStreamHK;
+            HotkeysActions["StopStreamHK"] = StopStream;
+        }
+
 
 
         [RelayCommand]
@@ -198,6 +244,7 @@ namespace FallenTally.ViewModels
             _deathController.RemoveDeath();
             CounterValue = _deathController.GetDeaths(ActiveLocation).ToString();
         }
+
 
         // Timer commands
         [RelayCommand]
@@ -336,5 +383,83 @@ namespace FallenTally.ViewModels
         {
             this._showTempMessageDialog = showTempMessageDialog;
         }
+
+        #region Hotkey Methods
+
+        private void AddLocationHK()
+        {
+            if (ActiveGame == null) return;
+
+            // Generate a random 4-digit number
+            var random = new Random();
+            string randomNumber = random.Next(1000, 10000).ToString();
+            string locationName = $"location{randomNumber}";
+
+            // Ensure the name is not a duplicate
+            while (_locationController.IsDupeName(ActiveGame, locationName))
+            {
+                randomNumber = random.Next(1000, 10000).ToString();
+                locationName = $"location{randomNumber}";
+            }
+
+            _locationController.AddLocation(ActiveGame, locationName);
+            DeathLocations = new ObservableCollection<DeathLocationModel>(_locationController.GetListOfLocations(ActiveGame));
+            ActiveLocation = DeathLocations.FirstOrDefault(x => x.Name == locationName);
+        }
+
+        public void StartStreamHK()
+        {
+            StartStream();
+        }
+
+        private void FinishLocationHK()
+        {
+            if (ActiveLocation == null) return;
+            _locationController.SetFinish(ActiveLocation, !activeLocation.Finish);
+        }
+
+        private void SwitchLocationHK()
+        {
+            if (ActiveGame == null || DeathLocations == null || DeathLocations.Count == 0)
+                return;
+
+            // Get all non-finished locations for the active game
+            var nonFinishedLocations = DeathLocations
+                .Where(loc => !loc.Finish)
+                .ToList();
+
+            if (nonFinishedLocations.Count == 0)
+                return; // No non-finished locations to switch to
+
+            int currentIndex = nonFinishedLocations.IndexOf(ActiveLocation);
+            int nextIndex = (currentIndex + 1) % nonFinishedLocations.Count;
+
+            // If ActiveLocation is not in the list, start from the first
+            if (currentIndex == -1)
+            {
+                ActiveLocation = nonFinishedLocations[0];
+                return;
+            }
+
+            // If only one non-finished location, stay at it
+            if (nonFinishedLocations.Count == 1)
+            {
+                ActiveLocation = nonFinishedLocations[0];
+                return;
+            }
+
+            // If wrap-around brings us back to the same location, stay at last
+            if (nextIndex == currentIndex)
+            {
+                ActiveLocation = nonFinishedLocations[currentIndex];
+                return;
+            }
+
+            ActiveLocation = nonFinishedLocations[nextIndex];
+        }
+
+        #endregion
+
+
     }
 }

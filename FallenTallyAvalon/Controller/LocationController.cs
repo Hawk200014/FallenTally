@@ -83,10 +83,10 @@ namespace FallenTally.Controller
             _context.SaveChanges();
         }
 
-        internal bool GetFinishState(GameStatsModel? gameStatsModel, string oldValue)
+        internal bool GetFinishState(GameStatsModel? gameStatsModel, string locationName)
         {
             if (gameStatsModel == null) return false;
-            DeathLocationModel? location = _context.Locations.Where(x => x.Name.Equals(oldValue) && x.GameID == gameStatsModel.GameId).FirstOrDefault();
+            DeathLocationModel? location = _context.Locations.Where(x => x.Name.Equals(locationName) && x.GameID == gameStatsModel.GameId).FirstOrDefault();
             if (location == null) return false;
             return location.Finish;
         }

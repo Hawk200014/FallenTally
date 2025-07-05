@@ -1,79 +1,97 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.Threading;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using FallenTally.ViewModels;
 using FallenTallyAvalon.Helper;
 using Microsoft.Extensions.DependencyInjection;
+using SharpHook;
+using SharpHook.Data;
+using SharpHook.Reactive;
+using System;
+using System.Reactive.Concurrency;
 
 namespace FallenTally.Views;
 
 public partial class SettingsView : UserControl
 {
-    private bool waitingForInput = false;
     private HotkeyHelper? _hotkeyHelper;
     private SettingsViewModel? _viewModel;
+    private static SimpleReactiveGlobalHook? _globalHook;
+    private TextBox? _currentTB;
+
+    public static void StopGlobalHook()
+    {
+        if(_globalHook?.IsRunning ?? false)
+        {
+            _globalHook?.Stop();
+        }
+    }
+
     public SettingsView()
     {
         InitializeComponent();
         _viewModel = ServiceLocator.Provider.GetRequiredService<SettingsViewModel>();
         DataContext = _viewModel;
-    }
-
-    private void TextBox_KeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
-    {
-        if (!waitingForInput)
-        {
-            e.Handled = true;
-            return;
-        }
-        if (sender is null)
-        {
-            e.Handled = true;
-            return;
-        }
-        TextBox tb = (TextBox)sender;
-
-        if(e.KeyModifiers == Avalonia.Input.KeyModifiers.None)
-        {
-            _hotkeyHelper?.SetKey(e.Key);
-            TI.Focus();
-        }
-        else
-        {
-            _hotkeyHelper?.SetKeyModifier(e.KeyModifiers);
-        }
-
-            e.Handled = false;
+        _globalHook = new SimpleReactiveGlobalHook(defaultScheduler: TaskPoolScheduler.Default);
+        _globalHook.KeyPressed.Subscribe(OnGlobalKeyPressed);
+        _globalHook.Stop();
     }
 
     private void TextBox_GotFocus(object? sender, Avalonia.Input.GotFocusEventArgs e)
     {
-        if (sender is null)
+        if (sender is null || _currentTB?.Name == ((TextBox)sender).Name)
         {
-            e.Handled = true;
+            e.Handled = false;
             return;
         }
         TextBox tb = (TextBox)sender;
-        tb.Text = "Waiting for input...";
-        _hotkeyHelper = new HotkeyHelper(tb.Name ?? "");
-        waitingForInput = true;
+        _currentTB = tb;
+        tb.Text = "";
+        if (_hotkeyHelper == null)
+        {
+            _hotkeyHelper = new HotkeyHelper();
+        }
+        _hotkeyHelper.Name = tb.Name ?? "";
+        if (!(_globalHook?.IsRunning)??true)
+        {
+            _globalHook?.RunAsync();
+        }
+        
         e.Handled = true;
     }
 
-    private void TextBox_LostFocus(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void OnGlobalKeyPressed(KeyboardHookEventArgs e)
     {
-        if (sender is null)
-        {
-            e.Handled = true;
+        if (_hotkeyHelper == null)
             return;
+        // Map SharpHook key/modifiers to Avalonia.Input.Key/KeyModifiers
+        KeyCode key = e.Data.KeyCode;
+        switch (key)
+        {
+            case KeyCode.VcLeftControl:
+            case KeyCode.VcRightControl:
+                // Handle Control key
+                _hotkeyHelper._strgKey = true;
+                break;
+            case KeyCode.VcLeftAlt:
+            case KeyCode.VcRightAlt:
+                _hotkeyHelper._altKey = true;
+                // Handle Alt key
+                break;
+            default:
+                _hotkeyHelper.SetKey(key);
+                Dispatcher.UIThread.Invoke(() =>
+                {
+                    _currentTB.Text = _hotkeyHelper?.ToString();
+                    _viewModel?.AddHotkey(_hotkeyHelper!);
+                    _hotkeyHelper = null;
+                    //_globalHook?.Stop();
+                });
+                break;
+
         }
-        TextBox tb = (TextBox)sender;
-        tb.Text = _hotkeyHelper?.ToString();
-        _viewModel?.AddHotkey(_hotkeyHelper!);
-        _hotkeyHelper = null;
-        waitingForInput = false;
-
-        e.Handled = false;
-
     }
+
 }

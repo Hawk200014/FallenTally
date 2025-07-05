@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SharpHook.Data;
 
 namespace FallenTallyAvalon.Helper
 {
@@ -10,16 +6,16 @@ namespace FallenTallyAvalon.Helper
     {
         public bool _altKey { get; set; } = false;
         public bool _strgKey { get; set; } = false;
-        public Avalonia.Input.Key _key { get; set; }
+        public KeyCode _key { get; set; }
         public string Name { get; set; }
 
-        public HotkeyHelper(string name)
+
+        public HotkeyHelper()
         {
-            Name = name;
         }
 
 
-        public void SetKey(Avalonia.Input.Key key )
+        public void SetKey(KeyCode key )
         {
             _key = key;
         }
@@ -42,6 +38,15 @@ namespace FallenTallyAvalon.Helper
             string alt = _altKey ? "ALT + " : "";
             string key = _key.ToString().ToUpper();
             return strg + alt + key;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not HotkeyHelper other)
+                return false;
+            return _key == other._key &&
+                   _altKey == other._altKey &&
+                   _strgKey == other._strgKey;
         }
 
     }

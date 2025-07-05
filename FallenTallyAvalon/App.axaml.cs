@@ -3,7 +3,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using FallenTally.ViewModels;
 using FallenTally.Views;
-using FallenTally.ViewModels;
 
 
 
