@@ -48,6 +48,9 @@ class Program
 
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
+
+            HotkeyController vm = ServiceLocator.Provider.GetRequiredService<HotkeyController>();
+            vm.StopHotkeys();
         }
         catch (Exception ex)
         {

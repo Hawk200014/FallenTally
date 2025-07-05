@@ -1,3 +1,4 @@
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FallenTally.Controller;
@@ -409,7 +410,10 @@ namespace FallenTally.ViewModels
 
         public void StartStreamHK()
         {
-            StartStream();
+            Dispatcher.UIThread.Invoke(() =>
+            {
+                StartStream();
+            });
         }
 
         private void FinishLocationHK()
