@@ -2,7 +2,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using DocumentFormat.OpenXml.Drawing.Charts;
+using FallenTally.Services;
 using FallenTally.ViewModels;
 using FallenTallyAvalon.Helper;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +12,8 @@ using SharpHook;
 using SharpHook.Data;
 using SharpHook.Reactive;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Concurrency;
 
 namespace FallenTally.Views;
@@ -37,6 +41,32 @@ public partial class SettingsView : UserControl
         _globalHook = new SimpleReactiveGlobalHook(defaultScheduler: TaskPoolScheduler.Default);
         _globalHook.KeyPressed.Subscribe(OnGlobalKeyPressed);
         _globalHook.Stop();
+        LoadHotkeyText();
+    }
+
+    private void LoadHotkeyText()
+    {
+        var _hotkeys = JsonSettingsService.Load<List<HotkeyHelper>>(SettingsViewModel.HotkeyFileName) ?? new List<HotkeyHelper>();
+
+        AddDeathHK.Text = _hotkeys.Where(x => x.Name.Equals("AddDeathHK")).FirstOrDefault()?.ToString() ?? "";
+        RemoveDeathHK.Text = _hotkeys.Where(x => x.Name.Equals("RemoveDeathHK")).FirstOrDefault()?.ToString() ?? "";
+        QuickAddLocationHK.Text = _hotkeys.Where(x => x.Name.Equals("QuickAddLocationHK")).FirstOrDefault()?.ToString() ?? "";
+        SwitchLocationHK.Text = _hotkeys.Where(x => x.Name.Equals("SwitchLocationHK")).FirstOrDefault()?.ToString() ?? "";
+
+        GeneralMarkerHK.Text = _hotkeys.Where(x => x.Name.Equals("GeneralMarkerHK")).FirstOrDefault()?.ToString() ?? "";
+        FunnyMarkerHK.Text = _hotkeys.Where(x => x.Name.Equals("FunnyMarkerHK")).FirstOrDefault()?.ToString() ?? "";
+        TalkMarkerHK.Text = _hotkeys.Where(x => x.Name.Equals("TalkMarkerHK")).FirstOrDefault()?.ToString() ?? "";
+        GameplayMarkerHK.Text = _hotkeys.Where(x => x.Name.Equals("GameplayMarkerHK")).FirstOrDefault()?.ToString() ?? "";
+        PauseMarkerHK.Text = _hotkeys.Where(x => x.Name.Equals("PauseMarkerHK")).FirstOrDefault()?.ToString() ?? "";
+
+        StartRecordingHK.Text = _hotkeys.Where(x => x.Name.Equals("StartRecordingHK")).FirstOrDefault()?.ToString() ?? "";
+        StopRecordingHK.Text = _hotkeys.Where(x => x.Name.Equals("StopRecordingHK")).FirstOrDefault()?.ToString() ?? "";
+        StartStreamHK.Text = _hotkeys.Where(x => x.Name.Equals("StartStreamHK")).FirstOrDefault()?.ToString() ?? "";
+        StopStreamHK.Text = _hotkeys.Where(x => x.Name.Equals("StopStreamHK")).FirstOrDefault()?.ToString() ?? "";
+
+
+
+
     }
 
     private void TextBox_GotFocus(object? sender, Avalonia.Input.GotFocusEventArgs e)

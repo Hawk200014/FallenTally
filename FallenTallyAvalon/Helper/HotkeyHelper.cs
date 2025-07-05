@@ -37,7 +37,7 @@ namespace FallenTallyAvalon.Helper
             string strg = _strgKey ? "STRG + " : "";
             string alt = _altKey ? "ALT + " : "";
             string key = _key.ToString().ToUpper();
-            return strg + alt + key;
+            return strg + alt + key.Replace("VC", "");
         }
 
         public override bool Equals(object? obj)

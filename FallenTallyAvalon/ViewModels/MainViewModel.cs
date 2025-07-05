@@ -30,6 +30,7 @@ public partial class MainViewModel : ViewModelBase
         if(value == 0)
         {
             HotkeyController.StartHotkeys();
+            HotkeyController.ReloadKeysFromOptions();
         }
         else
         {

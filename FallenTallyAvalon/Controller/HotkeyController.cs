@@ -37,7 +37,7 @@ namespace FallenTally.Controller
 
         public void StartHotkeys()
         {
-            if (_globalHook?.IsRunning ?? true)
+            if (!_globalHook?.IsRunning ?? true)
             {
                 _globalHook.RunAsync();
             }

@@ -93,15 +93,11 @@ namespace FallenTally.ViewModels
             var nameField = typeof(HotkeyHelper).GetField("_name", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             var newName = nameField?.GetValue(hotkeyHelper) as string;
 
-            var existing = _hotkeyHelpers.FirstOrDefault(h =>
-                string.Equals(
-                    nameField?.GetValue(h) as string,
-                    newName,
-                    StringComparison.OrdinalIgnoreCase));
+            bool existing = _hotkeyHelpers.Where(x => x.Name.Equals(hotkeyHelper.Name)).Count() > 0;
 
-            if (existing != null)
+            if (existing)
             {
-                _hotkeyHelpers.Remove(existing);
+                _hotkeyHelpers.Remove(_hotkeyHelpers.Where(x => x.Name.Equals(hotkeyHelper.Name)).FirstOrDefault()!);
             }
             _hotkeyHelpers.Add(hotkeyHelper);
             JsonSettingsService.Save(_hotkeyHelpers, HotkeyFileName);
