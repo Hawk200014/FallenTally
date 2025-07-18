@@ -47,6 +47,8 @@ The taken stats can be exported into different formats so that you can make vide
 
 ### Features
 
+#### Implemented
+
 - keep track of the stats ingame
   - add games
   - add locations inside games (intended for bosses)
@@ -58,6 +60,13 @@ The taken stats can be exported into different formats so that you can make vide
 - configure hotkeys and the overlay
   - configure the html document for the obs overlay
   - set hotkeys to quickly interact with the programm when you are inside the game
+
+#### Work in Progress
+ 
+- Merge the Highlight Cutter inside the Project
+- Add Game Changing based on Twitch Categorie
+- Add Predefined Game Boss lists
+- Add User defined marker
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -107,16 +116,3 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- ROADMAP -->
-## Roadmap
-
-- [X] Export Marker
-- [X] More Marker
-- [ ] Update UI
-- [ ] Refactor and Optimize Code
-- [ ] Update to own API infastructure
-- [ ] Optimize Hotkeys
-
-See the [open issues](https://github.com/Hawk200014/FallenTally/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
