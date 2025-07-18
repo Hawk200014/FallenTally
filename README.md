@@ -2,7 +2,7 @@
 ﻿<!-- PROJECT LOGO -->
 <div align="center">
   <a href="https://github.com/Hawk200014/FallenTally">
-    <img src="src\Resources\Icons\AppIcon.png" alt="Logo" width="80" height="80">
+    <img src="FallenTallyAvalon\Assets\Icons\AppIcon.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Fallen Tally</h3>
