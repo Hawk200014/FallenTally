@@ -165,12 +165,7 @@ namespace FallenTally.ViewModels
             _lastHtmlPath = htmlPath;
         }
 
-        private static string ToCssRgba(Color color)
-        {
-            // color.A is 0-255, CSS expects 0-1 for alpha
-            var alpha = color.A / 255.0;
-            return $"rgba({color.R},{color.G},{color.B},{alpha.ToString(System.Globalization.CultureInfo.InvariantCulture)})";
-        }
+
 
         public void SaveOverlaySettings()
         {
@@ -184,7 +179,8 @@ namespace FallenTally.ViewModels
                 ShadowSize = ShadowSize,
                 TextColor = TextColor,
                 OutlineColor = OutlineColor,
-                ShadowColor = ShadowColor
+                ShadowColor = ShadowColor,
+                TemplateText = TemplateText
             };
             JsonSettingsService.Save(model, "overlay_settings.json");
         }
@@ -205,6 +201,7 @@ namespace FallenTally.ViewModels
                 TextColor = settings.TextColor;
                 OutlineColor = settings.OutlineColor;
                 ShadowColor = settings.ShadowColor;
+                TemplateText = settings.TemplateText;
             }
 
 

@@ -52,6 +52,7 @@ public partial class SettingsView : UserControl
         RemoveDeathHK.Text = _hotkeys.Where(x => x.Name.Equals("RemoveDeathHK")).FirstOrDefault()?.ToString() ?? "";
         QuickAddLocationHK.Text = _hotkeys.Where(x => x.Name.Equals("QuickAddLocationHK")).FirstOrDefault()?.ToString() ?? "";
         SwitchLocationHK.Text = _hotkeys.Where(x => x.Name.Equals("SwitchLocationHK")).FirstOrDefault()?.ToString() ?? "";
+        FinishLocationHK.Text = _hotkeys.Where(x => x.Name.Equals("FinishLocationHK")).FirstOrDefault()?.ToString() ?? "";
 
         GeneralMarkerHK.Text = _hotkeys.Where(x => x.Name.Equals("GeneralMarkerHK")).FirstOrDefault()?.ToString() ?? "";
         FunnyMarkerHK.Text = _hotkeys.Where(x => x.Name.Equals("FunnyMarkerHK")).FirstOrDefault()?.ToString() ?? "";

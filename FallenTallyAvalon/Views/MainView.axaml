@@ -4,6 +4,7 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:views="using:FallenTally.Views"
             xmlns:vm="using:FallenTally.ViewModels"
+             xmlns:language="using:FallenTally.Resources.Translation"
             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
             x:Class="FallenTally.Views.MainView"
             x:DataType="vm:MainViewModel">
@@ -12,7 +13,6 @@
         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
     <vm:MainViewModel />
   </Design.DataContext>
-
   <TabControl SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
     <!--Tally-->
     <TabItem Header="Tally">
@@ -21,15 +21,15 @@
       </ScrollViewer>
     </TabItem>
     <!--Export-->
-    <TabItem Header="Export">
+    <TabItem Header="{x:Static language:export}">
       <views:ExportView/>
     </TabItem>
     <!--Overlay-->
-    <TabItem Header="Overlay" >
+    <TabItem Header="{x:Static language:overlay}">
       <views:OverlayView DataContext="{Binding OverlayViewModel}"/>
     </TabItem>
     <!--Settings-->
-    <TabItem Header="Settings">
+    <TabItem Header="{x:Static language:options}">
       <views:SettingsView />
     </TabItem>
   </TabControl>

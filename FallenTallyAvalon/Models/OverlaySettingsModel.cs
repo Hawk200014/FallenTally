@@ -13,5 +13,7 @@ namespace FallenTally.Models
         public Color TextColor { get; set; }
         public Color OutlineColor { get; set; }
         public Color ShadowColor { get; set; }
+
+        public string TemplateText { get; set; }
     }
 }

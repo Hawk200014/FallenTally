@@ -118,42 +118,42 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add_game" xml:space="preserve">
-    <value>Spiel hinzufügen</value>
+    <value>Add Game</value>
   </data>
   <data name="decrease_death" xml:space="preserve">
-    <value>Verringern</value>
+    <value>Decrease Death</value>
   </data>
   <data name="decrease_hotkey" xml:space="preserve">
-    <value>Verringern Hotkey</value>
+    <value>Decrease Hotkey</value>
   </data>
   <data name="export" xml:space="preserve">
     <value>Export</value>
   </data>
   <data name="game_name" xml:space="preserve">
-    <value>Name des Spieles</value>
+    <value>Game Name</value>
   </data>
   <data name="increase" xml:space="preserve">
-    <value>Erhöhen</value>
+    <value>Increase</value>
   </data>
   <data name="increase_hotkey" xml:space="preserve">
-    <value>Erhöhen Hotkey</value>
+    <value>Increase Hotkey</value>
   </data>
   <data name="language" xml:space="preserve">
-    <value>Sprache</value>
+    <value>Language</value>
   </data>
   <data name="options" xml:space="preserve">
-    <value>Optionen</value>
+    <value>Options</value>
   </data>
   <data name="overlay" xml:space="preserve">
     <value>Overlay</value>
   </data>
   <data name="prefix" xml:space="preserve">
-    <value>Präfix</value>
+    <value>Prefix</value>
   </data>
   <data name="remove_game" xml:space="preserve">
-    <value>Spiel entfernen</value>
+    <value>Remove Game</value>
   </data>
   <data name="reset" xml:space="preserve">
-    <value>Zurücksetzen</value>
+    <value>Reset</value>
   </data>
 </root>

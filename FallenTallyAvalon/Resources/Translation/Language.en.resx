@@ -120,11 +120,14 @@
   <data name="add_game" xml:space="preserve">
     <value>Add Game</value>
   </data>
-  <data name="decrease" xml:space="preserve">
+  <data name="decrease_death" xml:space="preserve">
     <value>Decrease</value>
   </data>
   <data name="decrease_hotkey" xml:space="preserve">
     <value>Decrease Hotkey</value>
+  </data>
+  <data name="export" xml:space="preserve">
+    <value>Export</value>
   </data>
   <data name="game_name" xml:space="preserve">
     <value>Game Name</value>
@@ -140,6 +143,9 @@
   </data>
   <data name="options" xml:space="preserve">
     <value>Options</value>
+  </data>
+  <data name="overlay" xml:space="preserve">
+    <value>Overlay</value>
   </data>
   <data name="prefix" xml:space="preserve">
     <value>Prefix</value>

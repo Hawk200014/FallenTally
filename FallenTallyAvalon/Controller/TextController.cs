@@ -1,5 +1,12 @@
-﻿using FallenTally.Controller.Forms;
+﻿using Avalonia.Media;
+using FallenTally.Controller.Forms;
+using FallenTally.Database.Models;
+using FallenTally.Models;
 using FallenTally.Resources;
+using FallenTally.Services;
+using FallenTally.ViewModels;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,9 +17,17 @@ namespace FallenTally.Controller
     {
         private OptionsController _optionsController;
 
-        public TextController(OptionsController optionsController)
-        { 
+        private OverlaySettingsModel? _overlaySettingsModel;
+        private static GameController? _gameController;
+        private static LocationController? _locationController;
+        private static DeathController? _deathController;
+
+        public TextController(OptionsController optionsController, GameController gameController, LocationController locationController, DeathController deathController)
+        {
             this._optionsController = optionsController;
+            this._gameController = gameController;
+            this._locationController = locationController;
+            this._deathController = deathController;
         }
 
         public void CreateDirectory()
@@ -21,215 +36,73 @@ namespace FallenTally.Controller
             Directory.CreateDirectory(path);
         }
 
-        public void WriteDeaths(string prefix, int allDeaths, string location, int locDeaths)
+        public void WriteOverlay()
         {
-            
+            // Use Overlay folder inside the program folder where the executable is
+            string overlayDir = Path.Combine(GLOBALVARS.PATHTOEXE, "Overlay");
+            Directory.CreateDirectory(overlayDir);
 
-            //if (!TemplaceExists()) CreateTemplate();
+            var htmlFileName = $"overlay.html";
+            var htmlPath = Path.Combine(overlayDir, htmlFileName);
 
-            //List<string> templateContent = File.ReadAllLines(GetTemplatePath()).ToList();
-
-            //List<string> overlayContent = templateContent.Where(x => !x.StartsWith("#")).ToList();
-
-            //string overlayText = "";
-            //foreach (string content in overlayContent)
-            //{
-            //    overlayText += content + "\n";
-            //}
-
-            //string setting = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.WORLD_AS_ALL));
-            //if(string.IsNullOrEmpty(setting))
-            //{
-            //    setting = "No";
-            //}
-            //bool worldAllDeaths = setting == "Yes";
-
-            //overlayText = overlayText.Replace("[GAMEPREFIX]", prefix)
-            //    .Replace("[GAMEDEATHS]", "" + allDeaths);
-
-            //if (worldAllDeaths && location.Equals(GLOBALVARS.DEFAULT_LOCATION))
-            //{
-            //    overlayText = overlayText
-            //        .Replace("[LOCATIONDEATHS]", "" + allDeaths)
-            //        .Replace("[LOCATIONNAME]", prefix);
-            //}
-            //else
-            //{
-            //    overlayText = overlayText
-            //        .Replace("[LOCATIONDEATHS]", "" + locDeaths)
-            //        .Replace("[LOCATIONNAME]", location);
-            //}
-            //overlayText = overlayText.Replace("\n", "<br>");
-
-
-
-            //CreateHtml(overlayText);
-
+            Write(TallyViewModel tvm, htmlPath, true);
         }
 
-        private string GetTemplatePath()
+        public static void Write(GameStatsModel game, DeathLocationModel location, OverlaySettingsModel overlaySettingsModel, string path, bool replace = true)
         {
-            string path = Path.Combine(GLOBALVARS.PATHTOEXE, "OBSOverlay");
-            return Path.Combine(path, "OverlayTemplate.txt");
+
+            string replaceText = overlaySettingsModel.TemplateText;
+            if (replace)
+                replaceText = ReplaceTemplate(replaceText, game, location);
+
+            // Build the HTML content from properties
+            var html = $@"
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset='UTF-8'>
+        <meta http-equiv='refresh' content='1'>
+        <title>FallenTallyCounterOverlay</title>
+        <style>
+        body {{
+            font-family: '{overlaySettingsModel.SelectedFontFamily}';
+            font-size: {overlaySettingsModel.FontSize}px;
+            font-style: {overlaySettingsModel.SelectedFontStyle?.ToLower()};
+            font-weight: {overlaySettingsModel.SelectedFontWeight?.ToLower()};
+            color: {ToCssRgba(overlaySettingsModel.TextColor)};
+            -webkit-text-stroke: {overlaySettingsModel.BorderSize.ToString().Replace(",", ".")}px {ToCssRgba(overlaySettingsModel.OutlineColor)};
+            text-shadow: {overlaySettingsModel.ShadowSize.ToString().Replace(",", ".")}px {overlaySettingsModel.ShadowSize.ToString().Replace(",", ".")}px {ToCssRgba(overlaySettingsModel.ShadowColor)};
+            text-align: center;
+        }}
+        </style>
+        </head>
+        <body>
+        <p>{overlaySettingsModel.TemplateText.Replace(Environment.NewLine, "<br>")}</p>
+        </body>
+        </html>
+        ";
 
 
+            // Write the HTML file to the Overlay folder
+            File.WriteAllText(path, html);
         }
 
-        public bool TemplaceExists()
+        private static string ReplaceTemplate(string templateText, GameStatsModel game, DeathLocationModel location)
         {
-            return File.Exists(GetTemplatePath());
+            return templateText
+                .Replace("[GAMEPREFIX]", game.Prefix)
+                .Replace("[GAMEDEATHS]", "" + _gameController?.GetAllDeaths(game))
+                .Replace("[LOCATIONNAME]", location.Name)
+                .Replace("[LOCATIONDEATHS]", "" + _deathController?.GetDeaths(location));
         }
 
-        public void CreateHtml(string paragraph)
+        public static string ToCssRgba(Color color)
         {
-            //string path = Path.Combine(GLOBALVARS.PATHTOEXE, "OBSOverlay");
-            //path = Path.Combine(path, "Overlay.html");
-
-            
-
-
-            //string html = "";
-            //html += "<!DOCTYPE html>";
-            //html += "<html lang = \"en\">";
-            //html += "<head>";
-            //html += "<meta charset = \"UTF -8\">";
-            //html += "<meta http-equiv=\"refresh\" content=\"1\" >";
-            //html += "<title>DeathCounterOverlay</title>";
-            //html += "<style>";
-            //html += "body {";
-            //html += "width: fit-content;";
-            //html += "height: fit-content;";
-            //html += "text-align: left;";
-            //html += "font-family: " + GetFont() + ";";
-            //html += "color: " + GetFontColor() + ";";
-            //html += "font-size: " + GetFontSize() + "px;";
-            //html += "font-weight: " + GetFontWeight() + ";";
-            //html += "font-style: " + GetFontStyle() + ";";
-            //html += "-webkit-text-stroke: " + GetBorderSize() + "px " + GetBorderColor() + ";";
-            //html += "text-shadow: " + GetShadowSize() + "px " + GetShadowSize() + "px " + GetShadowColor() + ";";
-            //html += "}";
-            //html += "</style>";
-            //html += "</head>";
-            //html += "<body>";
-            //html += "<p>";
-            //html += paragraph;
-            //html += "</p>";
-            //html += "</body>";
-            //html += "</html>";
-
-            //File.WriteAllText(path, html);
+            // color.A is 0-255, CSS expects 0-1 for alpha
+            var alpha = color.A / 255.0;
+            return $"rgba({color.R},{color.G},{color.B},{alpha.ToString(System.Globalization.CultureInfo.InvariantCulture)})";
         }
 
-        //private string GetShadowColor()
-        //{
-        //    string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.SHADOWCOLOR));
-        //    if (tmp == "")
-        //    {
-        //        tmp = "#000000";
-        //    }
-        //    return tmp;
-        //}
-
-        //private string GetShadowSize()
-        //{
-        //    string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.SHADOWSIZE));
-        //    if (tmp == "")
-        //    {
-        //        tmp = "1";
-        //    }
-        //    return tmp;
-        //}
-
-        //private string GetBorderColor()
-        //{
-        //    string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.BORDERCOLOR));
-        //    if (tmp == "")
-        //    {
-        //        tmp = "#000000";
-        //    }
-        //    return tmp;
-        //}
-
-        //private string GetBorderSize()
-        //{
-        //    string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.BORDERSIZE));
-        //    tmp = tmp.Replace(",", ".");
-        //    if (tmp == "")
-        //    {
-        //        tmp = "1";
-        //    }
-        //    return tmp;
-        //}
-
-        //private string GetFontStyle()
-        //{
-        //    string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FONTSTYLE));
-        //    if (tmp == "")
-        //    {
-        //        tmp = "normal";
-        //    }
-        //    return tmp;
-        //}
-
-        //private string GetFontWeight()
-        //{
-        //    string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FONTWEIGHT));
-        //    if (tmp == "")
-        //    {
-        //        tmp = "normal";
-        //    }
-        //    return tmp;
-        //}
-
-        //private string GetFontSize()
-        //{
-        //    string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FONTSIZE));
-        //    if (tmp == "")
-        //    {
-        //        tmp = "1";
-        //    }
-        //    return tmp;
-        //}
-
-        //private string GetFontColor()
-        //{
-        //    string tmp = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.TEXTCOLOR));
-        //    if (tmp == "")
-        //    {
-        //        tmp = "#000000";
-        //    }
-        //    return tmp;
-        //}
-
-        //private string GetFont()
-        //{
-        //    string fontname = _optionsController.GetSetting(nameof(OptionsController.OPTIONS.FONTFAMILY));
-        //    if (fontname == "")
-        //    {
-        //        fontname = "Arial";
-        //    }
-        //    return fontname;
-        //}
-
-        //public void CreateTemplate()
-        //{
-        //    string path = GetTemplatePath();
-
-        //    if (File.Exists(path)) { return; }
-
-        //    string textContent = "# Overlay template to display inside obs\n";
-        //    textContent += "# '#' at the beginning of a line comments out the line\n";
-        //    textContent += "# there are a few replacer to customize the text:\n";
-        //    textContent += "# [GAMEPREFIX] => Displays the prefix or display name of a game\n";
-        //    textContent += "# [GAMEDEATHS] => Displays the number of deaths in a game\n";
-        //    textContent += "# [LOCATIONNAME] => Displays the name of the location\n";
-        //    textContent += "# [LOCATIONDEATHS] => Displays the number of deaths in a location\n";
-        //    textContent += "# The next rows shows an example to display the numbers\n";
-        //    textContent += "[GAMEPREFIX]: [GAMEDEATHS]\n";
-        //    textContent += "[LOCATIONNAME]: [LOCATIONDEATHS]";
-
-        //    File.WriteAllText(path, textContent);
-        //}
 
     }
 }

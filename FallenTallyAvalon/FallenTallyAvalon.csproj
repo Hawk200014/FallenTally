@@ -10,16 +10,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AnyHook" Version="1.0.1" />
-    <PackageReference Include="Avalonia" Version="11.3.1" />
-    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.1" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.1" />
-    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.1" />
+    <PackageReference Include="Avalonia" Version="11.3.2" />
+    <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.3.2" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.2" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.2" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.2" />
     <PackageReference Include="ClosedXML" Version="0.105.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.1" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.2" />
     <PackageReference Include="EntityFramework" Version="6.5.1" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.6" />
@@ -43,6 +43,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\Translation\Language.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Language.resx</DependentUpon>
+    </Compile>
     <Compile Update="Views\Settingsview.axaml.cs">
       <DependentUpon>SettingsView.axaml</DependentUpon>
     </Compile>
@@ -50,5 +55,12 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Translation\Language.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Language.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
